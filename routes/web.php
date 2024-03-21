@@ -22,3 +22,16 @@ Route::get('/', function () {
 Route::get('/principal/{tipo?}', [SitioController::class, 'principal']);
 
 Route::resource('animal', AnimalController::class);
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+Route::get('/mi-plantilla/demo', function () {
+    return view('demo');
+});
