@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\animal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AnimalController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except('index', 'show');
+        $this->middleware('auth');
         // ->only()
     }
     /**
@@ -17,7 +18,7 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        $animales = animal::all();
+        $animales = Auth::user()->animal;
         return view('animales/animalIndex', compact('animales'));
     }
 
@@ -34,15 +35,19 @@ class AnimalController extends Controller
      */
     public function store(Request $request)
     {
-        $animal = new animal();
-        $animal->animal_especie = $request->animal_especie;
-        $animal->animal_genero = $request->animal_genero;
-        $animal->animal_peso = $request->animal_peso;
-        $animal->animal_valor_compra = $request->animal_valor_compra;
-        $animal->animal_valor_venta = $request->animal_valor_compra;
-        $animal->animal_id_lote = $request->animal_id_lote;
 
-        $animal->save();
+        $request->validate([
+            'animal_especie'=>'required|max:255',
+            'animal_genero'=>'required|max:255',
+            'animal_peso'=>'required|numeric',
+            'animal_valor_compra'=>'required|numeric',
+            'animal_id_lote'=>'required|integer',
+        ]);
+
+        $request['animal_valor_venta'] = $request['animal_valor_compra'];
+        $request->merge(['user_id'=> Auth::id()]);
+
+        Animal::create($request->all());
 
         // Redireccionar
         return redirect()->route('animal.index');
@@ -69,14 +74,17 @@ class AnimalController extends Controller
      */
     public function update(Request $request, animal $animal)
     {
-        $animal->animal_especie = $request->animal_especie;
-        $animal->animal_genero = $request->animal_genero;
-        $animal->animal_peso = $request->animal_peso;
-        $animal->animal_valor_compra = $request->animal_valor_compra;
-        $animal->animal_valor_venta = $request->animal_valor_compra;
-        $animal->animal_id_lote = $request->animal_id_lote;
+        $request->validate([
+            'animal_especie'=>'required|max:255',
+            'animal_genero'=>'required|max:255',
+            'animal_peso'=>'required|numeric',
+            'animal_valor_compra'=>'required|numeric',
+            'animal_id_lote'=>'required|integer',
+        ]);
 
-        $animal->save();
+        $request['animal_valor_venta'] = $request['animal_valor_compra'];
+
+        $animal->update($request->all());
 
         return redirect()->route('animal.show', $animal);
     }

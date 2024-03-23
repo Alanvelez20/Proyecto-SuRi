@@ -1,7 +1,7 @@
 @extends('components.miLayout')
 
 @section('content')
-    <table border="1">
+    <table border="2">
         <thead>
             <tr>
                 <th>Especie</th>
