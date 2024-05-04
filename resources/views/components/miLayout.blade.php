@@ -35,17 +35,59 @@
               <p>Página principal</p>
             </a>
           </li>
-          <li class="nav-item active  ">
-            <a class="nav-link" href="{{route('animal.create')}}">
+          <li class="nav-item active">
+            <a class="nav-link" href="#" id="expandLink">
               <i class="material-icons">dashboard</i>
-              <p>Crear</p>
+              <p>Animales</p>
             </a>
+            <ul class="expanded-options" id="expandedOptions">
+              <li><a href="{{ route('animal.create') }}">Crear</a></li>
+              <li><a href="{{ route('animal.index') }}">Mostrar datos</a></li>
+              <!-- Agrega más opciones aquí si es necesario -->
+            </ul>
           </li>
-          <li class="nav-item active  ">
-            <a class="nav-link" href="{{route('animal.index')}}">
+          <li class="nav-item active">
+            <a class="nav-link" href="#" id="expandLink">
               <i class="material-icons">dashboard</i>
-              <p>Mostrar datos</p>
+              <p>Alimento</p>
             </a>
+            <ul class="expanded-options" id="expandedOptions">
+              <li><a href="{{ route('alimento.create') }}">Crear</a></li>
+              <li><a href="{{ route('alimento.index') }}">Mostrar datos</a></li>
+              <!-- Agrega más opciones aquí si es necesario -->
+            </ul>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#" id="expandLink">
+              <i class="material-icons">dashboard</i>
+              <p>Corrales</p>
+            </a>
+            <ul class="expanded-options" id="expandedOptions">
+              <li><a href="{{ route('corral.create') }}">Crear</a></li>
+              <li><a href="{{ route('corral.index') }}">Mostrar datos</a></li>
+              <!-- Agrega más opciones aquí si es necesario -->
+            </ul>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#" id="expandLink">
+              <i class="material-icons">dashboard</i>
+              <p>Lotes</p>
+            </a>
+            <ul class="expanded-options" id="expandedOptions">
+              <li><a href="{{ route('lote.create') }}">Crear</a></li>
+              <li><a href="{{ route('lote.index') }}">Mostrar datos</a></li>
+              <!-- Agrega más opciones aquí si es necesario -->
+            </ul>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#" id="expandLink">
+              <i class="material-icons">dashboard</i>
+              <p>Consumo de alimentos</p>
+            </a>
+            <ul class="expanded-options" id="expandedOptions">
+              <li><a href="#">Capturar consumo</a></li>
+              <!-- Agrega más opciones aquí si es necesario -->
+            </ul>
           </li>
           <!-- your sidebar here -->
         </ul>
@@ -56,7 +98,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:void(0)">Dashboard</a>
+            <a class="navbar-brand" href="javascript:void(0)"></a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -148,6 +190,11 @@
               window.event.cancelBubble = true;
             }
           }
+        });
+
+        $("#expandLink").click(function(e) {
+        e.preventDefault();
+        $("#expandedOptions").toggleClass("expanded");
         });
 
         $('.fixed-plugin .active-color span').click(function() {

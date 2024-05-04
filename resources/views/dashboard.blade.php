@@ -1,4 +1,6 @@
-<x-app-layout>
+@extends('components.miLayout')
+
+@section('content')
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             <a href="{{asset('principal')}}">Página principal</a>
@@ -12,4 +14,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection

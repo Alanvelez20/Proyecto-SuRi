@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\AlimentoController;
 use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\CorralController;
+use App\Http\Controllers\LoteController;
 use App\Http\Controllers\SitioController;
+use App\Models\Corral;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +26,9 @@ Route::get('/', function () {
 Route::get('/principal/{tipo?}', [SitioController::class, 'principal']);
 
 Route::resource('animal', AnimalController::class);
+Route::resource('alimento', AlimentoController::class);
+Route::resource('lote', LoteController::class);
+Route::resource('corral', CorralController::class);
 
 Route::middleware([
     'auth:sanctum',

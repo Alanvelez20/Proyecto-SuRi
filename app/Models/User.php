@@ -63,4 +63,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Animal::class);
     }
+    public function alimentos()
+    {
+        return $this->hasMany(Alimento::class);
+    }
+    public function lote()
+    {
+        return $this->hasMany(Lote::class);
+    }
+    public function corral()
+    {
+        return $this->hasMany(Corral::class);
+    }
 }

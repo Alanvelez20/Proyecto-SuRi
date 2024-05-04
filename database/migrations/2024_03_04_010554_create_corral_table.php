@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('corral', function (Blueprint $table) {
+        Schema::create('corrals', function (Blueprint $table) {
             $table->id();
             $table->string('corral_nombre');
             $table->string('corral_estado');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('animal_peso');
             $table->integer('animal_valor_compra');
             $table->integer('animal_valor_venta');
-            $table->integer('animal_id_lote');
+            $table->foreignId('animal_id_lote');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

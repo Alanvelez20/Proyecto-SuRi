@@ -65,6 +65,11 @@ $(document).ready(function() {
   //    Activate bootstrap-select
   if ($(".selectpicker").length != 0) {
     $(".selectpicker").selectpicker();
+
+      $("#expandLink").click(function(e) {
+        e.preventDefault();
+        $("#expandedOptions").toggleClass("expanded");
+      });
   }
 
   //  Activate the tooltips
@@ -420,3 +425,4 @@ function debounce(func, wait, immediate) {
     if (immediate && !timeout) func.apply(context, args);
   };
 };
+

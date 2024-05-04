@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alimento;
 use App\Models\animal;
+use App\Models\Lote;
+use App\Models\Corral;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +30,8 @@ class AnimalController extends Controller
      */
     public function create()
     {
-        return view('animales.animalCreate');
+        $lotes = Lote::all();
+        return view('animales.animalCreate', compact('lotes'));
     }
 
     /**
@@ -42,12 +46,34 @@ class AnimalController extends Controller
             'animal_peso'=>'required|numeric',
             'animal_valor_compra'=>'required|numeric',
             'animal_id_lote'=>'required|integer',
+        ], [
+            'animal_especie.required' => 'El campo ESPECIE es obligatorio.',
+            'animal_especie.max' => 'El campo ESPECIE no puede tener más de 255 caracteres.',
+            'animal_genero.required' => 'El campo GENERO es obligatorio.',
+            'animal_genero.max' => 'El campo GENERO no puede tener más de 255 caracteres.',
+
+            'animal_peso.required' => 'El campo PESO es obligatorio.',
+            'animal_peso.numeric' => 'El campo PESO debe ser un número válido.',
+            'animal_valor_compra.required' => 'El campo VALOR DE COMPRA es obligatorio.',
+            'animal_valor_compra.numeric' => 'El campo VALOR DE COMPRA debe ser un número válido.',
+            'animal_id_lote.required' => 'El campo NUMERO DE LOTE es obligatorio.',
+            'animal_id_lote.integer' => 'El campo NUMERO DE LOTE debe ser un número ENTERO válido.',
+
         ]);
 
         $request['animal_valor_venta'] = $request['animal_valor_compra'];
         $request->merge(['user_id'=> Auth::id()]);
 
         Animal::create($request->all());
+
+        // Incrementa la cantidad en el lote correspondiente
+        $lote = Lote::findOrFail($request->animal_id_lote);
+        $lote->increment('lote_cantidad');
+
+         // Cambia el estado del corral de vacío a ocupado
+        $corral = Corral::findOrFail($lote->lote_id_corral);
+        $corral->corral_estado = 'Ocupado';
+        $corral->save();
 
         // Redireccionar
         return redirect()->route('animal.index');
@@ -80,6 +106,19 @@ class AnimalController extends Controller
             'animal_peso'=>'required|numeric',
             'animal_valor_compra'=>'required|numeric',
             'animal_id_lote'=>'required|integer',
+        ], [
+            'animal_especie.required' => 'El campo ESPECIE es obligatorio.',
+            'animal_especie.max' => 'El campo ESPECIE no puede tener más de 255 caracteres.',
+            'animal_genero.required' => 'El campo GENERO es obligatorio.',
+            'animal_genero.max' => 'El campo GENERO no puede tener más de 255 caracteres.',
+
+            'animal_peso.required' => 'El campo PESO es obligatorio.',
+            'animal_peso.numeric' => 'El campo PESO debe ser un número válido.',
+            'animal_valor_compra.required' => 'El campo VALOR DE COMPRA es obligatorio.',
+            'animal_valor_compra.numeric' => 'El campo VALOR DE COMPRA debe ser un número válido.',
+            'animal_id_lote.required' => 'El campo NUMERO DE LOTE es obligatorio.',
+            'animal_id_lote.integer' => 'El campo NUMERO DE LOTE debe ser un número ENTERO válido.',
+
         ]);
 
         $request['animal_valor_venta'] = $request['animal_valor_compra'];
@@ -96,5 +135,13 @@ class AnimalController extends Controller
     {
         $animal->delete();
         return redirect()->route('animal.index');
+
     }
+
+    public function ConsumoAlimentos(Animal $animal)
+    {
+        return view('animales.consumo-alimentos', compact('animal'))
+            ->with('alimentos', Alimento::all());
+    }
+
 }
