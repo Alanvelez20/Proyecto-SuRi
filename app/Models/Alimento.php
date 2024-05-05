@@ -15,6 +15,12 @@ class Alimento extends Model
         return $this->belongsToMany(Animal::class);
     }
 
+    public function lotes()
+    {
+        return $this->belongsToMany(Lote::class);
+    }
+
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -108,4 +108,5 @@ class LoteController extends Controller
         $lote->delete();
         return redirect()->route('lote.index');
     }
+
 }

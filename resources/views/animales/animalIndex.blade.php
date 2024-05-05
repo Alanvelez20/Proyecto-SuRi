@@ -1,7 +1,8 @@
 @extends('components.miLayout')
 
 @section('content')
-    <table border="2">
+<h1>Datos de los animales</h1>
+    <table class="table">
         <thead>
             <tr>
                 <th>Especie</th>

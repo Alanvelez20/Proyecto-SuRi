@@ -24,46 +24,18 @@
   -->
       <div class="logo">
         <a href="{{asset('principal')}}" class="simple-text logo-normal">
-          SuRi
+          Página Principal 
         </a>
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="nav-item active  ">
-            <a class="nav-link" href="{{asset('principal')}}">
-              <i class="material-icons">dashboard</i>
-              <p>Página principal</p>
-            </a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="#" id="expandLink">
-              <i class="material-icons">dashboard</i>
-              <p>Animales</p>
-            </a>
-            <ul class="expanded-options" id="expandedOptions">
-              <li><a href="{{ route('animal.create') }}">Crear</a></li>
-              <li><a href="{{ route('animal.index') }}">Mostrar datos</a></li>
-              <!-- Agrega más opciones aquí si es necesario -->
-            </ul>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="#" id="expandLink">
-              <i class="material-icons">dashboard</i>
-              <p>Alimento</p>
-            </a>
-            <ul class="expanded-options" id="expandedOptions">
-              <li><a href="{{ route('alimento.create') }}">Crear</a></li>
-              <li><a href="{{ route('alimento.index') }}">Mostrar datos</a></li>
-              <!-- Agrega más opciones aquí si es necesario -->
-            </ul>
-          </li>
           <li class="nav-item active">
             <a class="nav-link" href="#" id="expandLink">
               <i class="material-icons">dashboard</i>
               <p>Corrales</p>
             </a>
             <ul class="expanded-options" id="expandedOptions">
-              <li><a href="{{ route('corral.create') }}">Crear</a></li>
+              <li><a href="{{ route('corral.create') }}">Crear registro</a></li>
               <li><a href="{{ route('corral.index') }}">Mostrar datos</a></li>
               <!-- Agrega más opciones aquí si es necesario -->
             </ul>
@@ -74,8 +46,30 @@
               <p>Lotes</p>
             </a>
             <ul class="expanded-options" id="expandedOptions">
-              <li><a href="{{ route('lote.create') }}">Crear</a></li>
+              <li><a href="{{ route('lote.create') }}">Crear registro</a></li>
               <li><a href="{{ route('lote.index') }}">Mostrar datos</a></li>
+              <!-- Agrega más opciones aquí si es necesario -->
+            </ul>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#" id="expandLink">
+              <i class="material-icons">dashboard</i>
+              <p>Animales</p>
+            </a>
+            <ul class="expanded-options" id="expandedOptions">
+              <li><a href="{{ route('animal.create') }}">Crear registro</a></li>
+              <li><a href="{{ route('animal.index') }}">Mostrar datos</a></li>
+              <!-- Agrega más opciones aquí si es necesario -->
+            </ul>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#" id="expandLink">
+              <i class="material-icons">dashboard</i>
+              <p>Alimento</p>
+            </a>
+            <ul class="expanded-options" id="expandedOptions">
+              <li><a href="{{ route('alimento.create') }}">Crear registro</a></li>
+              <li><a href="{{ route('alimento.index') }}">Mostrar datos</a></li>
               <!-- Agrega más opciones aquí si es necesario -->
             </ul>
           </li>
@@ -85,7 +79,8 @@
               <p>Consumo de alimentos</p>
             </a>
             <ul class="expanded-options" id="expandedOptions">
-              <li><a href="#">Capturar consumo</a></li>
+              <li><a href="{{ route('consumo_alimentos.consumo-alimentos')}}">Capturar consumo</a></li>
+              <li><a href="{{route('consumo.index')}}">Listado de lotes</a></li>
               <!-- Agrega más opciones aquí si es necesario -->
             </ul>
           </li>

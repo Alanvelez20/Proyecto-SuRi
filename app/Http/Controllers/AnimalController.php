@@ -92,7 +92,8 @@ class AnimalController extends Controller
      */
     public function edit(animal $animal)
     {
-        return view('animales.animalEdit', compact('animal'));
+        $lotes = Lote::all();
+        return view('animales.animalEdit', compact('animal','lotes'));
     }
 
     /**
@@ -138,10 +139,6 @@ class AnimalController extends Controller
 
     }
 
-    public function ConsumoAlimentos(Animal $animal)
-    {
-        return view('animales.consumo-alimentos', compact('animal'))
-            ->with('alimentos', Alimento::all());
-    }
+    
 
 }
