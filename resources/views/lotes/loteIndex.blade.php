@@ -20,12 +20,12 @@
                     <td>{{ $lote->lote_id_corral }}</td>
                     <td>{{ $lote->created_at }}</td>
                     <td>
-                        <a href="{{ route('lote.show', $lote) }}">Detalle</a> |
-                        <a href="{{ route('lote.edit', $lote) }}">Editar</a> |
+                        <a class="btn btn-dark btn-block" href="{{ route('lote.show', $lote) }}">Detalle</a> 
+                        <a class="btn btn-dark btn-block" href="{{ route('lote.edit', $lote) }}">Editar</a> 
                         <form action="{{ route('lote.destroy', $lote) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <input type="submit" value="Eliminar">
+                            <input type="submit" class="btn btn-dark btn-block" value="Eliminar">
                         </form>
                     </td>
                 </tr>

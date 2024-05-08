@@ -12,7 +12,7 @@
             <tr>
                 <td>{{ $lote->lote_nombre }}</td>
                 <td>
-                <a href="{{ route('consumo_alimentos.consumo-alimentos', $lote) }}">Generar consumo</a>
+                <a  href="{{ route('consumo_alimentos.consumo-alimentos', $lote) }}">Generar consumo</a>
                 </td>
             </tr>
         @endforeach

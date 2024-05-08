@@ -15134,6 +15134,98 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   float: none;
 }
 
+.header {
+  padding: 0.9375rem 0;
+  text-align: center;
+  display: -webkit-flex;
+  /* Safari */
+  /* Safari 6.1+ */
+  display: flex;
+}
+
+.header ul {
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.header ul li {
+  display: inline-block;
+}
+
+.header ul li a {
+  color: inherit;
+  padding: 0.9375rem;
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  border-radius: 3px;
+  text-decoration: none;
+  position: relative;
+  display: block;
+}
+
+.header ul li a:hover {
+  text-decoration: none;
+}
+
+.header ul li .btn {
+  margin: 0;
+}
+
+.header ul.links-horizontal:first-child a {
+  padding-left: 0;
+}
+
+.header ul.links-horizontal:last-child a {
+  padding-right: 0;
+}
+
+.header ul.links-vertical li {
+  display: block;
+  margin-left: -5px;
+  margin-right: -5px;
+}
+
+.header ul.links-vertical li a {
+  padding: 5px;
+}
+
+.header .social-buttons a,
+.header .social-buttons .btn {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.header .header-brand {
+  float: left;
+  height: 50px;
+  padding: 15px 15px;
+  font-size: 18px;
+  line-height: 20px;
+  margin-left: -15px;
+}
+
+.header .header-brand:hover,
+.header .header-brand:focus {
+  color: #3C4858;
+}
+
+.header .copyright {
+  padding: 15px 0;
+}
+
+.header .copyright .material-icons {
+  font-size: 18px;
+  position: relative;
+  top: 3px;
+}
+
+.header .pull-center {
+  display: inline-block;
+  float: none;
+}
+
 .off-canvas-sidebar .footer {
   position: absolute;
   bottom: 0;
@@ -19446,7 +19538,7 @@ Copyright (c) 2015 Daniel Eden
   [class*="navbar-"] .navbar-nav .open .dropdown-menu>li>a:hover,
   [class*="navbar-"] .navbar-nav .open .dropdown-menu>li>a:focus {
     opacity: .7;
-    background: transparent;
+    
   }
 
   [class*="navbar-"] .navbar-nav.navbar-nav .open .dropdown-menu>li>a:active {
@@ -19463,9 +19555,7 @@ Copyright (c) 2015 Daniel Eden
     border-top-color: white;
   }
 
-  .dropdown-menu {
-    display: none;
-  }
+  
 
   .navbar-fixed-top {
     -webkit-backface-visibility: hidden;
@@ -19555,6 +19645,17 @@ Copyright (c) 2015 Daniel Eden
   .nav-mobile-menu,
   .sidebar .navbar-form {
     display: none !important;
+  }
+}
+
+@media only screen and (min-width: 768px){
+  .footer{
+    display:none
+  }
+}
+@media only screen and (max-width: 767px){
+  .header{
+    display:none
   }
 }
 

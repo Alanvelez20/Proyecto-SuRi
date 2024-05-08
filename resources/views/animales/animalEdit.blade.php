@@ -1,10 +1,11 @@
 @extends('components.miLayout')
 
 @section('content')
-    <h1>Editar animal</h1>
+    
 
     @include('parciales.form-error')
-
+    <div class="container">
+    <h1>Editar datos del animal</h1>
     <form action="{{ route('animal.update', $animal) }}" method="POST">
         @csrf
         @method('PATCH')
@@ -37,6 +38,7 @@
             @enderror
             <br>
 
-        <input type="submit" value="Enviar">
+        <input type="submit" class="btn btn-dark btn-block" value="Enviar">
     </form>
+    </div>
 @endsection

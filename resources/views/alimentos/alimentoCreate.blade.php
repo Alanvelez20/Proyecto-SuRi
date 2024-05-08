@@ -28,7 +28,7 @@
             @enderror
             <br>
 
-            <input type="submit" value="Enviar">
+            <input type="submit" class="btn btn-dark btn-block" value="Enviar">
         </form>
     </div>
 @endsection

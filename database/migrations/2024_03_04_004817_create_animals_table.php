@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('animal_valor_venta');
             $table->foreignId('animal_id_lote');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

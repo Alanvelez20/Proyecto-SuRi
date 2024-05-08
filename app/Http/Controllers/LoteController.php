@@ -103,9 +103,9 @@ class LoteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Lote $lote)
+    public function destroy($id)
     {
-        $lote->delete();
+        Lote::find($id)->delete();
         return redirect()->route('lote.index');
     }
 

@@ -101,9 +101,9 @@ class AlimentoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Alimento $alimento)
+    public function destroy($id)
     {
-        $alimento->delete();
+        Alimento::find($id)->delete();
         return redirect()->route('alimento.index');
     }
 }

@@ -94,9 +94,9 @@ class CorralController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Corral $corral)
+    public function destroy($id)
     {
-        $corral->delete();
+        Corral::find($id)->delete();
         return redirect()->route('corral.index');
     }
 }

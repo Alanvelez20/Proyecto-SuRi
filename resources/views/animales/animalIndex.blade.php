@@ -26,12 +26,12 @@
                     <td>{{ $animal->animal_id_lote }}</td>
                     <td>{{ $animal->created_at }}</td>
                     <td>
-                        <a href="{{ route('animal.show', $animal) }}">Detalle</a> |
-                        <a href="{{ route('animal.edit', $animal) }}">Editar</a> |
+                        <a class="btn btn-dark btn-block" href="{{ route('animal.show', $animal) }}">Detalle</a> 
+                        <a class="btn btn-dark btn-block" href="{{ route('animal.edit', $animal) }}">Editar</a> 
                         <form action="{{ route('animal.destroy', $animal) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <input type="submit" value="Eliminar">
+                            <input type="submit" class="btn btn-dark btn-block" value="Eliminar">
                         </form>
                     </td>
                 </tr>

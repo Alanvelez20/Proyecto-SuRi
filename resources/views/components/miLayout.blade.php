@@ -16,17 +16,80 @@
 
 <body class="dark-edition">
   <div class="wrapper ">
+
+    @if(Auth::check() && Auth::user()->rol == 'Administrador')
+    <header class="header">
+      <div class="container-fluid">
+        <nav class="float-right">
+          <ul>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('corral.index') }}">Corrales</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('lote.index') }}">Lotes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('animal.index') }}">Animales</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('alimento.index') }}">Alimentos</a>
+            </li>
+            <li class="nav-item">
+              <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
+                @csrf
+                <button type="submit" class="btn btn-dark btn-block">Log Out</button>
+              </form>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    @endif
+    @if(Auth::check() && Auth::user()->rol == 'Trabajador')
+    <header class="header">
+      <div class="container-fluid">
+        <nav class="float-right">
+          <ul>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('animal.index') }}">Animales</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('alimento.index') }}">Alimentos</a>
+            </li>
+            <li class="nav-item">
+              <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
+                @csrf
+                <button type="submit" class="btn btn-dark btn-block">Log Out</button>
+              </form>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    @endif
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="{{asset('MainLayout/img/sidebar-2.jpg')}}">
+
+      
       <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
       Tip 2: you can also add an image using data-image tag
   -->
-      <div class="logo">
-        <a href="{{asset('principal')}}" class="simple-text logo-normal">
-          Página Principal 
-        </a>
-      </div>
+      @if(Auth::check() && Auth::user()->rol == 'Administrador')
+        <div class="logo">
+          <a href="{{asset('principal')}}" class="simple-text logo-normal">
+            Administrador 
+          </a>
+        </div>
+      @endif
+      @if(Auth::check() && Auth::user()->rol == 'Trabajador')
+        <div class="logo">
+          <a href="{{asset('principal')}}" class="simple-text logo-normal">
+            Trabajador 
+          </a>
+        </div>
+      @endif
+      @if(Auth::check() && Auth::user()->rol == 'Administrador')
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item active">
@@ -37,7 +100,6 @@
             <ul class="expanded-options" id="expandedOptions">
               <li><a href="{{ route('corral.create') }}">Crear registro</a></li>
               <li><a href="{{ route('corral.index') }}">Mostrar datos</a></li>
-              <!-- Agrega más opciones aquí si es necesario -->
             </ul>
           </li>
           <li class="nav-item active">
@@ -48,7 +110,6 @@
             <ul class="expanded-options" id="expandedOptions">
               <li><a href="{{ route('lote.create') }}">Crear registro</a></li>
               <li><a href="{{ route('lote.index') }}">Mostrar datos</a></li>
-              <!-- Agrega más opciones aquí si es necesario -->
             </ul>
           </li>
           <li class="nav-item active">
@@ -59,7 +120,6 @@
             <ul class="expanded-options" id="expandedOptions">
               <li><a href="{{ route('animal.create') }}">Crear registro</a></li>
               <li><a href="{{ route('animal.index') }}">Mostrar datos</a></li>
-              <!-- Agrega más opciones aquí si es necesario -->
             </ul>
           </li>
           <li class="nav-item active">
@@ -70,7 +130,6 @@
             <ul class="expanded-options" id="expandedOptions">
               <li><a href="{{ route('alimento.create') }}">Crear registro</a></li>
               <li><a href="{{ route('alimento.index') }}">Mostrar datos</a></li>
-              <!-- Agrega más opciones aquí si es necesario -->
             </ul>
           </li>
           <li class="nav-item active">
@@ -81,43 +140,50 @@
             <ul class="expanded-options" id="expandedOptions">
               <li><a href="{{ route('consumo_alimentos.consumo-alimentos')}}">Capturar consumo</a></li>
               <li><a href="{{route('consumo.index')}}">Listado de lotes</a></li>
-              <!-- Agrega más opciones aquí si es necesario -->
             </ul>
           </li>
-          <!-- your sidebar here -->
         </ul>
       </div>
     </div>
-    <div class="main-panel">
-      <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-        <div class="container-fluid">
-          <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:void(0)"></a>
-          </div>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-end">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
-                  <i class="material-icons">notifications</i>
-                  <p class="d-lg-none d-md-block">
-                    Notifications
-                  </p>
-                </a>
-              </li>
-              
-              <!-- your navbar here -->
+    @endif
+    @if(Auth::check() && Auth::user()->rol == 'Trabajador')
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#" id="expandLink">
+              <i class="material-icons">dashboard</i>
+              <p>Animales</p>
+            </a>
+            <ul class="expanded-options" id="expandedOptions">
+              <li><a href="{{ route('animal.create') }}">Crear registro</a></li>
+              <li><a href="{{ route('animal.index') }}">Mostrar datos</a></li>
             </ul>
-          </div>
-        </div>
-      </nav>
-      <!-- End Navbar -->
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#" id="expandLink">
+              <i class="material-icons">dashboard</i>
+              <p>Alimento</p>
+            </a>
+            <ul class="expanded-options" id="expandedOptions">
+              <li><a href="{{ route('alimento.create') }}">Crear registro</a></li>
+              <li><a href="{{ route('alimento.index') }}">Mostrar datos</a></li>
+            </ul>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#" id="expandLink">
+              <i class="material-icons">dashboard</i>
+              <p>Consumo de alimentos</p>
+            </a>
+            <ul class="expanded-options" id="expandedOptions">
+              <li><a href="{{ route('consumo_alimentos.consumo-alimentos')}}">Capturar consumo</a></li>
+              <li><a href="{{route('consumo.index')}}">Listado de lotes</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    @endif
+    <div class="main-panel">     
       <div class="content">
         <div class="container-fluid">
           <!-- your content here -->
@@ -126,24 +192,60 @@
           <!--/cointainer-fluid-->
         </div>
       </div>
-      <footer class="footer">
-        <div class="container-fluid">
-          <nav class="float-left">
-            <ul>
-              <li>
-                <a href="">
-                  SuRi
-                </a>
-              </li>
-            </ul>
-          </nav>
-          
-          <!-- your footer here -->
-        </div>
-      </footer>
+      @if(Auth::check() && Auth::user()->rol == 'Administrador')
+    <footer class="footer">
+      <div class="container-fluid">
+        <nav class="float-right">
+          <ul>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('corral.index') }}">Corrales</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('lote.index') }}">Lotes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('animal.index') }}">Animales</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('alimento.index') }}">Alimentos</a>
+            </li>
+            <li class="nav-item">
+              <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
+                @csrf
+                <button type="submit" class="btn btn-dark btn-block">Log Out</button>
+              </form>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+    @endif
+    @if(Auth::check() && Auth::user()->rol == 'Trabajador')
+    <footer class="footer">
+      <div class="container-fluid">
+        <nav class="float-right">
+          <ul>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('animal.index') }}">Animales</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('alimento.index') }}">Alimentos</a>
+            </li>
+            <li class="nav-item">
+              <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
+                @csrf
+                <button type="submit" class="btn btn-dark btn-block">Log Out</button>
+              </form>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+    @endif
     </div>
   </div>
   <!--   Core JS Files   -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="{{asset('js/core/jquery.min.js')}}"></script>
   <script src="{{asset('js/core/popper.min.js')}}"></script>
   <script src="{{asset('js/core/bootstrap-material-design.min.js')}}"></script>

@@ -132,9 +132,9 @@ class AnimalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(animal $animal)
+    public function destroy($id)
     {
-        $animal->delete();
+        animal::find($id)->delete();
         return redirect()->route('animal.index');
 
     }

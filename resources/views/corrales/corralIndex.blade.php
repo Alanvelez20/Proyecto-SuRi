@@ -18,12 +18,12 @@
                     <td>{{ $corral->corral_estado }}</td>
                     <td>{{ $corral->created_at }}</td>
                     <td>
-                        <a href="{{ route('corral.show', $corral) }}">Detalle</a> |
-                        <a href="{{ route('corral.edit', $corral) }}">Editar</a> |
+                        <a class="btn btn-dark btn-block" href="{{ route('corral.show', $corral) }}">Detalle</a> 
+                        <a class="btn btn-dark btn-block" href="{{ route('corral.edit', $corral) }}">Editar</a> 
                         <form action="{{ route('corral.destroy', $corral) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <input type="submit" value="Eliminar">
+                            <input type="submit" class="btn btn-dark btn-block" value="Eliminar">
                         </form>
                     </td>
                 </tr>

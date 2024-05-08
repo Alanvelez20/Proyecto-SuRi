@@ -20,12 +20,12 @@
                     <td>{{ $alimento->alimento_costo }}</td>
                     <td>{{ $alimento->created_at }}</td>
                     <td>
-                        <a href="{{ route('alimento.show', $alimento) }}">Detalle</a> |
-                        <a href="{{ route('alimento.edit', $alimento) }}">Editar</a> |
+                        <a class="btn btn-dark btn-block" href="{{ route('alimento.show', $alimento) }}">Detalle</a> 
+                        <a class="btn btn-dark btn-block" href="{{ route('alimento.edit', $alimento) }}">Editar</a> 
                         <form action="{{ route('alimento.destroy', $alimento) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <input type="submit" value="Eliminar">
+                            <input type="submit" class="btn btn-dark btn-block" value="Eliminar">
                         </form>
                     </td>
                 </tr>

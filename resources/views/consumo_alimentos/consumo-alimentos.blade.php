@@ -19,14 +19,14 @@
 
             <div class="form-group">
                 <label for="alimento_id">Materia</label>
-                <select name="alimento_id[]" id="alimento_id" class="form-control" multiple>
+                <select name="alimento_id[]" id="alimento_id"  multiple>
                     @foreach ($alimentos as $alimento)
                         <option value="{{ $alimento->id }}" @selected(false !== array_search($alimento->id, $lote->alimentos->pluck('id')->toArray()))>{{ $alimento->alimento_descripcion }}</option>
                     @endforeach
                 </select>
             </div>
 
-            <input type="submit" value="Guardar">
+            <input type="submit" class="btn btn-dark btn-block" value="Guardar">
 
         </form>        
     </div>
