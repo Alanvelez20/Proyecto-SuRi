@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RegistroAlimento;
 use App\Models\Alimento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AlimentoController extends Controller
 {
@@ -52,7 +54,16 @@ class AlimentoController extends Controller
 
         $request->merge(['user_id'=> Auth::id()]);
 
-        Alimento::create($request->all());
+        $alimento = Alimento::create($request->all());
+
+        $user = Auth::user();
+        //Se envia el correo
+        Mail::to($user->email)->send(new RegistroAlimento($alimento, $user));
+        //Mail::raw("Mediante este correo te confirmamos el registro de la compra de. $alimento->alimento_descripcion\nCantidad: $alimento->alimento_cantidad \nCosto: $$alimento->alimento_costo \n\n¡Gracias por utilizar nuestra aplicación!", function ($message) use ($user) {
+           // $message->from('SuRi.oficial@gmail.com', 'Equipo SuRi');
+           // $message->to($user->email);
+           // $message->subject("Registro de inventario");
+        //});
 
         // Redireccionar
         return redirect()->route('alimento.index');
