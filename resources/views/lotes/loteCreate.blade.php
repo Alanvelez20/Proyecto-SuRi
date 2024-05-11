@@ -4,7 +4,7 @@
 
     @include('parciales.form-error')
     <div class="container">
-        <h1>Crear registro de corral</h1><br>
+        <h1>Crear registro de lote</h1><br>
         <form action="{{ route('lote.store') }}" method="POST">
             @csrf
             <label for="lote_nombre">Nombre: </label>

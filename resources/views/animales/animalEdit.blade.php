@@ -15,8 +15,8 @@
 
         <label for="animal_genero">Género</label><br>
         <select name="animal_genero" class="form-control">
-            <option value="Macho" @selected((old('animal_genero') ?? $animal->animal_genero) == 'Macho')>Macho</option>
-            <option value="Hembra" @selected((old('animal_genero') ?? $animal->animal_genero) == 'Hembra')>Hembra</option>
+            <option style="color: black;" value="Macho" @selected((old('animal_genero') ?? $animal->animal_genero) == 'Macho')>Macho</option>
+            <option style="color: black;" value="Hembra" @selected((old('animal_genero') ?? $animal->animal_genero) == 'Hembra')>Hembra</option>
         </select>
 
         <label for="animal_peso">Peso</label>

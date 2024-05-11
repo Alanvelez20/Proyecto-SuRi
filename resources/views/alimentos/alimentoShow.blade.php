@@ -10,9 +10,16 @@
     </ul>
 
     <h2>Archivos</h2>
-    <ul>
-        <li><a href="{{route('alimento.descarga', $alimento) }}">{{ $alimento->archivo_nombre}}</a></li>
-    </ul>
+    @if ($alimento->archivo_nombre != "null")
+        <h4>
+            <a href="{{ route('alimento.descarga', $alimento) }}">
+                <img src="{{ asset('mainlayout/img/descargar.png') }}" alt="Descargar" style="width: 20px; height: 20px;">
+                {{ $alimento->archivo_nombre }}
+            </a>
+        </h4>
+    @else
+    <h4>No hay archivos adjuntos</h4>
+    @endif
     
     
 </div>

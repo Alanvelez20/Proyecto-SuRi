@@ -414,6 +414,13 @@ template {
     min-width: 992px !important;
   }
 
+  .container1{
+    display: flex;
+            justify-content: space-between;
+            flex-wrap: nowrap; 
+            overflow-x: auto;
+  }
+
   .container {
     min-width: 992px !important;
   }
