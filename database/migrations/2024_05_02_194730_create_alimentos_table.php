@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer('alimento_cantidad');
             $table->integer('alimento_costo');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('archivo_ubicacion');
+            $table->string('archivo_nombre');
             $table->softDeletes();
             $table->timestamps();
         });

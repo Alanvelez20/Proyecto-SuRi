@@ -39,6 +39,9 @@ Route::resource('consumo',ConsumoController::class);
 Route::get('/consumo-alimentos',[ConsumoController::class,'ConsumirAlimento'])->name('consumo_alimentos.consumo-alimentos');
 Route::post('/consumo/relacionar-consumo-alimentos', [ConsumoController::class, 'relacionarConsumoAlimentos'])->name('consumo-alimentos.relacionar-consumo-alimentos');
 
+Route::get('alimento-descarga/{alimento}', [AlimentoController::class, 'descargar'])
+    ->name('alimento.descarga');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

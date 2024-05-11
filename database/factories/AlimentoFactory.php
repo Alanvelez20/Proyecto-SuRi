@@ -32,6 +32,8 @@ class AlimentoFactory extends Factory
             'alimento_cantidad' => $this->faker->randomNumber(4,true),
             'alimento_costo' => $this->faker->randomFloat(2, 1000, 9999.99),
             'user_id' => 1,
+            'archivo_nombre'=> 'null',
+            'archivo_ubicacion'=>'null',
         ];
     }
 }

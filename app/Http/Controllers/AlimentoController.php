@@ -7,6 +7,7 @@ use App\Models\Alimento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class AlimentoController extends Controller
 {
@@ -52,7 +53,15 @@ class AlimentoController extends Controller
 
         ]);
 
-        $request->merge(['user_id'=> Auth::id()]);
+        if (!$request->file('archivo')->isValid()) {
+        
+        }else{
+
+        $request->merge([
+            'user_id'=> Auth::id(),
+            'archivo_nombre'=>$request->file('archivo')->getClientOriginalName(),
+            'archivo_ubicacion'=>$request->file('archivo')->store('public'),
+        ]);
 
         $alimento = Alimento::create($request->all());
 
@@ -64,9 +73,10 @@ class AlimentoController extends Controller
            // $message->to($user->email);
            // $message->subject("Registro de inventario");
         //});
-
+        
         // Redireccionar
         return redirect()->route('alimento.index');
+        }
     }
 
     /**
@@ -116,5 +126,13 @@ class AlimentoController extends Controller
     {
         Alimento::find($id)->delete();
         return redirect()->route('alimento.index');
+    }
+
+    public function descargar(Alimento $alimento){
+        if ($alimento->archivo_ubicacion !="null") {
+            return Storage::download($alimento->archivo_ubicacion);
+        }else{
+            return back()->with('warning', 'El archivo no existe.');
+        }
     }
 }

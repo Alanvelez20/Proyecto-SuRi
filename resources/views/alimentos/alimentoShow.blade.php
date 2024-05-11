@@ -8,5 +8,12 @@
         <li>Cantidad: {{ $alimento->alimento_cantidad }}</li>
         <li>Costo: {{ $alimento->alimento_costo }}</li>
     </ul>
+
+    <h2>Archivos</h2>
+    <ul>
+        <li><a href="{{route('alimento.descarga', $alimento) }}">{{ $alimento->archivo_nombre}}</a></li>
+    </ul>
+    
+    
 </div>
 @endsection
