@@ -10,7 +10,7 @@ class Lote extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['lote_nombre', 'lote_cantidad','lote_id_corral','user_id'];
+    protected $fillable = ['lote_nombre', 'lote_cantidad','consumo_total_alimento','lote_id_corral','user_id'];
 
     public function alimentos()
     {
@@ -21,5 +21,13 @@ class Lote extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function consumos()
+    {
+        return $this->hasMany(Consumo::class, 'lote_id_consumo');
+    }
+    public function animales()
+    {
+        return $this->hasMany(Animal::class);
     }
 }

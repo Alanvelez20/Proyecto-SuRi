@@ -17,10 +17,28 @@ class LoteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $lotes = Auth::user()->lote;
+        $query = Lote::query();
+        // Verificar si se solicita una ordenación específica
+        if ($request->has('sort_by') && $request->has('sort_direction')) {
+            $query->orderBy($request->sort_by, $request->sort_direction);
+        }
+
+        $lotes = $query->get();
         return view('lotes/loteIndex', compact('lotes'));
+
+    }
+
+    public function search(Request $request){
+        $search2 = $request->search2;
+
+        $lotes = Lote::where(function($query)use ($search2){
+
+            $query->where('lote_nombre','like',"%$search2%");
+        })
+        ->get();
+        return view('lotes/loteIndex',compact('lotes','search2'));
     }
 
     /**
@@ -51,6 +69,7 @@ class LoteController extends Controller
 
         $request->merge(['user_id'=> Auth::id()]);
         $request->merge(['lote_cantidad' => 0]);
+        $request->merge(['consumo_total_alimento' => 0]);
         
         Lote::create($request->all());
 
@@ -94,7 +113,6 @@ class LoteController extends Controller
         ]);
 
         $request->offsetUnset('lote_cantidad');
-        
         $lote->update($request->all());
 
         return redirect()->route('lote.show', $lote);

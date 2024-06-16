@@ -10,7 +10,7 @@
     </ul>
 
     <h2>Archivos</h2>
-    @if ($alimento->archivo_nombre != "null")
+    @if ($alimento->archivo_nombre != "null" && $alimento->archivo_nombre != "0")
         <h4>
             <a href="{{ route('alimento.descarga', $alimento) }}">
                 <img src="{{ asset('mainlayout/img/descargar.png') }}" alt="Descargar" style="width: 20px; height: 20px;">

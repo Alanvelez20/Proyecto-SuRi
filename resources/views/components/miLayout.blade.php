@@ -140,8 +140,8 @@
               <p>Consumo de alimentos</p>
             </a>
             <ul class="expanded-options" id="expandedOptions">
-              <li><a href="{{ route('consumo_alimentos.consumo-alimentos')}}">Capturar consumo</a></li>
-              <li><a href="{{route('consumo.index')}}">Listado de lotes</a></li>
+              <li><a href="{{ route('consumo.create')}}">Capturar consumo</a></li>
+              <li><a href="{{route('consumo.index')}}">Mostrar datos</a></li>
             </ul>
           </li>
         </ul>
@@ -177,7 +177,7 @@
               <p>Consumo de alimentos</p>
             </a>
             <ul class="expanded-options" id="expandedOptions">
-              <li><a href="{{ route('consumo_alimentos.consumo-alimentos')}}">Capturar consumo</a></li>
+              <li><a href="{{ route('consumo.create')}}">Capturar consumo</a></li>
               <li><a href="{{route('consumo.index')}}">Listado de lotes</a></li>
             </ul>
           </li>

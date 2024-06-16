@@ -7,6 +7,7 @@
     <ul>
         <li>Descripcion: {{ $lote->lote_nombre }}</li>
         <li>Cantidad: {{ $lote->lote_cantidad }}</li>
+        <li>Consumo total del lote: {{ $lote->consumo_total_alimento }} kg</li>
         <li>Corral: {{ $lote->lote_id_corral }}, {{ $nombre_corral }}</li>
     </ul>
 </div>

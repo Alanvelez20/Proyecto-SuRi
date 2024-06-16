@@ -20,10 +20,27 @@ class AlimentoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $alimentos = Auth::user()->alimentos;
-    return view('alimentos.alimentoIndex', compact('alimentos'));
+        $query = Alimento::query();
+        // Verificar si se solicita una ordenación específica
+        if ($request->has('sort_by') && $request->has('sort_direction')) {
+            $query->orderBy($request->sort_by, $request->sort_direction);
+        }
+
+        $alimentos = $query->get();
+        return view('alimentos.alimentoIndex', compact('alimentos'));
+    }
+
+    public function search(Request $request){
+        $search4 = $request->search4;
+
+        $alimentos = Alimento::where(function($query)use ($search4){
+
+            $query->where('alimento_descripcion','like',"%$search4%");
+        })
+        ->get();
+        return view('alimentos.alimentoIndex',compact('alimentos','search4'));
     }
 
     /**
@@ -53,30 +70,37 @@ class AlimentoController extends Controller
 
         ]);
 
-        if (!$request->file('archivo')->isValid()) {
-        
-        }else{
-
+        // Verificar si se ha proporcionado un archivo y si es válido
+    if ($request->hasFile('archivo') && $request->file('archivo')->isValid()) {
+        // Procesar la imagen si es válida
         $request->merge([
-            'user_id'=> Auth::id(),
-            'archivo_nombre'=>$request->file('archivo')->getClientOriginalName(),
-            'archivo_ubicacion'=>$request->file('archivo')->store('public'),
+            'user_id' => Auth::id(),
+            'archivo_nombre' => $request->file('archivo')->getClientOriginalName(),
+            'archivo_ubicacion' => $request->file('archivo')->store('public'),
         ]);
+    } else {
+        // Opcional: Manejar caso donde no se proporcionó un archivo válido
+        // Puedes agregar código adicional aquí según tus requerimientos
+        // Por ejemplo, establecer valores por defecto para 'archivo_nombre' y 'archivo_ubicacion'
+        $request->merge([
+            'user_id' => Auth::id(),
+            'archivo_nombre' => 0,
+            'archivo_ubicacion' => 0,
+        ]);
+    }
 
-        $alimento = Alimento::create($request->all());
+    // Crear el registro de alimento
+    $alimento = Alimento::create($request->all());
 
-        $user = Auth::user();
-        //Se envia el correo
-        Mail::to($user->email)->send(new RegistroAlimento($alimento, $user));
-        //Mail::raw("Mediante este correo te confirmamos el registro de la compra de. $alimento->alimento_descripcion\nCantidad: $alimento->alimento_cantidad \nCosto: $$alimento->alimento_costo \n\n¡Gracias por utilizar nuestra aplicación!", function ($message) use ($user) {
-           // $message->from('SuRi.oficial@gmail.com', 'Equipo SuRi');
-           // $message->to($user->email);
-           // $message->subject("Registro de inventario");
-        //});
+    // Obtener el usuario autenticado
+    $user = Auth::user();
+
+    // Enviar correo de confirmación
+    Mail::to($user->email)->send(new RegistroAlimento($alimento, $user));
+
+    // Redireccionar
+    return redirect()->route('alimento.index');
         
-        // Redireccionar
-        return redirect()->route('alimento.index');
-        }
     }
 
     /**

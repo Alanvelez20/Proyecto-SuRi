@@ -21,11 +21,5 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('test'),
                 'rol' => 'Administrador',
             ]);
-        $this->call([
-            AlimentoSeeder::class,
-            CorralSeeder::class,
-            LoteSeeder::class,
-            AnimalSeeder::class,
-        ]);
     }
 }

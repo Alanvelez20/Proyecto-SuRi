@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lotes', function (Blueprint $table) {
+        Schema::create('consumos', function (Blueprint $table) {
             $table->id();
-            $table->string('lote_nombre');
-            $table->integer('lote_cantidad');
-            $table->float('consumo_total_alimento');
-            $table->foreignId('lote_id_corral')->constrained();
+            $table->foreignId('lote_id_consumo')->constrained();
+            $table->string('alimento_descripcion');
+            $table->integer('alimento_cantidad_total');
+            $table->date('fecha_consumo');
+            $table->string('hora_consumo');
+            $table->integer('valor_dieta');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lotes');
+        Schema::dropIfExists('consumos');
     }
 };

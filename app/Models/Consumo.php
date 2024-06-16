@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Consumo extends Model
 {
     use HasFactory;
-    protected $fillable = ['lote_id', 'alimento_id'];
+    protected $fillable = ['alimento_descripcion', 'alimento_cantidad_total','valor_dieta', 'fecha_consumo', 'hora_consumo','lote_id_consumo','user_id'];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function lote()
     {
-        return $this->belongsToMany(Lote::class);
-    }
-    public function alimento()
-    {
-        return $this->belongsToMany(Alimento::class);
+        return $this->belongsTo(Lote::class, 'lote_id_consumo');
     }
 }

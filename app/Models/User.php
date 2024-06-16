@@ -76,4 +76,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Corral::class);
     }
+    public function consumos()
+    {
+        return $this->hasMany(Consumo::class);
+    }
 }

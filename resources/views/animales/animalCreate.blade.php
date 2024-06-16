@@ -6,6 +6,14 @@
         <h1>Crear registro de animal</h1><br>
         <form action="{{ route('animal.store') }}" method="POST">
             @csrf
+
+            <label for="arete">Numero de arete </label>
+            <input type="number" class="form-control" name="arete" value="{{ old('arete') }}">
+            @error('arete')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+            <br>
+
             <label for="animal_especie">Especie</label>
             <input type="text" class="form-control" name="animal_especie" value="{{ old('animal_especie') }}">
             @error('animal_especie')
@@ -20,8 +28,8 @@
             </select>
             <br>
             
-            <label for="animal_peso">Peso: </label>
-            <input type="number" class="form-control" name="animal_peso" value="{{ old('animal_peso') }}">
+            <label for="animal_peso_inicial">Peso: </label>
+            <input type="number" class="form-control" name="animal_peso_inicial" value="{{ old('animal_peso_inicial') }}">
             @error('animal_peso')
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
@@ -33,6 +41,15 @@
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
             <br>
+
+            <div>
+                <label for="fecha_ingreso">Fecha del ingreso</label>
+                <input type="date" class="form-control" name="fecha_ingreso" value="{{ old('fecha_ingreso') }}">
+                @error('fecha_ingreso')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+                <br>
+            </div>
 
             <label for="animal_id_lote">Lote: </label>
             <select name="animal_id_lote" class="form-control">

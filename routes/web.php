@@ -34,10 +34,13 @@ Route::resource('animal', AnimalController::class);
 Route::resource('alimento', AlimentoController::class);
 Route::resource('lote', LoteController::class);
 Route::resource('corral', CorralController::class);
-
 Route::resource('consumo',ConsumoController::class);
-Route::get('/consumo-alimentos',[ConsumoController::class,'ConsumirAlimento'])->name('consumo_alimentos.consumo-alimentos');
-Route::post('/consumo/relacionar-consumo-alimentos', [ConsumoController::class, 'relacionarConsumoAlimentos'])->name('consumo-alimentos.relacionar-consumo-alimentos');
+
+Route::get('/search0',[ConsumoController::class,'search']);
+Route::get('/search1',[AnimalController::class,'search']);
+Route::get('/search2',[LoteController::class,'search']);
+Route::get('/search3',[CorralController::class,'search']);
+Route::get('/search4',[AlimentoController::class,'search']);
 
 Route::get('alimento-descarga/{alimento}', [AlimentoController::class, 'descargar'])
     ->name('alimento.descarga');

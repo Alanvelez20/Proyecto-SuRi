@@ -1,13 +1,22 @@
 @extends('components.miLayout')
 
 @section('content')
-<h1>Datos de corrales</h1>
+    <h1>Datos de corrales</h1><br>
+
+    <div class="form-group">
+        <form method="get" action="/search3">
+            <div class="input-group">
+                <input class="form-control" name="search3" placeholder="Buscar">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
+    </div>
+
     <table class="table">
         <thead>
             <tr>
                 <th>Nombre</th>
                 <th>Estado</th>
-                <th>Creado / Enviado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -16,15 +25,9 @@
                 <tr>
                     <td>{{ $corral->corral_nombre }}</td>
                     <td>{{ $corral->corral_estado }}</td>
-                    <td>{{ $corral->created_at }}</td>
                     <td>
                         <a class="btn btn-dark btn-block" href="{{ route('corral.show', $corral) }}">Detalle</a> 
                         <a class="btn btn-dark btn-block" href="{{ route('corral.edit', $corral) }}">Editar</a> 
-                        <form action="{{ route('corral.destroy', $corral) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <input type="submit" class="btn btn-dark btn-block" value="Eliminar">
-                        </form>
                     </td>
                 </tr>
             @endforeach

@@ -19,24 +19,13 @@
             <option style="color: black;" value="Hembra" @selected((old('animal_genero') ?? $animal->animal_genero) == 'Hembra')>Hembra</option>
         </select>
 
-        <label for="animal_peso">Peso</label>
-        <input type="text" class="form-control" name="animal_peso" value="{{ old('animal_peso') ?? $animal->animal_peso }}">
+        <label for="animal_peso_final">Peso actual</label>
+        <input type="text" class="form-control" name="animal_peso_final" value="{{ old('animal_peso_final') ?? $animal->animal_peso_final }}">
         <br>
 
-        <label for="animal_valor_compra">Especie</label>
-        <input type="text" class="form-control" name="animal_valor_compra" value="{{ old('animal_valor_compra') ?? $animal->animal_valor_compra }}">
+        <label for="animal_valor_venta">Valor actual</label>
+        <input type="text" class="form-control" name="animal_valor_venta" value="{{ old('animal_valor_venta') ?? $animal->animal_valor_venta }}">
         <br>
-
-        <label for="animal_id_lote">Lote: </label>
-            <select name="animal_id_lote" class="form-control">
-                @foreach($lotes as $lote)
-                    <option style="color: black;" value="{{ $lote->id }}">{{ $lote->lote_nombre }}</option>
-                @endforeach
-            </select>
-            @error('animal_id_lote')
-                <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-            <br>
 
         <input type="submit" class="btn btn-dark btn-block" value="Enviar">
     </form>

@@ -22,6 +22,17 @@ class CorralController extends Controller
         return view('corrales/corralIndex', compact('corrales'));
     }
 
+    public function search(Request $request){
+        $search3 = $request->search3;
+
+        $corrales = Corral::where(function($query)use ($search3){
+
+            $query->where('corral_nombre','like',"%$search3%");
+        })
+        ->get();
+        return view('corrales/corralIndex',compact('corrales','search3'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

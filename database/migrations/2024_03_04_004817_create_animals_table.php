@@ -12,12 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('animals', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('arete')->unique();
             $table->string('animal_especie');
             $table->string('animal_genero');
-            $table->integer('animal_peso');
-            $table->integer('animal_valor_compra');
-            $table->integer('animal_valor_venta');
+            $table->float('animal_peso_inicial');
+            $table->float('animal_peso_final');
+            $table->float('animal_valor_compra');
+            $table->float('animal_valor_venta');
+            $table->float('consumo_total');
+            $table->date('fecha_ingreso');
             $table->foreignId('animal_id_lote');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->softDeletes();
