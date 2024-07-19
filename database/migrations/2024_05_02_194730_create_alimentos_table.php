@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('alimentos', function (Blueprint $table) {
             $table->id();
             $table->string('alimento_descripcion');
-            $table->integer('alimento_cantidad');
-            $table->integer('alimento_costo');
+            $table->float('alimento_cantidad');
+            $table->float('alimento_costo');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('archivo_ubicacion');
             $table->string('archivo_nombre');

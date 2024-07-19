@@ -29,7 +29,7 @@
                     </a>
                 </th>
                 <th>
-                    Costo
+                    Costo por kg
                     <a href="{{ route('alimento.index', ['sort_by' => 'alimento_costo', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'alimento_costo' ? 'desc' : 'asc']) }}">
                         @if (request('sort_by') == 'alimento_costo' && request('sort_direction') == 'asc')
                             &#9650;
@@ -52,6 +52,7 @@
                     <td>
                         <a class="btn btn-dark btn-block" href="{{ route('alimento.show', $alimento) }}">Detalle</a> 
                         <a class="btn btn-dark btn-block" href="{{ route('alimento.edit', $alimento) }}">Editar</a> 
+                        <a class="btn btn-dark btn-block" href="{{ route('alimento.ShowAdd', $alimento) }}">Agregar inventario</a> 
                     </td>
                 </tr>
             @endforeach

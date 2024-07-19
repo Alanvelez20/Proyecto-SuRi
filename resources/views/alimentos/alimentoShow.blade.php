@@ -6,7 +6,7 @@
     <ul>
         <li>Descripcion: {{ $alimento->alimento_descripcion }}</li>
         <li>Cantidad: {{ $alimento->alimento_cantidad }}</li>
-        <li>Costo: {{ $alimento->alimento_costo }}</li>
+        <li>Costo por kg: {{ $alimento->alimento_costo }}</li>
     </ul>
 
     <h2>Archivos</h2>

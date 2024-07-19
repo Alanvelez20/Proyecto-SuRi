@@ -22,7 +22,11 @@ class AnimalController extends Controller
      */
     public function index(Request $request)
     {
-        $query = animal::query();
+        // Obtener el usuario autenticado
+        $user = Auth::user();
+
+
+        $query = animal::where('user_id', $user->id)->with('lote');
         // Verificar si se solicita una ordenación específica
         if ($request->has('sort_by') && $request->has('sort_direction')) {
             $query->orderBy($request->sort_by, $request->sort_direction);
@@ -90,6 +94,7 @@ class AnimalController extends Controller
         $request['animal_valor_venta'] = $request['animal_valor_compra'];
         $request['animal_peso_final'] = $request['animal_peso_inicial'];
         $request->merge(['consumo_total' => 0]);
+        $request->merge(['costo_total' => 0]);
         $request->merge(['user_id'=> Auth::id()]);
 
         Animal::create($request->all());
@@ -97,11 +102,6 @@ class AnimalController extends Controller
         // Incrementa la cantidad en el lote correspondiente
         $lote = Lote::findOrFail($request->animal_id_lote);
         $lote->increment('lote_cantidad');
-
-         // Cambia el estado del corral de vacío a ocupado
-        $corral = Corral::findOrFail($lote->lote_id_corral);
-        $corral->corral_estado = 'Ocupado';
-        $corral->save();
 
         // Redireccionar
         return redirect()->route('animal.index');

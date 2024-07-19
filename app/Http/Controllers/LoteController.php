@@ -19,7 +19,9 @@ class LoteController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Lote::query();
+        $user = Auth::user();
+
+        $query = Lote::where('user_id', $user->id)->with('corral');
         // Verificar si se solicita una ordenación específica
         if ($request->has('sort_by') && $request->has('sort_direction')) {
             $query->orderBy($request->sort_by, $request->sort_direction);
@@ -70,6 +72,7 @@ class LoteController extends Controller
         $request->merge(['user_id'=> Auth::id()]);
         $request->merge(['lote_cantidad' => 0]);
         $request->merge(['consumo_total_alimento' => 0]);
+        $request->merge(['costo_total_alimento' => 0]);
         
         Lote::create($request->all());
 

@@ -23,7 +23,7 @@
             </select>
             <br>
 
-            <input type="submit" class="btn btn-dark btn-block" value="Enviar">
+            <input type="submit" class="btn btn-primary" value="Guardar">
         </form>
     </div>
 @endsection

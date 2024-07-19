@@ -27,7 +27,7 @@
         <input type="text" class="form-control" name="animal_valor_venta" value="{{ old('animal_valor_venta') ?? $animal->animal_valor_venta }}">
         <br>
 
-        <input type="submit" class="btn btn-dark btn-block" value="Enviar">
+        <input type="submit" class="btn btn-primary" value="Guardar">
     </form>
     </div>
 @endsection

@@ -11,7 +11,7 @@ class animal extends Model
     use HasFactory;
     use SoftDeletes;
     protected $primaryKey = 'arete';
-    protected $fillable = ['arete','animal_especie', 'animal_genero','animal_peso_inicial','animal_peso_final','animal_valor_compra','animal_valor_venta','fecha_ingreso','consumo_total','animal_id_lote','user_id'];
+    protected $fillable = ['arete','animal_especie', 'animal_genero','animal_peso_inicial','animal_peso_final','animal_valor_compra','animal_valor_venta','fecha_ingreso','consumo_total','costo_total','animal_id_lote','user_id'];
 
     public function user()
     {
@@ -19,6 +19,6 @@ class animal extends Model
     }
     public function lote()
     {
-        return $this->belongsTo(Lote::class);
+        return $this->belongsTo(Lote::class,'animal_id_lote');
     }
 }

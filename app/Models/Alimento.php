@@ -21,7 +21,10 @@ class Alimento extends Model
     {
         return $this->belongsToMany(Lote::class);
     }
-
+    public function consumos()
+    {
+        return $this->belongsTo(Consumo::class, 'alimento_id_consumo');
+    }
 
     public function user()
     {

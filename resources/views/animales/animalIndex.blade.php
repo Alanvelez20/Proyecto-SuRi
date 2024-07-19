@@ -89,6 +89,18 @@
                     </a>
                 </th>
                 <th>
+                    Costo total
+                    <a href="{{ route('animal.index', ['sort_by' => 'costo_total', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'costo_total' ? 'desc' : 'asc']) }}">
+                        @if (request('sort_by') == 'costo_total' && request('sort_direction') == 'asc')
+                            &#9650;
+                        @elseif (request('sort_by') == 'costo_total' && request('sort_direction') == 'desc')
+                            &#9660;
+                        @else
+                            &#9650;&#9660;
+                        @endif
+                    </a>
+                </th>
+                <th>
                     Fecha de ingreso
                     <a href="{{ route('animal.index', ['sort_by' => 'fecha_ingreso', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'fecha_ingreso' ? 'desc' : 'asc']) }}">
                         @if (request('sort_by') == 'fecha_ingreso' && request('sort_direction') == 'asc')
@@ -126,8 +138,9 @@
                     <td>{{ $animal->animal_valor_compra }}</td>
                     <td>{{ $animal->animal_valor_venta }}</td>
                     <td>{{ $animal->consumo_total }}</td>
+                    <td>{{ $animal->costo_total }}</td>
                     <td>{{ $animal->fecha_ingreso }}</td>
-                    <td>{{ $animal->animal_id_lote }}</td>
+                    <td>{{ $animal->lote->lote_nombre }}</td>
                     <td>
                         <a class="btn btn-dark btn-block" href="{{ route('animal.show', $animal) }}">Detalle</a> 
                         <a class="btn btn-dark btn-block" href="{{ route('animal.edit', $animal) }}">Editar</a> 

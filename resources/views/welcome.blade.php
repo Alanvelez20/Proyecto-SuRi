@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>SURI</title>
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
@@ -64,7 +64,8 @@
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <h2 class="text-primary font-weight-medium m-0">Controlador de ganado</h2>
                         <h1 class="display-1 text-white m-0">SURI</h1>
-                        <h2 class="text-white m-0">* DESDE 2024 *</h2>
+                        <h2 class="text-white m-0">Sistema U R Inegral</h2>
+                        <h3 class="text-white m-0">* DESDE 2024 *</h2>
                     </div>
                 </div>
                 <div class="carousel-item">

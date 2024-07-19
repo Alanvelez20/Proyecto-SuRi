@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('consumos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('lote_id_consumo')->constrained();
-            $table->string('alimento_descripcion');
-            $table->integer('alimento_cantidad_total');
+            $table->integer('alimento_id_consumo');
+            $table->float('alimento_cantidad_total');
             $table->date('fecha_consumo');
             $table->string('hora_consumo');
-            $table->integer('valor_dieta');
+            $table->float('valor_dieta');
+            $table->integer('animales_cantidad');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

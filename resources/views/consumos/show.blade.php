@@ -7,7 +7,7 @@
         <h1>Detalle del consumo: </h1>
 
     <ul>
-        <li>Descripcion: {{ $consumo->alimento_descripcion }}</li>
+        <li>Descripcion: {{ $consumo->alimento_id_consumo }} - {{ $alimento_descripcion }}</li>
         <li>Cantidad: {{ $consumo->alimento_cantidad_total }} kg</li>
         <li>Costo: ${{ $consumo->valor_dieta }}</li>
         <li>Fecha: {{ $consumo->fecha_consumo }}</li>

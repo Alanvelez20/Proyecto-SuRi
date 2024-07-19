@@ -6,6 +6,8 @@ use App\Http\Controllers\ConsumoController;
 use App\Http\Controllers\CorralController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\SitioController;
+use App\Http\Controllers\TraspasoController;
+use App\Http\Controllers\VentaController;
 use App\Models\Consumo;
 use App\Models\Corral;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +37,14 @@ Route::resource('alimento', AlimentoController::class);
 Route::resource('lote', LoteController::class);
 Route::resource('corral', CorralController::class);
 Route::resource('consumo',ConsumoController::class);
+Route::resource('traspaso',TraspasoController::class);
+Route::resource('venta',VentaController::class);
+
+Route::get('/alimentos/agregar', [AlimentoController::class, 'ShowAgregar'])->name('alimento.ShowAgregar');
+Route::post('/alimentos/agregar', [AlimentoController::class, 'AgregarCantidad'])->name('alimento.AgregarCantidad');
+Route::get('/alimentos/{alimento}/add', [AlimentoController::class, 'ShowAdd'])->name('alimento.ShowAdd');
+Route::post('/alimentos/{alimento}/add', [AlimentoController::class, 'AddQuantity'])->name('alimento.AddQuantity');
+Route::get('/animales/{arete}', [VentaController::class, 'getAnimalData']);
 
 Route::get('/search0',[ConsumoController::class,'search']);
 Route::get('/search1',[AnimalController::class,'search']);

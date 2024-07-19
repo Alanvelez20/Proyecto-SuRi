@@ -22,15 +22,24 @@ class AlimentoController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Alimento::query();
+        // Obtener el usuario autenticado
+        $user = Auth::user();
+    
+        // Crear la consulta inicial para los alimentos del usuario autenticado
+        $query = Alimento::where('user_id', $user->id);
+    
         // Verificar si se solicita una ordenación específica
         if ($request->has('sort_by') && $request->has('sort_direction')) {
             $query->orderBy($request->sort_by, $request->sort_direction);
         }
-
+    
+        // Obtener los alimentos filtrados y ordenados
         $alimentos = $query->get();
+    
+        // Retornar la vista con los alimentos
         return view('alimentos.alimentoIndex', compact('alimentos'));
     }
+    
 
     public function search(Request $request){
         $search4 = $request->search4;
@@ -41,6 +50,89 @@ class AlimentoController extends Controller
         })
         ->get();
         return view('alimentos.alimentoIndex',compact('alimentos','search4'));
+    }
+
+    public function ShowAgregar()
+    {
+        $alimentos = Alimento::all();
+        return view('alimentos.AlimentoAgregar', compact('alimentos'));
+    }
+
+    public function AgregarCantidad(Request $request, Alimento $alimento)
+    {
+        $request->validate([
+            'alimento_id' => 'required|exists:alimentos,id',
+            'alimento_cantidad' => 'required|numeric|min:1',
+        ], [
+            'alimento_id.required' => 'El campo ALIMENTO es obligatorio.',
+            'alimento_id.exists' => 'El ALIMENTO seleccionado no es válido.',
+            'alimento_cantidad.required' => 'El campo CANTIDAD es obligatorio.',
+            'alimento_cantidad.numeric' => 'El campo CANTIDAD debe ser un número válido.',
+            'alimento_cantidad.min' => 'La cantidad debe ser al menos 1.',
+        ]);
+
+        $alimento = Alimento::find($request->alimento_id);
+
+        // Cantidad y precio actuales
+        $cantidad_actual = $alimento->alimento_cantidad;
+        $precio_actual = $alimento->alimento_costo;
+
+        // Nueva cantidad y precio
+        $nueva_cantidad = $request->alimento_cantidad;
+        $nuevo_precio = $request->alimento_precio;
+
+        // Calcular la nueva cantidad total
+        $cantidad_total = $cantidad_actual + $nueva_cantidad;
+
+        // Calcular el nuevo precio promedio
+        $nuevo_precio_promedio = (($cantidad_actual * $precio_actual) + ($nueva_cantidad * $nuevo_precio)) / $cantidad_total;
+
+        // Actualizar los valores en el modelo
+        $alimento->alimento_cantidad = $cantidad_total;
+        $alimento->alimento_costo = $nuevo_precio_promedio;
+        $alimento->save();
+
+        return redirect()->route('alimento.index')->with('success', 'Cantidad añadida correctamente.');
+    }
+
+    public function ShowAdd(Alimento $alimento)
+    {
+        return view('alimentos.AlimentoAdd', compact('alimento'));
+    }
+
+    // Manejar la lógica para añadir la cantidad
+    public function addQuantity(Request $request, Alimento $alimento)
+    {
+        $request->validate([
+            'alimento_cantidad' => 'required|numeric|min:1',
+        ], [
+            'alimento_cantidad.required' => 'El campo CANTIDAD es obligatorio.',
+            'alimento_cantidad.numeric' => 'El campo CANTIDAD debe ser un número válido.',
+            'alimento_cantidad.min' => 'La cantidad debe ser al menos 1.',
+        ]);
+
+        // Añadir la cantidad al alimento existente
+        //$alimento->alimento_cantidad += $request->alimento_cantidad;
+        // Cantidad y precio actuales
+        $cantidad_actual = $alimento->alimento_cantidad;
+        $precio_actual = $alimento->alimento_costo;
+
+        // Nueva cantidad y precio
+        $nueva_cantidad = $request->alimento_cantidad;
+        $nuevo_precio = $request->alimento_precio;
+
+        // Calcular la nueva cantidad total
+        $cantidad_total = $cantidad_actual + $nueva_cantidad;
+
+        // Calcular el nuevo precio promedio
+        $nuevo_precio_promedio = (($cantidad_actual * $precio_actual) + ($nueva_cantidad * $nuevo_precio)) / $cantidad_total;
+
+        // Actualizar los valores en el modelo
+        $alimento->alimento_cantidad = $cantidad_total;
+        $alimento->alimento_costo = $nuevo_precio_promedio;
+        $alimento->save();
+
+        return redirect()->route('alimento.index')->with('success', 'Cantidad añadida correctamente.');
     }
 
     /**
@@ -96,7 +188,7 @@ class AlimentoController extends Controller
     $user = Auth::user();
 
     // Enviar correo de confirmación
-    Mail::to($user->email)->send(new RegistroAlimento($alimento, $user));
+    //Mail::to($user->email)->send(new RegistroAlimento($alimento, $user));
 
     // Redireccionar
     return redirect()->route('alimento.index');

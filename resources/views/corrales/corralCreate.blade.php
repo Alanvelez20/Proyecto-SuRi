@@ -18,12 +18,13 @@
             <div class="form-group">
                 <label for="corral_estado">Estado: </label><br>
                 <select name="corral_estado" class="form-control">
-                    <option style="color: black;" value="Vacío" @selected(old('corral_estado') == 'Vacío')>Vacío</option>
-                    <option style="color: black;" value="Ocupado" @selected(old('corral_estado') == 'Ocupado')>Ocupado</option>
+                    <option style="color: black;" value="Engorda" @selected(old('corral_estado') == 'Engorda')>Engorda</option>
+                    <option style="color: black;" value="Lactancia" @selected(old('corral_estado') == 'Lactancia')>Lactancia</option>
+                    <option style="color: black;" value="Otro" @selected(old('corral_estado') == 'Otro')>Otro</option>
                 </select>
                 <br>
             </div>
-            <input type="submit" class="btn btn-dark btn-block" value="Enviar">
+            <input type="submit" class="btn btn-primary" value="Guardar">
         </form>
     </div>
 @endsection

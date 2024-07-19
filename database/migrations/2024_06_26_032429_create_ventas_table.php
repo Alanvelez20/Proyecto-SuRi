@@ -11,7 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('animals', function (Blueprint $table) {
+        Schema::create('ventas', function (Blueprint $table) {
+            $table->id();
             $table->bigInteger('arete')->unique();
             $table->string('animal_especie');
             $table->string('animal_genero');
@@ -22,10 +23,10 @@ return new class extends Migration
             $table->float('consumo_total');
             $table->float('costo_total');
             $table->date('fecha_ingreso');
-            $table->foreignId('animal_id_lote');
+            $table->date('fecha_venta');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('animals');
+        Schema::dropIfExists('ventas');
     }
 };

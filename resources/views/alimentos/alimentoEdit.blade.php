@@ -16,11 +16,11 @@
             <input type="text" class="form-control" name="alimento_cantidad" value="{{ old('alimento_cantidad') ?? $alimento->alimento_cantidad }}">
             <br>
 
-            <label for="alimento_costo">Costo</label>
+            <label for="alimento_costo">Costo por kg</label>
             <input type="text" class="form-control" name="alimento_costo" value="{{ old('alimento_costo') ?? $alimento->alimento_costo }}">
             <br>
 
-            <input type="submit" class="btn btn-dark btn-block" value="Enviar">
+            <input type="submit" class="btn btn-primary" value="Guardar">
         </form>
     </div>
 @endsection

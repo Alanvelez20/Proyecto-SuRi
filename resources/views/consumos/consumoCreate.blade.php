@@ -16,29 +16,22 @@
                     @endforeach
                 </select>
             </div>
-            
-            <div>
-                <label for="alimento_descripcion">Nombre del alimento</label>
-                <input type="text" class="form-control" name="alimento_descripcion" value="{{ old('alimento_descripcion') }}">
-                @error('alimento_descripcion')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-                <br>
-            </div>
+
+            <label for="alimento_id_consumo">Alimento: </label>
+            <select name="alimento_id_consumo" class="form-control">
+                @foreach($alimentos as $alimento)
+                    <option style="color: black;" value="{{ $alimento->id }}">{{ $alimento->alimento_descripcion }}</option>
+                @endforeach
+            </select>
+            @error('alimento_id_consumo')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+            <br>
 
             <div>
                 <label for="alimento_cantidad_total">Cantidad del alimento</label>
                 <input type="number" class="form-control" name="alimento_cantidad_total" value="{{ old('alimento_cantidad_total') }}">
                 @error('alimento_cantidad_total')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-                <br>
-            </div>
-
-            <div>
-                <label for="valor_dieta">Costo de la dieta</label>
-                <input type="number" class="form-control" name="valor_dieta" value="{{ old('valor_dieta') }}">
-                @error('valor_dieta')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
                 <br>

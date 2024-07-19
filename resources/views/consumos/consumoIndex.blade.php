@@ -65,18 +65,31 @@
                         @endif
                     </a>
                 </th>
+                <th>
+                    Cantidad de animales en el lote
+                    <a href="{{ route('consumo.index', ['sort_by' => 'animales_cantidad', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'animales_cantidad' ? 'desc' : 'asc']) }}">
+                        @if (request('sort_by') == 'animales_cantidad' && request('sort_direction') == 'asc')
+                            &#9650;
+                        @elseif (request('sort_by') == 'animales_cantidad' && request('sort_direction') == 'desc')
+                            &#9660;
+                        @else
+                            &#9650;&#9660;
+                        @endif
+                    </a>
+                </th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($consumos as $consumo)
                 <tr>
-                    <td>{{ $consumo->alimento_descripcion }}</td>
-                    <td>{{ $consumo->alimento_cantidad_total }}</td>
-                    <td>{{ $consumo->valor_dieta }}</td>
+                    <td>{{ $consumo->alimento->alimento_descripcion }}</td>
+                    <td>{{ $consumo->alimento_cantidad_total }}kg</td>
+                    <td>${{ $consumo->valor_dieta }}</td>
                     <td>{{ $consumo->fecha_consumo }}</td>
                     <td>{{ $consumo->hora_consumo }}</td>
-                    <td>{{ $consumo->lote_id_consumo }}</td>
+                    <td>{{ $consumo->lote->lote_nombre }}</td>
+                    <td>{{ $consumo->animales_cantidad }}</td>
                     <td><a class="btn btn-dark btn-block" href="{{ route('consumo.show', $consumo) }}">Detalle</a> </td>
                 </tr>
             @endforeach
