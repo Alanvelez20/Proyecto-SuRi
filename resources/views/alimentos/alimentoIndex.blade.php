@@ -11,7 +11,14 @@
             </div>
         </form>
     </div>
-
+    <div class="row mb-4">
+        <div class="col-md-2">
+            <a href="{{ route('alimentos.export') }}" class="btn btn-success btn-block">Exportar a Excel</a>
+        </div>
+        <div class="col-md-2">
+            <a href="{{ route('alimento.index') }}" class="btn btn-primary btn-block">Reiniciar filtros</a>
+        </div>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -47,8 +54,8 @@
             @foreach ($alimentos as $alimento)
                 <tr>
                     <td>{{ $alimento->alimento_descripcion }}</td>
-                    <td>{{ $alimento->alimento_cantidad }}</td>
-                    <td>{{ $alimento->alimento_costo }}</td>
+                    <td>{{ $alimento->alimento_cantidad }} kg</td>
+                    <td>${{ $alimento->alimento_costo }}</td>
                     <td>
                         <a class="btn btn-dark btn-block" href="{{ route('alimento.show', $alimento) }}">Detalle</a> 
                         <a class="btn btn-dark btn-block" href="{{ route('alimento.edit', $alimento) }}">Editar</a> 

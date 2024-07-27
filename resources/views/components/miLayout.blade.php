@@ -87,6 +87,7 @@
             </a>
             <ul class="expanded-options" id="expandedOptions">
               <li><a href="{{ route('animal.create') }}">Crear registro</a></li>
+              <li><a href="{{ route('animales.import.form') }}">Importar datos</a></li>
               <li><a href="{{ route('animal.index') }}">Mostrar datos</a></li>
               <li><a href="{{ route('traspaso.create') }}">Realizar traspaso</a></li>
             </ul>
@@ -98,6 +99,7 @@
             </a>
             <ul class="expanded-options" id="expandedOptions">
               <li><a href="{{ route('alimento.create') }}">Crear registro</a></li>
+              <li><a href="{{ route('alimentos.import.form') }}">Importar datos de excel</a></li>
               <li><a href="{{ route('alimento.index') }}">Mostrar datos</a></li>
               <li><a href="{{ route('alimento.ShowAgregar') }}">Agregar a inventario</a></li>
             </ul>

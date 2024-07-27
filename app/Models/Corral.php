@@ -9,11 +9,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Corral extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    protected $fillable = ['corral_nombre', 'corral_estado','user_id'];
+    protected $fillable = ['corral_nombre','user_id'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function lotes()
+    {
+        return $this->hasMany(Lote::class, 'lote_id_corral');
     }
 }

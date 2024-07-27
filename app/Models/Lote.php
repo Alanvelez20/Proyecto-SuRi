@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Lote extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     protected $fillable = ['lote_nombre', 'lote_cantidad','consumo_total_alimento','costo_total_alimento','lote_id_corral','user_id'];
 
     public function alimentos()

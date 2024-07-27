@@ -6,7 +6,6 @@
         <div class="form-group">
             <ul>
                 <li>Descripcion: {{ $corral->corral_nombre }}</li>
-                <li>Cantidad: {{ $corral->corral_estado }}</li>
             </ul>
         </div>
     </div>

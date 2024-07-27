@@ -28,8 +28,9 @@ class TraspasoController extends Controller
      */
     public function create()
     {
-        $lotes = Lote::all();
-        $animales = Animal::all();
+        $user = Auth::user();
+        $lotes = Lote::where('user_id', $user->id)->get();
+        $animales = Animal::where('user_id', $user->id)->get();
 
         return view('traspasos.traspasoCreate', compact('lotes', 'animales'));
     }

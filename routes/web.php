@@ -10,6 +10,7 @@ use App\Http\Controllers\TraspasoController;
 use App\Http\Controllers\VentaController;
 use App\Models\Consumo;
 use App\Models\Corral;
+use App\Models\Venta;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,11 +47,21 @@ Route::get('/alimentos/{alimento}/add', [AlimentoController::class, 'ShowAdd'])-
 Route::post('/alimentos/{alimento}/add', [AlimentoController::class, 'AddQuantity'])->name('alimento.AddQuantity');
 Route::get('/animales/{arete}', [VentaController::class, 'getAnimalData']);
 
-Route::get('/search0',[ConsumoController::class,'search']);
-Route::get('/search1',[AnimalController::class,'search']);
 Route::get('/search2',[LoteController::class,'search']);
 Route::get('/search3',[CorralController::class,'search']);
 Route::get('/search4',[AlimentoController::class,'search']);
+
+Route::get('/animales-export', [AnimalController::class, 'export'])->name('animales.export');
+Route::get('/alimentos/export', [AlimentoController::class, 'export'])->name('alimentos.export');
+Route::get('/consumo-export', [ConsumoController::class, 'export'])->name('consumo.export');
+Route::get('/venta-export', [VentaController::class, 'export'])->name('ventas.export');
+Route::get('/lote-export', [LoteController::class, 'export'])->name('lotes.export');
+
+Route::get('/alimentos-import', [AlimentoController::class, 'showImportForm'])->name('alimentos.import.form');
+Route::post('/alimentos-import', [AlimentoController::class, 'import'])->name('alimentos.import');
+Route::get('/animales-import', [AnimalController::class, 'showImportForm'])->name('animales.import.form');
+Route::post('/animales-import', [AnimalController::class, 'import'])->name('animales.import');
+
 
 Route::get('alimento-descarga/{alimento}', [AlimentoController::class, 'descargar'])
     ->name('alimento.descarga');

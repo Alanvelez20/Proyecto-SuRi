@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\AlimentosExport;
+use App\Imports\AlimentosImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AlimentoController extends Controller
 {
@@ -39,14 +42,40 @@ class AlimentoController extends Controller
         // Retornar la vista con los alimentos
         return view('alimentos.alimentoIndex', compact('alimentos'));
     }
+
+    public function import(Request $request)
+    {
+        // Validar el archivo
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv',
+        ]);
+    
+        try {
+            // Importar el archivo
+            Excel::import(new AlimentosImport, $request->file('file'));
+            return redirect()->route('alimento.index')->with('success', 'Alimentos importados correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->route('alimentos.import.form')->with('error', 'Hubo un error al importar el archivo: ' . $e->getMessage());
+        }
+    }
+
+    public function showImportForm()
+    {
+        return view('alimentos.alimentoImport');
+    }
+
+    public function export(){
+        $userId = Auth::id();
+        return Excel::download(new AlimentosExport($userId), 'Alimentos.xlsx');
+    }
     
 
     public function search(Request $request){
         $search4 = $request->search4;
 
-        $alimentos = Alimento::where(function($query)use ($search4){
-
-            $query->where('alimento_descripcion','like',"%$search4%");
+        $alimentos = Alimento::where('user_id', Auth::id())
+        ->where(function($query) use ($search4) {
+            $query->where('alimento_descripcion', 'like', "%$search4%");
         })
         ->get();
         return view('alimentos.alimentoIndex',compact('alimentos','search4'));
@@ -54,7 +83,7 @@ class AlimentoController extends Controller
 
     public function ShowAgregar()
     {
-        $alimentos = Alimento::all();
+        $alimentos = Alimento::where('user_id', Auth::id())->get();
         return view('alimentos.AlimentoAgregar', compact('alimentos'));
     }
 
@@ -71,7 +100,9 @@ class AlimentoController extends Controller
             'alimento_cantidad.min' => 'La cantidad debe ser al menos 1.',
         ]);
 
-        $alimento = Alimento::find($request->alimento_id);
+        $alimento = Alimento::where('id', $request->alimento_id)
+                        ->where('user_id', Auth::id())
+                        ->firstOrFail();
 
         // Cantidad y precio actuales
         $cantidad_actual = $alimento->alimento_cantidad;
@@ -200,7 +231,17 @@ class AlimentoController extends Controller
      */
     public function show(Alimento $alimento)
     {
-        return view('alimentos.alimentoShow', compact('alimento'));
+        // Convertir la imagen en base64
+        $base64Image = null;
+        if ($alimento->archivo_ubicacion != "null" && $alimento->archivo_ubicacion != "0") {
+            $filePath = storage_path('app/' . $alimento->archivo_ubicacion);
+            if (file_exists($filePath)) {
+                $fileContent = file_get_contents($filePath);
+                $base64Image = base64_encode($fileContent);
+            }
+        }
+
+        return view('alimentos.alimentoShow', compact('alimento', 'base64Image'));
     }
 
     /**

@@ -24,8 +24,10 @@ class CorralController extends Controller
 
     public function search(Request $request){
         $search3 = $request->search3;
+        $user = Auth::user();
 
-        $corrales = Corral::where(function($query)use ($search3){
+        $corrales = Corral::where('user_id', $user->id)
+            ->where(function($query)use ($search3){
 
             $query->where('corral_nombre','like',"%$search3%");
         })
@@ -48,12 +50,9 @@ class CorralController extends Controller
     {
         $request->validate([
             'corral_nombre'=>'required|max:255',
-            'corral_estado'=>'required|max:255',
         ], [
             'corral_nombre.required' => 'El campo NOMBRE es obligatorio.',
             'corral_nombre.max' => 'El campo NOMBRE no puede tener más de 255 caracteres.',
-            'corral_estado.required' => 'El campo ESTADO es obligatorio.',
-            'corral_estado.max' => 'El campo ESTADO no puede tener más de 255 caracteres.',
 
         ]);
 

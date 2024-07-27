@@ -46,16 +46,7 @@
                 <br>
             </div>
 
-            <div>
-                <label for="hora_consumo">Horario </label>
-                <select name="hora_consumo" class="form-control">
-                    <option style="color: black;" value="AM" @selected(old('hora_consumo') == 'AM')>AM</option>
-                    <option style="color: black;" value="PM" @selected(old('hora_consumo') == 'PM')>PM</option>
-                </select>
-                <br>
-            </div>
-
-            <input type="submit" class="btn btn-dark btn-block" value="Guardar">
+            <input type="submit" class="btn btn-primary" value="Capturar">
 
         </form>        
     </div>

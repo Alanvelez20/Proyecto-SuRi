@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Alimento extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     protected $fillable = ['alimento_descripcion', 'alimento_cantidad','alimento_costo','user_id','archivo_nombre','archivo_ubicacion'];
 
     public function animals()

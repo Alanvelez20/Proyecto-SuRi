@@ -17,7 +17,6 @@ return new class extends Migration
             $table->integer('alimento_id_consumo');
             $table->float('alimento_cantidad_total');
             $table->date('fecha_consumo');
-            $table->string('hora_consumo');
             $table->float('valor_dieta');
             $table->integer('animales_cantidad');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

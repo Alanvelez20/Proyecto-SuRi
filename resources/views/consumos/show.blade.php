@@ -11,8 +11,7 @@
         <li>Cantidad: {{ $consumo->alimento_cantidad_total }} kg</li>
         <li>Costo: ${{ $consumo->valor_dieta }}</li>
         <li>Fecha: {{ $consumo->fecha_consumo }}</li>
-        <li>Horario: {{ $consumo->hora_consumo }}</li>
-        <li>Corral: {{ $consumo->lote_id_consumo }} - {{ $nombre_lote }}</li>
+        <li>Lote: {{ $consumo->lote_id_consumo }} - {{ $nombre_lote }}</li>
     </ul>
     </div>
 @endsection

@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ventas', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('arete')->unique();
+            $table->bigInteger('arete');
             $table->string('animal_especie');
             $table->string('animal_genero');
             $table->float('animal_peso_inicial');
@@ -26,7 +25,6 @@ return new class extends Migration
             $table->date('fecha_venta');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

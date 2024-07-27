@@ -128,7 +128,7 @@
                             <img class="img-fluid mb-3 mb-sm-0" src="img/service-3.jpg" alt="">
                         </div>
                         <div class="col-sm-7">
-                            <h4><i class="fa fa-coffee service-icon"></i>Alimento</h4>
+                            <h4><i class="fa fa-coffee service-icon"></i>Alimentos</h4>
                             <p class="m-0">Cada que compres alimento para tu ganado podrás registrarlo en nuestra aplicación, aumentará
                                 tu inventario y se confirmará con un correo electrónico.
                             </p>

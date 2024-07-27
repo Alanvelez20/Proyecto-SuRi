@@ -4,6 +4,12 @@
     @include('parciales.form-error')
     <div class="container">
         <h1>Crear registro de animal</h1><br>
+        <a href="{{ route('animales.import.form') }}">
+            <button type="submit" class="btn btn-primary ">
+             Importar datos
+            </button>
+        </a>
+        <br><br>
         <form action="{{ route('animal.store') }}" method="POST">
             @csrf
 

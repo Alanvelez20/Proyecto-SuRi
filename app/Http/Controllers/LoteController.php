@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LotesExport;
 use App\Models\Lote;
 use App\Models\Corral;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LoteController extends Controller
 {
@@ -34,13 +36,19 @@ class LoteController extends Controller
 
     public function search(Request $request){
         $search2 = $request->search2;
+        $user = Auth::user();
 
-        $lotes = Lote::where(function($query)use ($search2){
-
-            $query->where('lote_nombre','like',"%$search2%");
-        })
+        $lotes = Lote::where('user_id', $user->id)
+            ->where(function($query) use ($search2) {
+                $query->where('lote_nombre', 'like', "%$search2%");
+            })
         ->get();
         return view('lotes/loteIndex',compact('lotes','search2'));
+    }
+
+    public function export(){
+        $userId = Auth::id();
+        return Excel::download(new LotesExport($userId), 'Lotes.xlsx');
     }
 
     /**
@@ -48,7 +56,8 @@ class LoteController extends Controller
      */
     public function create()
     {
-        $corrales = Corral::all();
+        $user = Auth::user();
+        $corrales = Corral::where('user_id', $user->id)->get();
         return view('lotes.loteCreate', compact('corrales'));
     }
 
@@ -94,7 +103,9 @@ class LoteController extends Controller
      */
     public function edit(Lote $lote)
     {
-        $corrales = Corral::all(); // Obtener todos los corrales disponibles
+        $user = Auth::user();
+        $lote = Lote::where('id', $lote->id)->where('user_id', $user->id)->firstOrFail();
+        $corrales = Corral::where('user_id', $user->id)->get();
         return view('lotes.loteEdit', compact('lote', 'corrales'));
     }
 

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\VentasExport;
 use Illuminate\Http\Request;
 use App\Models\animal;
 use App\Models\Venta;
 use App\Models\Lote;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VentaController extends Controller
 {
@@ -19,11 +21,42 @@ class VentaController extends Controller
         // ->only()
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $lote = Lote::all();
-        $ventas = Venta::all();
-        return view('ventas.ventaIndex', compact('ventas','lote'));
+        $user = Auth::user();
+        
+        $query = Venta::where('user_id', $user->id);
+        
+        // Aplicar filtros por especie y género
+        if ($request->has('especie_filter') && $request->especie_filter != '') {
+            $query->where('animal_especie', $request->especie_filter);
+        }
+
+        if ($request->has('genero_filter') && $request->genero_filter != '') {
+            $query->where('animal_genero', $request->genero_filter);
+        }
+        
+        // Aplicar ordenación
+        if ($request->has('sort_by') && $request->has('sort_direction')) {
+            $query->orderBy($request->sort_by, $request->sort_direction);
+        } else {
+            $query->orderBy('arete', 'asc'); // Ordenación por defecto
+        }
+        
+        $ventas = $query->get();
+        
+        // Obtener todas las especies y géneros únicos para los filtros
+        $especies = Venta::where('user_id', $user->id)->distinct()->pluck('animal_especie');
+        $generos = Venta::where('user_id', $user->id)->distinct()->pluck('animal_genero');
+
+        return view('ventas.ventaIndex', compact('ventas', 'especies', 'generos'));
+    }
+
+
+
+    public function export(){
+        $userId = Auth::id();
+        return Excel::download(new VentasExport($userId), 'Ventas.xlsx');
     }
 
     /**
@@ -31,7 +64,9 @@ class VentaController extends Controller
      */
     public function create()
     {
-        $animales = Animal::all();
+        $userId = Auth::id();
+
+        $animales = animal::where('user_id', $userId)->get();
         return view('ventas.ventaCreate', compact('animales'));
     }
 
@@ -46,7 +81,15 @@ class VentaController extends Controller
             'fecha_venta' => 'required|date',
         ]);
 
-        $animal = Animal::where('arete', $request->animal_arete)->firstOrFail();
+        // Obtener el usuario autenticado
+        $user = Auth::user();
+
+        // Buscar el animal del usuario autenticado
+        $animal = Animal::where('arete', $request->animal_arete)
+                        ->where('user_id', $user->id)
+                        ->firstOrFail();
+
+        // Buscar el lote del animal
         $lote = Lote::findOrFail($animal->animal_id_lote);
         
         // Crear un registro de venta
@@ -63,7 +106,7 @@ class VentaController extends Controller
             'consumo_total' => $animal->consumo_total,
             'costo_total' => $animal->costo_total,
             'fecha_venta' => $request->fecha_venta,
-            'user_id'=>Auth::id(),
+            'user_id'=>$user->id,
         ]);
 
         // Eliminar el animal de la base de datos
@@ -78,9 +121,11 @@ class VentaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($arete)
     {
-        //
+        $user = Auth::user();
+        $venta = Venta::where('arete', $arete)->where('user_id', $user->id)->firstOrFail();
+        return view('ventas.ventaShow', compact('venta'));
     }
 
     /**

@@ -23,10 +23,6 @@
         <input type="text" class="form-control" name="animal_peso_final" value="{{ old('animal_peso_final') ?? $animal->animal_peso_final }}">
         <br>
 
-        <label for="animal_valor_venta">Valor actual</label>
-        <input type="text" class="form-control" name="animal_valor_venta" value="{{ old('animal_valor_venta') ?? $animal->animal_valor_venta }}">
-        <br>
-
         <input type="submit" class="btn btn-primary" value="Guardar">
     </form>
     </div>

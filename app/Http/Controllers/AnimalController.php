@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Alimento;
 use App\Models\animal;
 use App\Models\Lote;
-use App\Models\Corral;
-use Database\Factories\AnimalFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\AnimalsExport;
+use App\Imports\AnimalsImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
 class AnimalController extends Controller
 {
@@ -25,36 +26,84 @@ class AnimalController extends Controller
         // Obtener el usuario autenticado
         $user = Auth::user();
 
+        // Consulta base para los animales del usuario autenticado
+        $query = Animal::where('user_id', $user->id)->with('lote');
 
-        $query = animal::where('user_id', $user->id)->with('lote');
-        // Verificar si se solicita una ordenación específica
-        if ($request->has('sort_by') && $request->has('sort_direction')) {
-            $query->orderBy($request->sort_by, $request->sort_direction);
+        // Aplicar filtros si están presentes
+        if ($request->filled('especie_filter')) {
+            $query->where('animal_especie', $request->especie_filter);
+        }
+        if ($request->filled('genero_filter')) {
+            $query->where('animal_genero', $request->genero_filter);
+        }
+        if ($request->filled('lote_filter')) {
+            $query->where('animal_id_lote', $request->lote_filter);
         }
 
+        // Verificar si se solicita una ordenación específica
+        $validSortDirections = ['asc', 'desc'];
+        if ($request->has('sort_by') && in_array($request->sort_direction, $validSortDirections)) {
+            $query->orderBy($request->sort_by, $request->sort_direction);
+        }
+        else {
+            $query->orderBy('arete', 'asc'); // Ordenación por defecto
+        }
+
+        // Obtener los animales con los criterios especificados
         $animales = $query->get();
-        return view('animales/animalIndex', compact('animales'));
 
+        // Datos para la gráfica de género
+        $genderData = [
+            'machos' => Animal::where('user_id', $user->id)->where('animal_genero', 'Macho')->count(),
+            'hembras' => Animal::where('user_id', $user->id)->where('animal_genero', 'Hembra')->count()
+        ];
+
+        // Datos para la gráfica de lotes
+        $loteData = Animal::where('animals.user_id', $user->id)
+            ->join('lotes', 'animals.animal_id_lote', '=', 'lotes.id')
+            ->select('lotes.lote_nombre', DB::raw('count(*) as total'))
+            ->groupBy('lotes.lote_nombre')
+            ->pluck('total', 'lotes.lote_nombre')
+            ->all();
+
+        // Obtener especies y géneros únicos para los filtros
+        $especies = Animal::where('user_id', $user->id)->select('animal_especie')->distinct()->pluck('animal_especie');
+        $generos = Animal::where('user_id', $user->id)->select('animal_genero')->distinct()->pluck('animal_genero');
+        $lotes = Lote::where('user_id', $user->id)->get();
+
+        return view('animales.animalIndex', compact('animales', 'genderData', 'loteData', 'especies', 'generos', 'lotes'));
     }
 
-    public function search(Request $request){
-        $search1 = $request->search1;
-
-        $animales = animal::where(function($query)use ($search1){
-
-            $query->where('animal_especie','like',"%$search1%")
-            ->orWhere('animal_genero','like',"%$search1%");
-        })
-        ->get();
-        return view('animales.animalIndex',compact('animales','search1'));
+    public function showImportForm()
+    {
+        return view('animales.animalImport');
     }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv',
+        ]);
+
+        Excel::import(new AnimalsImport, $request->file('file'));
+
+        return redirect()->back()->with('success', 'Animales importados exitosamente.');
+    }
+
+    public function export(){
+        $userId = Auth::id();
+        return Excel::download(new AnimalsExport($userId), 'Animales.xlsx');
+    }
+    
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $lotes = Lote::all();
+        $user = Auth::user();
+        $lotes = Lote::where('user_id', $user->id)->get();
         return view('animales.animalCreate', compact('lotes'));
     }
 
@@ -65,7 +114,7 @@ class AnimalController extends Controller
     {
 
         $request->validate([
-            'arete'=>'required|integer|unique:animals,arete',
+            'arete'=>'required|integer',
             'animal_especie'=>'required|max:255',
             'animal_genero'=>'required|max:255',
             'animal_peso_inicial'=>'required|numeric',
@@ -75,7 +124,6 @@ class AnimalController extends Controller
         ], [
             'arete.required'=>'El campo ARETE es obligatorio.',
             'arete.integer'=>'El campo ARETE debe ser un número ENTERO válido.',
-            'arete.unique' => 'El campo ARETE ya existe en la base de datos, debe ser único.',
             'animal_especie.required' => 'El campo ESPECIE es obligatorio.',
             'animal_especie.max' => 'El campo ESPECIE no puede tener más de 255 caracteres.',
             'animal_genero.required' => 'El campo GENERO es obligatorio.',
@@ -91,11 +139,22 @@ class AnimalController extends Controller
 
         ]);
 
-        $request['animal_valor_venta'] = $request['animal_valor_compra'];
+        // Obtener el usuario autenticado
+        $user = Auth::user();
+
+        // Verificar si el arete ya existe para este usuario
+        $exists = Animal::where('user_id', $user->id)
+                        ->where('arete', $request->input('arete'))
+                        ->exists();
+
+        if ($exists) {
+            return back()->withErrors(['arete' => 'Este arete ya existe.'])->withInput();
+        }
+
         $request['animal_peso_final'] = $request['animal_peso_inicial'];
         $request->merge(['consumo_total' => 0]);
         $request->merge(['costo_total' => 0]);
-        $request->merge(['user_id'=> Auth::id()]);
+        $request->merge(['user_id'=> $user->id]);
 
         Animal::create($request->all());
 
@@ -104,7 +163,7 @@ class AnimalController extends Controller
         $lote->increment('lote_cantidad');
 
         // Redireccionar
-        return redirect()->route('animal.index');
+        return redirect()->route('animal.index')->with('success', 'Animal agregado exitosamente.');
     }
 
     /**
@@ -112,6 +171,8 @@ class AnimalController extends Controller
      */
     public function show(animal $animal)
     {
+        $user = Auth::user();
+        $animal = Animal::where('arete', $animal->arete)->where('user_id', $user->id)->firstOrFail();
         $nombre_lote = Lote::find($animal->animal_id_lote)->lote_nombre;
         return view('animales.animalShow', compact('animal', 'nombre_lote'));
     }
@@ -121,7 +182,8 @@ class AnimalController extends Controller
      */
     public function edit(animal $animal)
     {
-        $lotes = Lote::all();
+        $user = Auth::user();
+        $lotes = Lote::where('user_id', $user->id)->get();
         return view('animales.animalEdit', compact('animal','lotes'));
     }
 
@@ -134,7 +196,6 @@ class AnimalController extends Controller
             'animal_especie'=>'required|max:255',
             'animal_genero'=>'required|max:255',
             'animal_peso_final'=>'required|numeric',
-            'animal_valor_venta'=>'required|numeric',
             'animal_id_lote'=>'required|integer',
         ], [
             'animal_especie.required' => 'El campo ESPECIE es obligatorio.',
@@ -144,8 +205,6 @@ class AnimalController extends Controller
 
             'animal_peso_final.required' => 'El campo PESO ACTUAL es obligatorio.',
             'animal_peso_final.numeric' => 'El campo PESO ACTUAL debe ser un número válido.',
-            'animal_valor_venta.required' => 'El campo VALOR ACTUAL es obligatorio.',
-            'animal_valor_venta.numeric' => 'El campo VALOR ACTUAL debe ser un número válido.',
             'animal_id_lote.required' => 'El campo NUMERO DE LOTE es obligatorio.',
             'animal_id_lote.integer' => 'El campo NUMERO DE LOTE debe ser un número ENTERO válido.',
 
@@ -158,9 +217,10 @@ class AnimalController extends Controller
 
     public function destroy($id)
     {
-        animal::find($id)->delete();
+        $user = Auth::user();
+        $animal = Animal::where('arete', $id)->where('user_id', $user->id)->firstOrFail();
+        $animal->delete();
         return redirect()->route('animal.index');
-
     }
 
     

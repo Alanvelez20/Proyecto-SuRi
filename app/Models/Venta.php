@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Venta extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    protected $primaryKey = 'arete';
     protected $fillable = ['arete', 'animal_especie','animal_genero', 'animal_peso_inicial', 
     'animal_peso_final','animal_valor_compra','animal_valor_venta','consumo_total','costo_total',
     'fecha_ingreso','fecha_venta','user_id'];

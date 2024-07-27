@@ -5,17 +5,24 @@
     @include('parciales.form-error')
     <div class="container">
         <div class="row" >
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <a href="{{ route('alimento.ShowAgregar') }}">
                     <button type="submit" class="btn btn-primary btn-block">
                      Agregar a inventarios
                     </button>
                 </a>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <a href="{{ route('alimento.index') }}">
                     <button type="submit" class="btn btn-primary btn-block">
                      Mostrar datos
+                    </button>
+                </a>
+            </div>
+            <div class="col-sm-4">
+                <a href="{{ route('alimentos.import.form') }}">
+                    <button type="submit" class="btn btn-primary btn-block">
+                     Importar datos
                     </button>
                 </a>
             </div>
@@ -44,9 +51,9 @@
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
             <br>
-            <hr>
-            <input type="file" class="btn btn-dark btn-block" name="archivo">
-            <br>
+            <label for="archivo">Imagen del alimento (opcional)</label><br>
+            <input type="file" class="btn btn-primary " name="archivo">
+            <br><br><br>
             <input type="submit" class="btn btn-primary" value="Guardar">
             
         </form>

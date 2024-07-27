@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class animal extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory; 
     protected $primaryKey = 'arete';
-    protected $fillable = ['arete','animal_especie', 'animal_genero','animal_peso_inicial','animal_peso_final','animal_valor_compra','animal_valor_venta','fecha_ingreso','consumo_total','costo_total','animal_id_lote','user_id'];
+    protected $fillable = ['arete','animal_especie', 'animal_genero','animal_peso_inicial','animal_peso_final','animal_valor_compra','consumo_total','costo_total','fecha_ingreso','animal_id_lote','user_id'];
 
     public function user()
     {

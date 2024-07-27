@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('corrals', function (Blueprint $table) {
-            $table->id();
-            $table->string('corral_nombre');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
+        Schema::table('animals', function (Blueprint $table) {
+            $table->unique(['user_id', 'arete']);
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('corral');
+        Schema::table('animals', function (Blueprint $table) {
+            $table->dropUnique(['user_id', 'arete']);
+        });
     }
 };

@@ -1,22 +1,97 @@
 @extends('components.miLayout')
 
 @section('content')
-<div class="container">
     <h1>Ventas</h1>
+    <div class="row mb-4">
+        <div class="col-md-2">
+            <a href="{{ route('ventas.export') }}" class="btn btn-success btn-block">Exportar a Excel</a>
+        </div>
+        <div class="col-md-2">
+            <a href="{{ route('venta.index') }}" class="btn btn-primary btn-block">Reiniciar filtros</a>
+        </div>
+    </div>
     <table class="table">
         <thead>
             <tr>
-                <th>Arete</th>
-                <th>Especie</th>
-                <th>Género</th>
+                <th>
+                    Arete
+                    <a href="{{ route('venta.index', array_merge(request()->except('sort_by', 'sort_direction'), ['sort_by' => 'arete', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'arete' ? 'desc' : 'asc'])) }}">
+                        @if (request('sort_by') == 'arete' && request('sort_direction') == 'asc')
+                            &#9650;
+                        @elseif (request('sort_by') == 'arete' && request('sort_direction') == 'desc')
+                            &#9660;
+                        @else
+                            &#9650;&#9660;
+                        @endif
+                    </a>
+                </th>
+                <th>
+                    <form method="GET" action="{{ route('venta.index') }}" style="display:inline;">
+                        <input type="hidden" name="genero_filter" value="{{ request('genero_filter') }}">
+                        <select name="especie_filter" onchange="this.form.submit()" class="form-control" style="display: inline; width: auto;">
+                            <option style="color: black" value="">Especie ᐁ</option>
+                            @foreach ($especies as $especie)
+                                <option style="color: black" value="{{ $especie }}" {{ request('especie_filter') == $especie ? 'selected' : '' }}>
+                                    {{ $especie }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
+                </th>
+                <th>
+                    <form method="GET" action="{{ route('venta.index') }}" style="display:inline;">
+                        <input type="hidden" name="especie_filter" value="{{ request('especie_filter') }}">
+                        <select name="genero_filter" onchange="this.form.submit()" class="form-control" style="display: inline; width: auto;">
+                            <option style="color: black" value="">Género ᐁ</option>
+                            @foreach ($generos as $genero)
+                                <option style="color: black" value="{{ $genero }}" {{ request('genero_filter') == $genero ? 'selected' : '' }}>
+                                    {{ $genero }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
+                </th>
                 <th>Peso Inicial</th>
                 <th>Peso Final</th>
                 <th>Valor Compra</th>
-                <th>Valor Venta</th>
+                <th>
+                    Valor Venta
+                    <a href="{{ route('venta.index', array_merge(request()->except('sort_by', 'sort_direction'), ['sort_by' => 'animal_valor_venta', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'animal_valor_venta' ? 'desc' : 'asc'])) }}">
+                        @if (request('sort_by') == 'animal_valor_venta' && request('sort_direction') == 'asc')
+                            &#9650;
+                        @elseif (request('sort_by') == 'animal_valor_venta' && request('sort_direction') == 'desc')
+                            &#9660;
+                        @else
+                            &#9650;&#9660;
+                        @endif
+                    </a>
+                </th>
                 <th>Consumo total</th>
                 <th>Costo total</th>
-                <th>Fecha Ingreso</th>
-                <th>Fecha Venta</th>
+                <th>
+                    Fecha Ingreso
+                    <a href="{{ route('venta.index', array_merge(request()->except('sort_by', 'sort_direction'), ['sort_by' => 'fecha_ingreso', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'fecha_ingreso' ? 'desc' : 'asc'])) }}">
+                        @if (request('sort_by') == 'fecha_ingreso' && request('sort_direction') == 'asc')
+                            &#9650;
+                        @elseif (request('sort_by') == 'fecha_ingreso' && request('sort_direction') == 'desc')
+                            &#9660;
+                        @else
+                            &#9650;&#9660;
+                        @endif
+                    </a>
+                </th>
+                <th>
+                    Fecha Venta
+                    <a href="{{ route('venta.index', array_merge(request()->except('sort_by', 'sort_direction'), ['sort_by' => 'fecha_venta', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'fecha_venta' ? 'desc' : 'asc'])) }}">
+                        @if (request('sort_by') == 'fecha_venta' && request('sort_direction') == 'asc')
+                            &#9650;
+                        @elseif (request('sort_by') == 'fecha_venta' && request('sort_direction') == 'desc')
+                            &#9660;
+                        @else
+                            &#9650;&#9660;
+                        @endif
+                    </a>
+                </th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -35,10 +110,10 @@
                     <td>{{ $venta->fecha_ingreso }}</td>
                     <td>{{ $venta->fecha_venta }}</td>
                     <td>
-                        <a class="btn btn-dark btn-block" href="{{ route('venta.show', $venta) }}">Detalle</a> 
+                        <a class="btn btn-dark btn-block" href="{{ route('venta.show', $venta) }}">Detalle</a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-</div>
 @endsection

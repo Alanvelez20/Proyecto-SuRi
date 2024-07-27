@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('archivo_ubicacion');
             $table->string('archivo_nombre');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

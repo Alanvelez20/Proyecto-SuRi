@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ConsumosExport;
 use App\Models\Alimento;
 use Illuminate\Http\Request;
 use App\Models\Lote;
 use App\Models\Consumo;
 use App\Models\animal;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ConsumoController extends Controller
 {
@@ -23,36 +25,44 @@ class ConsumoController extends Controller
     {
         $user = Auth::user();
 
-        $query = Consumo::where('user_id', $user->id)->with('alimento')->with('lote');
-        // Verificar si se solicita una ordenación específica
-        if ($request->has('sort_by') && $request->has('sort_direction')) {
-            $query->orderBy($request->sort_by, $request->sort_direction);
+        $query = Consumo::where('user_id', $user->id)->with('alimento', 'lote');
+
+        // Aplicar filtro por lote
+        if ($request->has('lote_id_consumo') && $request->lote_id_consumo != '') {
+            $query->where('lote_id_consumo', $request->lote_id_consumo);
         }
 
+        // Aplicar ordenación
+        $validSortDirections = ['asc', 'desc'];
+        if ($request->has('sort_by') && in_array($request->sort_direction, $validSortDirections)) {
+            $query->orderBy($request->sort_by, $request->sort_direction);
+        } else {
+            $query->orderBy('fecha_consumo', 'asc'); // Ordenación por defecto
+        }
         $consumos = $query->get();
-        return view('consumos.consumoIndex', compact('consumos'));
+
+        $lotes = Lote::where('user_id', $user->id)->get();
+
+        return view('consumos.consumoIndex', compact('consumos', 'lotes'));
+    }
+
+
+    public function export(){
+        $userId = Auth::id();
+        return Excel::download(new ConsumosExport($userId), 'Consumos.xlsx');
     }
  
-    public function search(Request $request){
-        $search0 = $request->search0;
-
-        $consumos = Consumo::where(function($query)use ($search0){
-
-            $query->where('alimento_descripcion','like',"%$search0%")
-            ->orWhere('fecha_consumo','like',"%$search0%")
-            ->orWhere('hora_consumo','like',"%$search0%");
-        })
-        ->get();
-        return view('consumos.consumoIndex',compact('consumos','search0'));
-    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $alimentos = Alimento::all();
-        $lotes = Lote::all();
+        $userId = Auth::id();
+
+        $alimentos = Alimento::where('user_id', $userId)->get();
+        $lotes = Lote::where('user_id', $userId)->get();
+        
         return view('consumos.consumoCreate', compact('lotes','alimentos'));
     }
 
@@ -66,7 +76,6 @@ class ConsumoController extends Controller
             'alimento_id_consumo'=>'required|max:255',
             'alimento_cantidad_total'=>'required|numeric',
             'fecha_consumo'=>'required',
-            'hora_consumo'=>'required|max:255',
             'lote_id_consumo'=>'required',
         ], [
             'alimento_id_consumo.required' => 'El campo ALIMENTO es obligatorio.',
@@ -75,8 +84,6 @@ class ConsumoController extends Controller
             'alimento_cantidad_total.numeric' => 'El campo CANTIDAD debe ser un número válido.',
 
             'fecha_consumo.required' => 'El campo FECHA es obligatorio.',
-            'hora_consumo.required' => 'El campo HORARIO es obligatorio.',
-            'hora_consumo.numeric' => 'El campo HORARIO debe ser un número válido.',
             'lote_id_consumo.required' => 'El campo LOTE es obligatorio.',
 
         ]);
@@ -112,20 +119,6 @@ class ConsumoController extends Controller
             return redirect()->back()->withErrors(['alimento_cantidad_total' => 'No hay suficiente cantidad de alimento en el inventario.']);
         }
 
-        //Aqui debe disminuir inventario y calcular costo automaticamente.
-        //Tambien se debe sumar el costo en el lote
-        /*if ($lote->lote_cantidad > 0) {
-            $costoPorAnimal = $request->valor_dieta / $lote->lote_cantidad;
-        } else {
-            // Si no hay animales en el lote, asignamos directamente el consumo total
-            $costoPorAnimal = $request->valor_dieta;
-        }
-
-        // Actualizar el consumo total del lote
-        $lote->costo_total_alimento += $request->valor_dieta;
-        $lote->save();
-        //valor_dieta*/
-
 
          // Calcular el consumo por animal
         if ($lote->lote_cantidad > 0) {
@@ -135,16 +128,11 @@ class ConsumoController extends Controller
             return redirect()->back()->withErrors(['lote_id_consumo' => 'Este lote esta vacío.']);
         }
 
-        // Actualizar el consumo total del lote
         $lote->consumo_total_alimento += $request->alimento_cantidad_total;
-        //$lote->costo_total_alimento += $request->valor_dieta;
         $lote->save();
 
-        // Actualizar el consumo total por animal en la tabla animales
-        // Primero obtenemos todos los animales del lote
         $animales = Animal::where('animal_id_lote', $lote->id)->get();
 
-        // Iteramos sobre cada animal y actualizamos su consumo total
         foreach ($animales as $animal) {
             $animal->consumo_total += $consumoPorAnimal;
             $animal->costo_total += $costoPorAnimal;
@@ -162,7 +150,7 @@ class ConsumoController extends Controller
     public function show(Consumo $consumo)
     {
         $nombre_lote = Lote::find($consumo->lote_id_consumo)->lote_nombre;
-        $alimento_descripcion = Alimento::find($consumo->lote_id_consumo)->alimento_descripcion;
+        $alimento_descripcion = Alimento::find($consumo->alimento_id_consumo)->alimento_descripcion;
         return view('consumos.show', compact('consumo','nombre_lote','alimento_descripcion'));
     }
 

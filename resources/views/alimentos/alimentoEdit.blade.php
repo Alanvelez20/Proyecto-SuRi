@@ -13,11 +13,11 @@
             <br>
 
             <label for="alimento_cantidad">Cantidad</label>
-            <input type="text" class="form-control" name="alimento_cantidad" value="{{ old('alimento_cantidad') ?? $alimento->alimento_cantidad }}">
+            <p> {{ $alimento->alimento_cantidad }}</p>
             <br>
 
             <label for="alimento_costo">Costo por kg</label>
-            <input type="text" class="form-control" name="alimento_costo" value="{{ old('alimento_costo') ?? $alimento->alimento_costo }}">
+            <p>{{  $alimento->alimento_costo }}</p>
             <br>
 
             <input type="submit" class="btn btn-primary" value="Guardar">

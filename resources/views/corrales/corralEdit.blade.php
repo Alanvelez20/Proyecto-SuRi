@@ -13,8 +13,6 @@
                 <input type="text" name="corral_nombre" class="form-control" value="{{ old('corral_nombre') ?? $corral->corral_nombre }}">
                 <br><br>
                 
-                <p>Estado: {{ $corral->corral_estado }}</p>
-                <br>
 
                 <input type="submit" class="btn btn-primary" value="Guardar">
             </form>
