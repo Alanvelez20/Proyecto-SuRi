@@ -91,38 +91,42 @@
     });
 
     document.getElementById('previewButton').addEventListener('click', function() {
-        const fileInput = document.getElementById('file');
-        const file = fileInput.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const firstSheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheetName];
-                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    const fileInput = document.getElementById('file');
+    const file = fileInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-                const previewTable = document.getElementById('previewTable').querySelector('tbody');
-                previewTable.innerHTML = ''; // Limpiar tabla
-                jsonData.forEach((row, index) => {
-                    if (row[0] !== undefined || row[1] !== undefined || row[2] !== undefined) { // Asegúrate de que haya datos
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `<td>${row[0] !== undefined ? row[0] : ''}</td>
-                                        <td>${row[1] !== undefined ? row[1] : ''}</td>
-                                        <td>${row[2] !== undefined ? row[2] : ''}</td>`;
-                        previewTable.appendChild(tr);
-                    }
-                });
-                if (jsonData.length > 0) {
-                    document.getElementById('preview').style.display = 'block';
-                    document.getElementById('confirmImport').style.display = 'inline-block';
-                } else {
-                    document.getElementById('preview').style.display = 'none';
-                    document.getElementById('confirmImport').style.display = 'none';
+            const previewTable = document.getElementById('previewTable').querySelector('tbody');
+            previewTable.innerHTML = ''; // Limpiar tabla
+
+            // Iterar sobre las filas a partir del índice 1 (omitir encabezados)
+            jsonData.forEach((row, index) => {
+                if (index > 0) {
+                    const tr = document.createElement('tr');
+                    row.forEach((cell) => {
+                        tr.innerHTML += `<td>${cell !== null && cell !== undefined ? cell : '0'}</td>`;
+                    });
+                    previewTable.appendChild(tr);
                 }
-            };
-            reader.readAsArrayBuffer(file);
-        }
-    });
+            });
+
+            if (jsonData.length > 1) {
+                document.getElementById('preview').style.display = 'block';
+                document.getElementById('confirmImport').style.display = 'inline-block';
+            } else {
+                document.getElementById('preview').style.display = 'none';
+                document.getElementById('confirmImport').style.display = 'none';
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    }
+});
+
 </script>
 @endsection

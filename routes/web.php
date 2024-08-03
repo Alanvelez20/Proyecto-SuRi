@@ -33,6 +33,32 @@ Route::get('/dashboard', function () {
 
 Route::get('/principal/{tipo?}', [SitioController::class, 'principal']);
 
+// Rutas para el menú de administración
+Route::get('/menu/corral', function () {
+    return view('menu.corral');
+})->name('menu.corral');
+
+Route::get('/menu/lote', function () {
+    return view('menu.lote');
+})->name('menu.lote');
+
+Route::get('/menu/animal', function () {
+    return view('menu.animal');
+})->name('menu.animal');
+
+Route::get('/menu/alimento', function () {
+    return view('menu.alimento');
+})->name('menu.alimento');
+
+// Rutas para consumos y ventas (aún no definidas)
+Route::get('/menu/consumo', function () {
+    return view('menu.consumo');
+})->name('menu.consumo');
+
+Route::get('/menu/venta', function () {
+    return view('menu.venta');
+})->name('menu.venta');
+
 Route::resource('animal', AnimalController::class);
 Route::resource('alimento', AlimentoController::class);
 Route::resource('lote', LoteController::class);

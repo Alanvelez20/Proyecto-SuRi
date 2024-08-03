@@ -23,14 +23,26 @@ class LoteController extends Controller
     {
         $user = Auth::user();
 
+        // Consulta base para los lotes del usuario autenticado
         $query = Lote::where('user_id', $user->id)->with('corral');
+    
+        
+    
         // Verificar si se solicita una ordenación específica
         if ($request->has('sort_by') && $request->has('sort_direction')) {
             $query->orderBy($request->sort_by, $request->sort_direction);
         }
-
+    
+        // Obtener los lotes con los criterios especificados
         $lotes = $query->get();
-        return view('lotes/loteIndex', compact('lotes'));
+    
+        // Calcular totales
+        $totalLotes = $lotes->count();
+        $totalConsumoAlimento = $lotes->sum('consumo_total_alimento');
+        $totalCostoAlimento = $lotes->sum('costo_total_alimento');
+    
+    
+        return view('lotes.loteIndex', compact('lotes', 'totalLotes', 'totalConsumoAlimento', 'totalCostoAlimento'));
 
     }
 

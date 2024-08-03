@@ -11,6 +11,9 @@
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <link rel="stylesheet" href="path/to/fontawesome/css/all.min.css">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="icon" type="image/png" href="{{ asset('mainlayout/img/logo.png') }}">
 
   <!-- Material Kit CSS -->
   <link rel="stylesheet" href="{{asset('MainLayout/css/material-dashboard.css')}}">
@@ -24,16 +27,22 @@
         <nav class="float-right">
           <ul>
             <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('corral.index') }}">Corrales</a>
+              <a class="btn btn-primary" href="{{ route('menu.corral') }}">Corrales</a>
             </li>
             <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('lote.index') }}">Lotes</a>
+              <a class="btn btn-primary" href="{{ route('menu.lote') }}">Lotes</a>
             </li>
             <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('animal.index') }}">Animales</a>
+              <a class="btn btn-primary" href="{{ route('menu.animal') }}">Animales</a>
             </li>
             <li class="nav-item">
-              <a  class="btn btn-primary" href="{{ route('alimento.index') }}">Alimentos</a>
+              <a  class="btn btn-primary" href="{{ route('menu.alimento') }}">Alimentos</a>
+            </li>
+            <li class="nav-item">
+              <a  class="btn btn-primary" href="{{ route('menu.consumo') }}">Consumos</a>
+            </li>
+            <li class="nav-item">
+              <a  class="btn btn-primary" href="{{ route('menu.venta') }}">Ventas</a>
             </li>
             <li class="nav-item">
               <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
@@ -46,13 +55,6 @@
       </div>
     </header>
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="{{asset('MainLayout/img/sidebar-2.jpg')}}">
-
-      
-      <!--
-      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
-      Tip 2: you can also add an image using data-image tag
-  -->
         <div class="logo">
           <a href="{{asset('principal')}}" class="simple-text logo-normal">
             Administrador 
@@ -62,7 +64,7 @@
         <ul class="nav">
           <li class="nav-item active">
             <a class="nav-link" href="#" id="expandLink">
-              <i class="material-icons">dashboard</i>
+              <i class="material-icons">home</i>
               <p>Corrales</p>
             </a>
             <ul class="expanded-options" id="expandedOptions">
@@ -71,8 +73,8 @@
             </ul>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="#" id="expandLink">
-              <i class="material-icons">dashboard</i>
+            <a class="nav-link" href="{{ route('menu.lote') }}" id="expandLink">
+              <i class="material-icons">layers</i>
               <p>Lotes</p>
             </a>
             <ul class="expanded-options" id="expandedOptions">
@@ -81,8 +83,8 @@
             </ul>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="#" id="expandLink">
-              <i class="material-icons">dashboard</i>
+            <a class="nav-link" href="{{ route('menu.animal') }}" id="expandLink">
+              <i class="material-icons">pets</i>
               <p>Animales</p>
             </a>
             <ul class="expanded-options" id="expandedOptions">
@@ -93,20 +95,20 @@
             </ul>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="#" id="expandLink">
-              <i class="material-icons">dashboard</i>
+            <a class="nav-link" href="{{ route('menu.alimento') }}" id="expandLink">
+              <i class="material-icons">grass</i>
               <p>Alimento</p>
             </a>
             <ul class="expanded-options" id="expandedOptions">
               <li><a href="{{ route('alimento.create') }}">Crear registro</a></li>
-              <li><a href="{{ route('alimentos.import.form') }}">Importar datos de excel</a></li>
+              <li><a href="{{ route('alimentos.import.form') }}">Importar datos</a></li>
               <li><a href="{{ route('alimento.index') }}">Mostrar datos</a></li>
               <li><a href="{{ route('alimento.ShowAgregar') }}">Agregar a inventario</a></li>
             </ul>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="#" id="expandLink">
-              <i class="material-icons">dashboard</i>
+            <a class="nav-link" href="{{ route('menu.consumo') }}" id="expandLink">
+              <i class="material-icons">restaurant</i>
               <p>Consumo de alimentos</p>
             </a>
             <ul class="expanded-options" id="expandedOptions">
@@ -115,8 +117,8 @@
             </ul>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="#" id="expandLink">
-              <i class="material-icons">dashboard</i>
+            <a class="nav-link" href="{{ route('menu.venta') }}" id="expandLink">
+              <i class="material-icons">shopping_cart</i>
               <p>Venta de animal</p>
             </a>
             <ul class="expanded-options" id="expandedOptions">
@@ -141,16 +143,22 @@
         <nav class="float-right">
           <ul>
             <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('corral.index') }}">Corrales</a>
+              <a class="btn btn-primary" href="{{ route('menu.corral') }}">Corrales</a>
             </li>
             <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('lote.index') }}">Lotes</a>
+              <a class="btn btn-primary" href="{{ route('menu.lote') }}">Lotes</a>
             </li>
             <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('animal.index') }}">Animales</a>
+              <a class="btn btn-primary" href="{{ route('menu.animal') }}">Animales</a>
             </li>
             <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('alimento.index') }}">Alimentos</a>
+              <a class="btn btn-primary" href="{{ route('menu.alimento') }}">Alimentos</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-primary" href="{{ route('menu.consumo') }}">Consumos</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-primary" href="{{ route('menu.venta') }}">Ventas</a>
             </li>
             <li class="nav-item">
               <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">

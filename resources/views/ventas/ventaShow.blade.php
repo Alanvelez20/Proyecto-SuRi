@@ -1,24 +1,114 @@
 @extends('components.miLayout')
 
 @section('content')
+<div class="container mt-4">
+    <h1 class="mb-4">Detalle de la Venta</h1>
 
-    @include('parciales.form-error')
-    <div class="container">
-        <h1>Detalle de la venta: </h1>
-        <div class="form-group">
-            <ul>
-                <li><b>Arete: {{ $venta->arete }} </b></li>
-                <li>Especie: {{ $venta->animal_especie }} </li>
-                <li>Genero: {{ $venta->animal_genero }}</li>
-                <li>Peso inicial: {{ $venta->animal_peso_inicial }} kg</li>
-                <li>Peso final: {{ $venta->animal_peso_final }} kg</li>
-                <li>Valor de compra: ${{ $venta->animal_valor_compra }} </li>
-                <li>Valor de venta: ${{ $venta->animal_valor_venta }} </li>
-                <li>Consumo total de alimento: {{ $venta->consumo_total }} kg</li>
-                <li>Costo total: ${{ $venta->costo_total }} </li>
-                <li>Fecha de ingreso: {{ $venta->fecha_ingreso }} </li>
-                <li>Fecha de venta: {{ $venta->fecha_venta }} </li>
-            </ul>
+    <div class="card">
+        <div class="card-header">
+            <h3>Información de la Venta</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Columna Izquierda -->
+                <div class="col-md-6 mb-3">
+                    <div class="card border-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">Arete</h5>
+                            <p class="card-text"><strong>{{ $venta->arete }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-secondary">
+                        <div class="card-body">
+                            <h5 class="card-title">Especie</h5>
+                            <p class="card-text">{{ $venta->animal_especie }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-success">
+                        <div class="card-body">
+                            <h5 class="card-title">Género</h5>
+                            <p class="card-text">{{ $venta->animal_genero }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-danger">
+                        <div class="card-body">
+                            <h5 class="card-title">Peso Inicial</h5>
+                            <p class="card-text">{{ $venta->animal_peso_inicial }} kg</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-warning">
+                        <div class="card-body">
+                            <h5 class="card-title">Peso Final</h5>
+                            <p class="card-text">{{ $venta->animal_peso_final }} kg</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-info">
+                        <div class="card-body">
+                            <h5 class="card-title">Valor de Compra</h5>
+                            <p class="card-text">${{ $venta->animal_valor_compra }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-light">
+                        <div class="card-body">
+                            <h5 class="card-title">Valor Total de la Compra</h5>
+                            <p class="card-text">${{ $venta->animal_valor_compra * $venta->animal_peso_inicial }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-dark">
+                        <div class="card-body">
+                            <h5 class="card-title">Valor de Venta</h5>
+                            <p class="card-text">${{ $venta->animal_valor_venta }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">Consumo Total de Alimento</h5>
+                            <p class="card-text">{{ $venta->consumo_total }} kg</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-secondary">
+                        <div class="card-body">
+                            <h5 class="card-title">Costo Total</h5>
+                            <p class="card-text">${{ $venta->costo_total }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-success">
+                        <div class="card-body">
+                            <h5 class="card-title">Fecha de Ingreso</h5>
+                            <p class="card-text">{{ $venta->fecha_ingreso }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-warning">
+                        <div class="card-body">
+                            <h5 class="card-title">Fecha de Venta</h5>
+                            <p class="card-text">{{ $venta->fecha_venta }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 @endsection

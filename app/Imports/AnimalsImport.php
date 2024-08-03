@@ -13,8 +13,12 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 class AnimalsImport implements ToCollection
 {
     protected $errors = [];
+
     public function collection(Collection $rows)
     {
+        // Omitir la primera fila de encabezados
+        $rows->shift();
+
         foreach ($rows as $row) {
             if (count($row) < 8) {
                 continue;
@@ -39,8 +43,8 @@ class AnimalsImport implements ToCollection
                 $fechaIngreso = \Carbon\Carbon::parse($fechaIngreso)->format('Y-m-d');
             }
 
-             // Verificar si el arete ya existe
-             if (Animal::where('arete', $arete)->exists()) {
+            // Verificar si el arete ya existe
+            if (Animal::where('arete', $arete)->exists()) {
                 $this->errors[] = "El arete $arete ya existe y no puede ser duplicado.";
                 continue;
             }

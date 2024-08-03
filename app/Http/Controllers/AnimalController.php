@@ -26,6 +26,21 @@ class AnimalController extends Controller
         // Obtener el usuario autenticado
         $user = Auth::user();
 
+        $meses = [
+            1 => 'Enero',
+            2 => 'Febrero',
+            3 => 'Marzo',
+            4 => 'Abril',
+            5 => 'Mayo',
+            6 => 'Junio',
+            7 => 'Julio',
+            8 => 'Agosto',
+            9 => 'Septiembre',
+            10 => 'Octubre',
+            11 => 'Noviembre',
+            12 => 'Diciembre'
+        ];
+
         // Consulta base para los animales del usuario autenticado
         $query = Animal::where('user_id', $user->id)->with('lote');
 
@@ -38,6 +53,18 @@ class AnimalController extends Controller
         }
         if ($request->filled('lote_filter')) {
             $query->where('animal_id_lote', $request->lote_filter);
+        }
+
+        // Aplicar filtro por mes
+        if ($request->has('mes_ingreso') && $request->mes_ingreso != '') {
+            $mes = $request->mes_ingreso;
+            $query->whereMonth('fecha_ingreso', '=', $mes);
+        }
+
+        // Aplicar filtro por año
+        if ($request->has('anio_ingreso') && $request->anio_ingreso != '') {
+            $anio = $request->anio_ingreso;
+            $query->whereYear('fecha_ingreso', '=', $anio);
         }
 
         // Verificar si se solicita una ordenación específica
@@ -54,8 +81,18 @@ class AnimalController extends Controller
 
         // Datos para la gráfica de género
         $genderData = [
-            'machos' => Animal::where('user_id', $user->id)->where('animal_genero', 'Macho')->count(),
-            'hembras' => Animal::where('user_id', $user->id)->where('animal_genero', 'Hembra')->count()
+            'labels' => ['Machos', 'Hembras'],
+            'datasets' => [
+                [
+                    'data' => [
+                        $animales->where('animal_genero', 'Macho')->count(),
+                        $animales->where('animal_genero', 'Hembra')->count()
+                    ],
+                    'backgroundColor' => ['rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                    'borderColor' => ['rgba(54, 162, 235, 0.7)', 'rgba(255, 99, 132, 0.7)'],
+                    'borderWidth' => 2
+                ]
+            ]
         ];
 
         // Datos para la gráfica de lotes
@@ -70,8 +107,12 @@ class AnimalController extends Controller
         $especies = Animal::where('user_id', $user->id)->select('animal_especie')->distinct()->pluck('animal_especie');
         $generos = Animal::where('user_id', $user->id)->select('animal_genero')->distinct()->pluck('animal_genero');
         $lotes = Lote::where('user_id', $user->id)->get();
+        $totalAnimales = $animales->count();
+        $totalConsumoAlimento = $animales->sum('consumo_total');
+        $totalCostoAlimento = $animales->sum('costo_total');
 
-        return view('animales.animalIndex', compact('animales', 'genderData', 'loteData', 'especies', 'generos', 'lotes'));
+        return view('animales.animalIndex', compact('animales', 'genderData', 'loteData', 'especies', 
+        'generos', 'lotes','totalConsumoAlimento','totalCostoAlimento','meses','totalAnimales'));
     }
 
     public function showImportForm()
@@ -87,7 +128,7 @@ class AnimalController extends Controller
 
         Excel::import(new AnimalsImport, $request->file('file'));
 
-        return redirect()->back()->with('success', 'Animales importados exitosamente.');
+        return redirect()->route('animal.index')->with('success', 'Alimentos importados correctamente.');
     }
 
     public function export(){
@@ -196,7 +237,6 @@ class AnimalController extends Controller
             'animal_especie'=>'required|max:255',
             'animal_genero'=>'required|max:255',
             'animal_peso_final'=>'required|numeric',
-            'animal_id_lote'=>'required|integer',
         ], [
             'animal_especie.required' => 'El campo ESPECIE es obligatorio.',
             'animal_especie.max' => 'El campo ESPECIE no puede tener más de 255 caracteres.',
@@ -205,8 +245,6 @@ class AnimalController extends Controller
 
             'animal_peso_final.required' => 'El campo PESO ACTUAL es obligatorio.',
             'animal_peso_final.numeric' => 'El campo PESO ACTUAL debe ser un número válido.',
-            'animal_id_lote.required' => 'El campo NUMERO DE LOTE es obligatorio.',
-            'animal_id_lote.integer' => 'El campo NUMERO DE LOTE debe ser un número ENTERO válido.',
 
         ]);
 

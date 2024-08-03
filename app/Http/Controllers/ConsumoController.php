@@ -24,12 +24,39 @@ class ConsumoController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+    
+        $meses = [
+            1 => 'Enero',
+            2 => 'Febrero',
+            3 => 'Marzo',
+            4 => 'Abril',
+            5 => 'Mayo',
+            6 => 'Junio',
+            7 => 'Julio',
+            8 => 'Agosto',
+            9 => 'Septiembre',
+            10 => 'Octubre',
+            11 => 'Noviembre',
+            12 => 'Diciembre'
+        ];
 
         $query = Consumo::where('user_id', $user->id)->with('alimento', 'lote');
 
         // Aplicar filtro por lote
         if ($request->has('lote_id_consumo') && $request->lote_id_consumo != '') {
             $query->where('lote_id_consumo', $request->lote_id_consumo);
+        }
+
+        // Aplicar filtro por mes
+        if ($request->has('mes_consumo') && $request->mes_consumo != '') {
+            $mes = $request->mes_consumo;
+            $query->whereMonth('fecha_consumo', '=', $mes);
+        }
+
+        // Aplicar filtro por año
+        if ($request->has('anio_consumo') && $request->anio_consumo != '') {
+            $anio = $request->anio_consumo;
+            $query->whereYear('fecha_consumo', '=', $anio);
         }
 
         // Aplicar ordenación
@@ -39,11 +66,16 @@ class ConsumoController extends Controller
         } else {
             $query->orderBy('fecha_consumo', 'asc'); // Ordenación por defecto
         }
+
         $consumos = $query->get();
+
+        // Calcular los totales
+        $totalAlimentoCantidad = $consumos->sum('alimento_cantidad_total');
+        $totalCostoAlimento = $consumos->sum('valor_dieta');
 
         $lotes = Lote::where('user_id', $user->id)->get();
 
-        return view('consumos.consumoIndex', compact('consumos', 'lotes'));
+        return view('consumos.consumoIndex', compact('consumos', 'lotes', 'totalAlimentoCantidad', 'totalCostoAlimento','meses'));
     }
 
 

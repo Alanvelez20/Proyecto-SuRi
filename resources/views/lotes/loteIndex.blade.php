@@ -1,8 +1,37 @@
 @extends('components.miLayout')
 
 @section('content')
-    <h1>Datos de lotes</h1><br>
+    <h1 class="text-center">Lotes</h1><br>
 
+    
+    <h2>Resúmenes de lotes</h2>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Cantidad total de lotes</h5>
+                    <p class="card-text">{{ $totalLotes}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total cantidad de alimento consumido</h5>
+                    <p class="card-text">{{ $totalConsumoAlimento }} kg</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Costo del Alimento</h5>
+                    <p class="card-text">${{ $totalCostoAlimento }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2>Datos de los lotes</h2>
     <div class="form-group">
         <form method="get" action="/search2">
             <div class="input-group">
@@ -47,8 +76,8 @@
                     <td>${{ $lote->costo_total_alimento }}</td>
                     <td>{{ $lote->corral->corral_nombre }}</td>
                     <td>
-                        <a class="btn btn-dark btn-block" href="{{ route('lote.show', $lote) }}">Detalle</a> 
-                        <a class="btn btn-dark btn-block" href="{{ route('lote.edit', $lote) }}">Editar</a> 
+                        <a class="btn btn-info btn-block" href="{{ route('lote.show', $lote) }}">Detalle</a> 
+                        <a class="btn btn-info btn-block" href="{{ route('lote.edit', $lote) }}">Editar</a> 
                     </td>
                 </tr>
             @endforeach

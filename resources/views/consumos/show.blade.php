@@ -1,17 +1,59 @@
 @extends('components.miLayout')
 
 @section('content')
+<div class="container mt-4">
+    <h1 class="mb-4">Detalle del Consumo</h1>
 
-    @include('parciales.form-error')
-    <div class="container">
-        <h1>Detalle del consumo: </h1>
-
-    <ul>
-        <li>Descripcion: {{ $consumo->alimento_id_consumo }} - {{ $alimento_descripcion }}</li>
-        <li>Cantidad: {{ $consumo->alimento_cantidad_total }} kg</li>
-        <li>Costo: ${{ $consumo->valor_dieta }}</li>
-        <li>Fecha: {{ $consumo->fecha_consumo }}</li>
-        <li>Lote: {{ $consumo->lote_id_consumo }} - {{ $nombre_lote }}</li>
-    </ul>
+    <!-- Información del Consumo -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Detalles del Consumo</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="card border-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">Descripción del Alimento</h5>
+                            <p class="card-text">{{ $alimento_descripcion }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-secondary">
+                        <div class="card-body">
+                            <h5 class="card-title">Cantidad</h5>
+                            <p class="card-text">{{ $consumo->alimento_cantidad_total }} kg</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-success">
+                        <div class="card-body">
+                            <h5 class="card-title">Costo</h5>
+                            <p class="card-text">${{ $consumo->valor_dieta }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-info">
+                        <div class="card-body">
+                            <h5 class="card-title">Fecha</h5>
+                            <p class="card-text">{{ $consumo->fecha_consumo }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-warning">
+                        <div class="card-body">
+                            <h5 class="card-title">Lote</h5>
+                            <p class="card-text"> {{ $nombre_lote }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 @endsection
+

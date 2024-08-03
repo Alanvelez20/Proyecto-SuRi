@@ -1,7 +1,8 @@
 @extends('components.miLayout')
 
 @section('content')
-    <h1>Datos de corrales</h1><br>
+    <h1 class="text-center">Corrales</h1><br>
+    <h2>Datos de los corrales</h2>
     
 
     <div class="form-group">
@@ -28,8 +29,8 @@
                 <tr>
                     <td>{{ $corral->corral_nombre }}</td>
                     <td>
-                        <a class="btn btn-dark btn-block" href="{{ route('corral.show', $corral) }}">Detalle</a>
-                        <a class="btn btn-dark btn-block" href="{{ route('corral.edit', $corral) }}">Editar</a>
+                        <a class="btn btn-info btn-block" href="{{ route('corral.show', $corral) }}">Detalle</a>
+                        <a class="btn btn-info btn-block" href="{{ route('corral.edit', $corral) }}">Editar</a>
                     </td>
                 </tr>
             @endforeach

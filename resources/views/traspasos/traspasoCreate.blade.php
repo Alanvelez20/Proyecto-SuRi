@@ -40,7 +40,6 @@
         <tr><th>Peso Inicial</th><td id="summary-peso-inicial"></td></tr>
         <tr><th>Peso Final</th><td id="summary-peso-final"></td></tr>
         <tr><th>Valor de Compra</th><td id="summary-valor-compra"></td></tr>
-        <tr><th>Valor de Venta</th><td id="summary-valor-venta"></td></tr>
         <tr><th>Fecha de Ingreso</th><td id="summary-fecha-ingreso"></td></tr>
         <tr><th>Consumo Total</th><td id="summary-consumo-total"></td></tr>
         <tr><th>Costo Total</th><td id="summary-costo-total"></td></tr>
@@ -81,7 +80,6 @@
                     document.getElementById('summary-peso-inicial').innerText = data.animal_peso_inicial;
                     document.getElementById('summary-peso-final').innerText = data.animal_peso_final;
                     document.getElementById('summary-valor-compra').innerText = data.animal_valor_compra;
-                    document.getElementById('summary-valor-venta').innerText = data.animal_valor_venta;
                     document.getElementById('summary-fecha-ingreso').innerText = data.fecha_ingreso;
                     document.getElementById('summary-consumo-total').innerText = data.consumo_total;
                     document.getElementById('summary-costo-total').innerText = data.costo_total;

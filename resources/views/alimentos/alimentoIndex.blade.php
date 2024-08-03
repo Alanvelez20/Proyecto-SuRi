@@ -1,7 +1,8 @@
 @extends('components.miLayout')
 
 @section('content')
-    <h1>Datos de los alimentos</h1><br>
+    <h1 class="text-center">Alimentos</h1><br>
+    <h2>Datos de los alimentos</h2>
 
     <div class="form-group">
         <form method="get" action="/search4">
@@ -57,9 +58,9 @@
                     <td>{{ $alimento->alimento_cantidad }} kg</td>
                     <td>${{ $alimento->alimento_costo }}</td>
                     <td>
-                        <a class="btn btn-dark btn-block" href="{{ route('alimento.show', $alimento) }}">Detalle</a> 
-                        <a class="btn btn-dark btn-block" href="{{ route('alimento.edit', $alimento) }}">Editar</a> 
-                        <a class="btn btn-dark btn-block" href="{{ route('alimento.ShowAdd', $alimento) }}">Agregar inventario</a> 
+                        <a class="btn btn-info btn-block" href="{{ route('alimento.show', $alimento) }}">Detalle</a> 
+                        <a class="btn btn-info btn-block" href="{{ route('alimento.edit', $alimento) }}">Editar</a> 
+                        <a class="btn btn-info btn-block" href="{{ route('alimento.ShowAdd', $alimento) }}">Agregar inventario</a> 
                     </td>
                 </tr>
             @endforeach

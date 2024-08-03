@@ -1,16 +1,67 @@
 @extends('components.miLayout')
 
 @section('content')
-<h1>Listado de consumos</h1><br>
-    @include('parciales.form-error')
-    
-    
+@include('parciales.form-error')
+<h1 class="text-center">Consumos</h1><br>
+<h2>Resúmenes de los consumos</h2>
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Total Cantidad de Alimento</h5>
+                <p class="card-text">{{ $totalAlimentoCantidad }} kg</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Total Costo del Alimento</h5>
+                <p class="card-text">${{ $totalCostoAlimento }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Listado de consumos</h2>
     <div class="row mb-4">
         <div class="col-md-2">
             <a href="{{ route('consumo.export') }}" class="btn btn-success btn-block">Exportar a Excel</a>
         </div>
         <div class="col-md-2">
             <a href="{{ route('consumo.index') }}" class="btn btn-primary btn-block">Reiniciar filtros</a>
+        </div>
+        <div class="col-md-2">
+            <form method="GET" action="{{ route('consumo.index') }}" style="display:inline;">
+                <input type="hidden" name="sort_by" value="{{ request('sort_by') }}">
+                <input type="hidden" name="sort_direction" value="{{ request('sort_direction') }}">
+                <input type="hidden" name="anio_consumo" value="{{ request('anio_consumo') }}">
+                <input type="hidden" name="lote_id_consumo" value="{{ request('lote_id_consumo') }}">
+                <select name="mes_consumo" onchange="this.form.submit()" class="form-control" style="display: inline; width: auto;">
+                    <option style="color: black" value="">Filtrar por Mes ᐁ</option>
+                    @foreach($meses as $numero => $mes)
+                        <option style="color: black" value="{{ $numero }}" {{ request('mes_consumo') == $numero ? 'selected' : '' }}>
+                            {{ $mes }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <form method="GET" action="{{ route('consumo.index') }}" style="display:inline;">
+                <input type="hidden" name="sort_by" value="{{ request('sort_by') }}">
+                <input type="hidden" name="sort_direction" value="{{ request('sort_direction') }}">
+                <input type="hidden" name="mes_consumo" value="{{ request('mes_consumo') }}">
+                <input type="hidden" name="lote_id_consumo" value="{{ request('lote_id_consumo') }}">
+                <select name="anio_consumo" onchange="this.form.submit()" class="form-control" style="display: inline; width: auto;">
+                    <option style="color: black" value="">Filtrar por Año ᐁ</option>
+                    @foreach(range(date('Y'), 2000) as $year)
+                        <option style="color: black" value="{{ $year }}" {{ request('anio_consumo') == $year ? 'selected' : '' }}>
+                            {{ $year }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
         </div>
     </div>
     <table class="table">
@@ -39,6 +90,8 @@
                     <form method="GET" action="{{ route('consumo.index') }}" style="display:inline;">
                         <input type="hidden" name="sort_by" value="{{ request('sort_by') }}">
                         <input type="hidden" name="sort_direction" value="{{ request('sort_direction') }}">
+                        <input type="hidden" name="anio_consumo" value="{{ request('anio_consumo') }}">
+                        <input type="hidden" name="mes_consumo" value="{{ request('mes_consumo') }}">
                         <select name="lote_id_consumo" onchange="this.form.submit()" class="form-control" style="display: inline; width: auto;">
                             <option style="color: black" value="">Lotes ᐁ</option>
                             @foreach($lotes as $lote)
@@ -74,8 +127,8 @@
                     <td>{{ $consumo->fecha_consumo }}</td>
                     <td>{{ $consumo->lote->lote_nombre }}</td>
                     <td>{{ $consumo->animales_cantidad }}</td>
-                    <td>{{ $consumo->alimento_cantidad_total / $consumo->animales_cantidad }} kg</td>
-                    <td><a class="btn btn-dark btn-block" href="{{ route('consumo.show', $consumo) }}">Detalle</a></td>
+                    <td>{{ number_format($consumo->alimento_cantidad_total / $consumo->animales_cantidad, 2) }} kg</td>
+                    <td><a class="btn btn-info btn-block" href="{{ route('consumo.show', $consumo) }}">Detalle</a></td>
                 </tr>
             @endforeach
         </tbody>

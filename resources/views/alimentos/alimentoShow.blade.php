@@ -1,31 +1,66 @@
 @extends('components.miLayout')
 
 @section('content')
-<div class="container">
-    <h1>Detalle del alimento</h1>
-    <ul>
-        <li>Descripcion: {{ $alimento->alimento_descripcion }}</li>
-        <li>Cantidad: {{ $alimento->alimento_cantidad }} kg</li>
-        <li>Costo por kg: ${{ $alimento->alimento_costo }}</li>
-    </ul>
+<div class="container mt-4">
+    <h1 class="mb-4">Detalle del Alimento</h1>
 
-    <h2>Archivos</h2>
+    <!-- Información del Alimento -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Información del Alimento</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="card border-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">Descripción</h5>
+                            <p class="card-text">{{ $alimento->alimento_descripcion }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-secondary">
+                        <div class="card-body">
+                            <h5 class="card-title">Cantidad</h5>
+                            <p class="card-text">{{ $alimento->alimento_cantidad }} kg</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-success">
+                        <div class="card-body">
+                            <h5 class="card-title">Costo por KG</h5>
+                            <p class="card-text">${{ $alimento->alimento_costo }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Archivos Adjuntos -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Archivos Adjuntos</h3>
+        </div>
+        <div class="card-body">
             @if ($alimento->archivo_nombre != "null" && $alimento->archivo_nombre != "0")
-                <h4>
-                    <a href="{{ route('alimento.descarga', $alimento) }}">
+                <h4 class="mb-3">
+                    <a href="{{ route('alimento.descarga', $alimento) }}" class="btn btn-info">
                         <img src="{{ asset('mainlayout/img/descargar.png') }}" alt="Descargar" style="width: 20px; height: 20px;">
-                        {{ $alimento->archivo_nombre }}
+                        Descargar {{ $alimento->archivo_nombre }}
                     </a>
                 </h4>
                 @if($base64Image)
-                    <div>
-                        <img src="data:image/jpeg;base64,{{ $base64Image }}" alt="Imagen del Alimento" style="max-width: 300px; height: auto;">
+                    <div class="mb-3">
+                        <img src="data:image/jpeg;base64,{{ $base64Image }}" alt="Imagen del Alimento" class="img-fluid" style="max-width: 300px; height: auto;">
                     </div>
                 @endif
             @else
                 <h4>No hay archivos adjuntos</h4>
             @endif
-    
-    
+        </div>
+    </div>
 </div>
 @endsection

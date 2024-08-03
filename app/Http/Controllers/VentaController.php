@@ -22,35 +22,89 @@ class VentaController extends Controller
     }
 
     public function index(Request $request)
-    {
-        $user = Auth::user();
-        
-        $query = Venta::where('user_id', $user->id);
-        
-        // Aplicar filtros por especie y género
-        if ($request->has('especie_filter') && $request->especie_filter != '') {
-            $query->where('animal_especie', $request->especie_filter);
-        }
+{
+    $user = Auth::user();
 
-        if ($request->has('genero_filter') && $request->genero_filter != '') {
-            $query->where('animal_genero', $request->genero_filter);
-        }
-        
-        // Aplicar ordenación
-        if ($request->has('sort_by') && $request->has('sort_direction')) {
+    $meses = [
+        1 => 'Enero',
+        2 => 'Febrero',
+        3 => 'Marzo',
+        4 => 'Abril',
+        5 => 'Mayo',
+        6 => 'Junio',
+        7 => 'Julio',
+        8 => 'Agosto',
+        9 => 'Septiembre',
+        10 => 'Octubre',
+        11 => 'Noviembre',
+        12 => 'Diciembre'
+    ];
+    
+    $query = Venta::where('user_id', $user->id);
+    
+    // Aplicar filtros por especie y género
+    if ($request->has('especie_filter') && $request->especie_filter != '') {
+        $query->where('animal_especie', $request->especie_filter);
+    }
+
+    if ($request->has('genero_filter') && $request->genero_filter != '') {
+        $query->where('animal_genero', $request->genero_filter);
+    }
+
+    // Aplicar filtro por mes
+    if ($request->has('mes_venta') && $request->mes_venta != '') {
+        $mes = $request->mes_venta;
+        $query->whereMonth('fecha_venta', '=', $mes);
+    }
+
+    // Aplicar filtro por año
+    if ($request->has('anio_venta') && $request->anio_venta != '') {
+        $anio = $request->anio_venta;
+        $query->whereYear('fecha_venta', '=', $anio);
+    }
+    
+    $validSortDirections = ['asc', 'desc'];
+        if ($request->has('sort_by') && in_array($request->sort_direction, $validSortDirections)) {
             $query->orderBy($request->sort_by, $request->sort_direction);
         } else {
             $query->orderBy('arete', 'asc'); // Ordenación por defecto
         }
-        
-        $ventas = $query->get();
-        
-        // Obtener todas las especies y géneros únicos para los filtros
-        $especies = Venta::where('user_id', $user->id)->distinct()->pluck('animal_especie');
-        $generos = Venta::where('user_id', $user->id)->distinct()->pluck('animal_genero');
+    
+    $ventas = $query->get();
+    
+    // Obtener todas las especies y géneros únicos para los filtros
+    $especies = Venta::where('user_id', $user->id)->distinct()->pluck('animal_especie');
+    $generos = Venta::where('user_id', $user->id)->distinct()->pluck('animal_genero');
 
-        return view('ventas.ventaIndex', compact('ventas', 'especies', 'generos'));
-    }
+    // Calcular totales generales
+    $totalCompra = $ventas->sum(function ($venta) {
+        return $venta->animal_valor_compra * $venta->animal_peso_inicial;
+    });
+    $totalVenta = $ventas->sum('animal_valor_venta');
+    $gananciaTotal = $totalVenta - $totalCompra;
+    $totalAnimales = $ventas->count();
+    $totalConsumoAlimento = $ventas->sum('consumo_total');
+    $totalCostoAlimento = $ventas->sum('costo_total');
+    
+    // Preparar datos para las gráficas
+    $graficoDatos = [
+        'labels' => ['Compra Total', 'Venta Total', 'Ganancias'],
+        'datasets' => [
+            [
+                'label' => 'Montos Totales',
+                'data' => [$totalCompra, $totalVenta, $gananciaTotal],
+                'backgroundColor' => ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+                'borderColor' => ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'],
+                'borderWidth' => 1
+            ]
+        ]
+    ];
+
+    return view('ventas.ventaIndex', compact('ventas', 'especies', 'generos', 'graficoDatos', 
+    'totalCompra', 'totalVenta', 'gananciaTotal', 'totalAnimales', 'totalConsumoAlimento', 
+    'totalCostoAlimento', 'meses'));
+}
+
 
 
 
