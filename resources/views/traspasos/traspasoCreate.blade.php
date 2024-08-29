@@ -65,15 +65,16 @@
             animalSelect.innerHTML = '<option style="color: black;" value="">Seleccione un Lote de Origen primero</option>';
         }
     });
-    
+    var userId = {{ Auth::id() }};
     document.getElementById('animal_arete').addEventListener('change', function () {
-        var animalArete = this.value;
-    
-        if (animalArete) {
-            fetch(`/api/animal/${animalArete}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Animal data:', data); // Log para depuración
+    var animalArete = this.value;
+
+    if (animalArete) {
+        fetch(`/api/animal/${animalArete}?user_id=${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Asegurarse de que el animal devuelto pertenece al usuario autenticado
+                if (data.user_id === userId) {
                     document.getElementById('summary-arete').innerText = data.arete;
                     document.getElementById('summary-especie').innerText = data.animal_especie;
                     document.getElementById('summary-genero').innerText = data.animal_genero;
@@ -85,11 +86,15 @@
                     document.getElementById('summary-costo-total').innerText = data.costo_total;
                     document.getElementById('summary-id-lote').innerText = data.animal_id_lote;
                     document.getElementById('animal-summary').style.display = 'table';
-                });
-        } else {
-            document.getElementById('animal-summary').style.display = 'none';
-        }
-    });
+                } else {
+                    alert("Este animal no pertenece al usuario autenticado.");
+                }
+            });
+    } else {
+        document.getElementById('animal-summary').style.display = 'none';
+    }
+});
+
 </script>
 @endsection
 

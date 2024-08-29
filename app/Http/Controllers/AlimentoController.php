@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\AlimentosExport;
 use App\Imports\AlimentosImport;
+use GrahamCampbell\ResultType\Success;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Contracts\Auth\Access\Gate as AccessGate;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AlimentoController extends Controller
@@ -18,8 +21,15 @@ class AlimentoController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        // ->only()
+        $this->middleware(function ($request, $next) {
+            if (!auth()->user()->subscription_active) {
+                return redirect('/suscripcion')->with('error', '¡Debes contar con una suscripción!.');
+            }
+
+            return $next($request);
+        })->except('index');;
     }
+    
     /**
      * Display a listing of the resource.
      */
@@ -43,20 +53,16 @@ class AlimentoController extends Controller
         return view('alimentos.alimentoIndex', compact('alimentos'));
     }
 
+
     public function import(Request $request)
     {
-        // Validar el archivo
         $request->validate([
             'file' => 'required|mimes:xlsx,csv',
         ]);
-    
-        try {
-            // Importar el archivo
-            Excel::import(new AlimentosImport, $request->file('file'));
-            return redirect()->route('alimento.index')->with('success', 'Alimentos importados correctamente.');
-        } catch (\Exception $e) {
-            return redirect()->route('alimentos.import.form')->with('error', 'Hubo un error al importar el archivo: ' . $e->getMessage());
-        }
+
+        Excel::import(new AlimentosImport, $request->file('file'));
+
+        return redirect()->route('animales.import.form');
     }
 
     public function showImportForm()
@@ -222,7 +228,7 @@ class AlimentoController extends Controller
     //Mail::to($user->email)->send(new RegistroAlimento($alimento, $user));
 
     // Redireccionar
-    return redirect()->route('alimento.index');
+    return redirect()->route('alimento.create')->withSuccess('El alimento se agregó correctamente');
         
     }
 

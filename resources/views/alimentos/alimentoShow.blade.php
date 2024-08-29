@@ -14,7 +14,7 @@
                 <div class="col-md-6 mb-3">
                     <div class="card border-primary">
                         <div class="card-body">
-                            <h5 class="card-title">Descripción</h5>
+                            <h5 class="card-title">Nombre</h5>
                             <p class="card-text">{{ $alimento->alimento_descripcion }}</p>
                         </div>
                     </div>
@@ -22,16 +22,16 @@
                 <div class="col-md-6 mb-3">
                     <div class="card border-secondary">
                         <div class="card-body">
-                            <h5 class="card-title">Cantidad</h5>
-                            <p class="card-text">{{ $alimento->alimento_cantidad }} kg</p>
+                            <h5 class="card-title">Cantidad (Kg)</h5>
+                            <p class="card-text">{{ $alimento->alimento_cantidad }} Kg</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <div class="card border-success">
                         <div class="card-body">
-                            <h5 class="card-title">Costo por KG</h5>
-                            <p class="card-text">${{ $alimento->alimento_costo }}</p>
+                            <h5 class="card-title">Costo por Kg</h5>
+                            <p class="card-text">$ {{ $alimento->alimento_costo }}</p>
                         </div>
                     </div>
                 </div>

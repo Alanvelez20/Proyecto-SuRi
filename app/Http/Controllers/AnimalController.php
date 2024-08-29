@@ -10,13 +10,20 @@ use App\Exports\AnimalsExport;
 use App\Imports\AnimalsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AnimalController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        // ->only()
+        $this->middleware(function ($request, $next) {
+            if (!auth()->user()->subscription_active) {
+                return redirect('/suscripcion')->with('error', '¡Debes contar con una suscripción!.');
+            }
+
+            return $next($request);
+        })->except('index');;
     }
     /**
      * Display a listing of the resource.
@@ -111,8 +118,18 @@ class AnimalController extends Controller
         $totalConsumoAlimento = $animales->sum('consumo_total');
         $totalCostoAlimento = $animales->sum('costo_total');
 
+        // Calcular el peso inicial promedio
+        $pesoInicialPromedio = $animales->avg('animal_peso_inicial');
+
+        // Calcular el peso final promedio
+        $pesoFinalPromedio = $animales->avg('animal_peso_final'); // Asegúrate de tener un campo 'peso_final'
+
+        // Calcular las ganancias en peso (promedio)
+        $gananciaPesoPromedio = $pesoFinalPromedio - $pesoInicialPromedio;
+
         return view('animales.animalIndex', compact('animales', 'genderData', 'loteData', 'especies', 
-        'generos', 'lotes','totalConsumoAlimento','totalCostoAlimento','meses','totalAnimales'));
+        'generos', 'lotes','totalConsumoAlimento','totalCostoAlimento','meses','totalAnimales',
+        'pesoInicialPromedio', 'pesoFinalPromedio', 'gananciaPesoPromedio'));
     }
 
     public function showImportForm()
@@ -128,7 +145,7 @@ class AnimalController extends Controller
 
         Excel::import(new AnimalsImport, $request->file('file'));
 
-        return redirect()->route('animal.index')->with('success', 'Alimentos importados correctamente.');
+        return redirect()->route('animales.import.form');
     }
 
     public function export(){
@@ -170,8 +187,8 @@ class AnimalController extends Controller
             'animal_genero.required' => 'El campo GENERO es obligatorio.',
             'animal_genero.max' => 'El campo GENERO no puede tener más de 255 caracteres.',
 
-            'animal_peso.required' => 'El campo PESO es obligatorio.',
-            'animal_peso.numeric' => 'El campo PESO debe ser un número válido.',
+            'animal_peso_inicial.required' => 'El campo PESO es obligatorio.',
+            'animal_peso_inicial.numeric' => 'El campo PESO debe ser un número válido.',
             'animal_valor_compra.required' => 'El campo VALOR DE COMPRA es obligatorio.',
             'animal_valor_compra.numeric' => 'El campo VALOR DE COMPRA debe ser un número válido.',
             'fecha_ingreso.required' => 'El campo FECHA es obligatorio.',
@@ -204,7 +221,7 @@ class AnimalController extends Controller
         $lote->increment('lote_cantidad');
 
         // Redireccionar
-        return redirect()->route('animal.index')->with('success', 'Animal agregado exitosamente.');
+        return redirect()->route('animal.create')->with('success', 'Animal agregado exitosamente.');
     }
 
     /**
@@ -221,11 +238,18 @@ class AnimalController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(animal $animal)
+    public function edit($arete)
     {
         $user = Auth::user();
+
+        // Buscar el animal por arete y user_id del usuario autenticado
+        $animal = Animal::where('arete', $arete) 
+                        ->where('user_id', $user->id)
+                        ->firstOrFail();
+
         $lotes = Lote::where('user_id', $user->id)->get();
-        return view('animales.animalEdit', compact('animal','lotes'));
+
+        return view('animales.animalEdit', compact('animal', 'lotes'));
     }
 
     /**
@@ -233,24 +257,45 @@ class AnimalController extends Controller
      */
     public function update(Request $request, animal $animal)
     {
+        $user = Auth::user();
         $request->validate([
             'animal_especie'=>'required|max:255',
             'animal_genero'=>'required|max:255',
             'animal_peso_final'=>'required|numeric',
+            'animal_peso_inicial'=>'required|numeric',
+            'animal_valor_compra'=>'required|numeric',
+            'fecha_ingreso'=>'required',
         ], [
             'animal_especie.required' => 'El campo ESPECIE es obligatorio.',
             'animal_especie.max' => 'El campo ESPECIE no puede tener más de 255 caracteres.',
             'animal_genero.required' => 'El campo GENERO es obligatorio.',
             'animal_genero.max' => 'El campo GENERO no puede tener más de 255 caracteres.',
+            'animal_peso_inicial.required' => 'El campo PESO es obligatorio.',
+            'animal_peso_inicial.numeric' => 'El campo PESO debe ser un número válido.',
+            'animal_valor_compra.required' => 'El campo VALOR DE COMPRA es obligatorio.',
+            'animal_valor_compra.numeric' => 'El campo VALOR DE COMPRA debe ser un número válido.',
+            'fecha_ingreso.required' => 'El campo FECHA es obligatorio.',
 
             'animal_peso_final.required' => 'El campo PESO ACTUAL es obligatorio.',
             'animal_peso_final.numeric' => 'El campo PESO ACTUAL debe ser un número válido.',
 
         ]);
 
-        $animal->update($request->all());
+      // Actualiza el animal solo si el usuario es el propietario
+            $animalToUpdate = Animal::where('arete', $animal->arete)
+            ->where('user_id', $user->id);
 
-        return redirect()->route('animal.show', $animal);
+        if ($animalToUpdate) {
+            $dataToUpdate = $request->only(['animal_especie', 'animal_genero','animal_peso_inicial',
+            'animal_valor_compra','fecha_ingreso', 'animal_peso_final']);
+            $animalToUpdate->update($dataToUpdate);
+
+            return redirect()->route('animal.show', $animal)
+                ->with('success', 'Animal actualizado correctamente.');
+        } else {
+            return redirect()->route('animal.index')
+                ->with('error', 'Animal no encontrado o no autorizado para editar.');
+        }
     }
 
     public function destroy($id)

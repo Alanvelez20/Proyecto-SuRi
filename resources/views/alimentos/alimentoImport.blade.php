@@ -47,7 +47,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 style="color: black" class="modal-title" id="exampleModalLabel">Imagen de Ejemplo</h3>
+          <h3  class="modal-title" id="exampleModalLabel">Imagen de Ejemplo</h3>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -66,7 +66,7 @@
     <table class="table" id="previewTable">
         <thead>
             <tr>
-                <th>Descripción</th>
+                <th>Nombre</th>
                 <th>Cantidad</th>
                 <th>Costo</th>
             </tr>

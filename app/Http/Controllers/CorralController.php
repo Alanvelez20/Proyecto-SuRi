@@ -11,7 +11,13 @@ class CorralController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        // ->only()
+        $this->middleware(function ($request, $next) {
+            if (!auth()->user()->subscription_active) {
+                return redirect('/suscripcion')->with('error', '¡Debes contar con una suscripción!.');
+            }
+
+            return $next($request);
+        })->except('index');;
     }
     /**
      * Display a listing of the resource.
@@ -43,6 +49,8 @@ class CorralController extends Controller
         return view('corrales.corralCreate');
     }
 
+   
+
     /**
      * Store a newly created resource in storage.
      */
@@ -61,7 +69,7 @@ class CorralController extends Controller
         Corral::create($request->all());
 
         // Redireccionar
-        return redirect()->route('corral.index');
+        return back()->with('success', 'Corral creado correctamente.');
     }
 
     /**
@@ -87,12 +95,9 @@ class CorralController extends Controller
     {
         $request->validate([
             'corral_nombre'=>'required|max:255',
-            'corral_estado'=>'required|max:255',
         ], [
             'corral_nombre.required' => 'El campo NOMBRE es obligatorio.',
             'corral_nombre.max' => 'El campo NOMBRE no puede tener más de 255 caracteres.',
-            'corral_estado.required' => 'El campo ESTADO es obligatorio.',
-            'corral_estado.max' => 'El campo ESTADO no puede tener más de 255 caracteres.',
 
         ]);
 

@@ -8,6 +8,7 @@ use App\Models\Lote;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class AnimalsImport implements ToCollection
@@ -18,7 +19,7 @@ class AnimalsImport implements ToCollection
     {
         // Omitir la primera fila de encabezados
         $rows->shift();
-
+        $user=Auth::id();
         foreach ($rows as $row) {
             if (count($row) < 8) {
                 continue;
@@ -43,35 +44,53 @@ class AnimalsImport implements ToCollection
                 $fechaIngreso = \Carbon\Carbon::parse($fechaIngreso)->format('Y-m-d');
             }
 
-            // Verificar si el arete ya existe
-            if (Animal::where('arete', $arete)->exists()) {
-                $this->errors[] = "El arete $arete ya existe y no puede ser duplicado.";
-                continue;
-            }
 
             // Obtener o crear corral
-            $corral = Corral::firstOrCreate(
-                ['corral_nombre' => $corralNombre, 'user_id' => Auth::id()],
-                ['corral_nombre' => $corralNombre, 'user_id' => Auth::id()]
-            );
+            $corralId = DB::table('corrals')->where('corral_nombre', $corralNombre)->where('user_id', $user)->value('id');
+
+            if (!$corralId) {
+                $corralId = DB::table('corrals')->insertGetId([
+                    'corral_nombre' => $corralNombre,
+                    'user_id' => $user,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
 
             // Obtener o crear lote
-            $lote = Lote::firstOrCreate(
-                ['lote_nombre' => $loteNombre, 'lote_id_corral' => $corral->id, 'user_id' => Auth::id()],
-                [
+            $loteId = DB::table('lotes')->where('lote_nombre', $loteNombre)
+                                        ->where('lote_id_corral', $corralId)
+                                        ->where('user_id', $user)
+                                        ->value('id');
+
+            if (!$loteId) {
+                $loteId = DB::table('lotes')->insertGetId([
+                    'lote_nombre' => $loteNombre,
+                    'lote_id_corral' => $corralId,
                     'lote_cantidad' => 0,
                     'consumo_total_alimento' => 0,
                     'costo_total_alimento' => 0,
-                    'lote_id_corral' => $corral->id,
-                    'user_id' => Auth::id()
-                ]
-            );
+                    'user_id' => $user,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            } else {
+                // Incrementar la cantidad de animales en el lote
+                DB::table('lotes')->where('id', $loteId)->increment('lote_cantidad');
+            }
 
-            // Incrementar la cantidad de animales en el lote
-            $lote->increment('lote_cantidad');
+            $existingAnimal = Animal::where('arete', $arete)
+                                    ->where('user_id', $user)
+                                    ->first();
+
+            if ($existingAnimal) {
+                // Añadir un mensaje de error si el animal ya existe
+                $this->errors[] = "El animal con arete '$arete' ya existe.";
+                continue;
+            }
 
             // Crear animal
-            Animal::create([
+            DB::table('animals')->insert([
                 'arete' => $arete,
                 'animal_especie' => $animalEspecie,
                 'animal_genero' => $animalGenero,
@@ -81,9 +100,16 @@ class AnimalsImport implements ToCollection
                 'consumo_total' => 0,
                 'costo_total' => 0,
                 'fecha_ingreso' => $fechaIngreso,
-                'animal_id_lote' => $lote->id,
-                'user_id' => Auth::id()
+                'animal_id_lote' => $loteId,
+                'user_id' => $user,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
+        }
+        if (count($this->errors) > 0) {
+            return redirect()->back()->withErrors($this->errors)->withInput();
+        }else{
+            return redirect()->back()->with('success', 'Animales importados correctamente.');
         }
     }
 }

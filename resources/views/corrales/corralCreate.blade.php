@@ -9,7 +9,7 @@
             @csrf
             <div class="form-group">
                 <label for="corral_nombre" >Nombre: </label>
-                <input type="text" class="form-control" name="corral_nombre" value="{{ old('corral_nombre') }}">
+                <input type="text" class="form-control" name="corral_nombre" value="{{ old('corral_nombre') }}" >
                 @error('corral_nombre')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror

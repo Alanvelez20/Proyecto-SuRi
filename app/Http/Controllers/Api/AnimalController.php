@@ -8,9 +8,13 @@ use Illuminate\Http\Request;
 
 class AnimalController extends Controller
 {
-    public function show($arete)
+    public function show($arete, Request $request)
     {
-        $animal = Animal::where('arete', $arete)->firstOrFail();
+        $userId = $request->query('user_id');
+
+    $animal = Animal::where('arete', $arete)
+                    ->where('user_id', $userId)  // Filtrar por el user_id recibido
+                    ->firstOrFail();
         return response()->json($animal);
     }
 }

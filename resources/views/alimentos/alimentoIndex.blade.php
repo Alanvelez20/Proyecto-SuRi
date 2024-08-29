@@ -20,50 +20,52 @@
             <a href="{{ route('alimento.index') }}" class="btn btn-primary btn-block">Reiniciar filtros</a>
         </div>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Descripción</th>
-                <th>
-                    Cantidad
-                    <a href="{{ route('alimento.index', ['sort_by' => 'alimento_cantidad', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'alimento_cantidad' ? 'desc' : 'asc']) }}">
-                        @if (request('sort_by') == 'alimento_cantidad' && request('sort_direction') == 'asc')
-                            &#9650;
-                        @elseif (request('sort_by') == 'alimento_cantidad' && request('sort_direction') == 'desc')
-                            &#9660;
-                        @else
-                            &#9650;&#9660;
-                        @endif
-                    </a>
-                </th>
-                <th>
-                    Costo por kg
-                    <a href="{{ route('alimento.index', ['sort_by' => 'alimento_costo', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'alimento_costo' ? 'desc' : 'asc']) }}">
-                        @if (request('sort_by') == 'alimento_costo' && request('sort_direction') == 'asc')
-                            &#9650;
-                        @elseif (request('sort_by') == 'alimento_costo' && request('sort_direction') == 'desc')
-                            &#9660;
-                        @else
-                            &#9650;&#9660;
-                        @endif
-                    </a>
-                </th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($alimentos as $alimento)
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>{{ $alimento->alimento_descripcion }}</td>
-                    <td>{{ $alimento->alimento_cantidad }} kg</td>
-                    <td>${{ $alimento->alimento_costo }}</td>
-                    <td>
-                        <a class="btn btn-info btn-block" href="{{ route('alimento.show', $alimento) }}">Detalle</a> 
-                        <a class="btn btn-info btn-block" href="{{ route('alimento.edit', $alimento) }}">Editar</a> 
-                        <a class="btn btn-info btn-block" href="{{ route('alimento.ShowAdd', $alimento) }}">Agregar inventario</a> 
-                    </td>
+                    <th>Nombre</th>
+                    <th>
+                        Cantidad (Kg)
+                        <a href="{{ route('alimento.index', ['sort_by' => 'alimento_cantidad', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'alimento_cantidad' ? 'desc' : 'asc']) }}">
+                            @if (request('sort_by') == 'alimento_cantidad' && request('sort_direction') == 'asc')
+                                &#9650;
+                            @elseif (request('sort_by') == 'alimento_cantidad' && request('sort_direction') == 'desc')
+                                &#9660;
+                            @else
+                                &#9650;&#9660;
+                            @endif
+                        </a>
+                    </th>
+                    <th>
+                        Costo por Kg
+                        <a href="{{ route('alimento.index', ['sort_by' => 'alimento_costo', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'alimento_costo' ? 'desc' : 'asc']) }}">
+                            @if (request('sort_by') == 'alimento_costo' && request('sort_direction') == 'asc')
+                                &#9650;
+                            @elseif (request('sort_by') == 'alimento_costo' && request('sort_direction') == 'desc')
+                                &#9660;
+                            @else
+                                &#9650;&#9660;
+                            @endif
+                        </a>
+                    </th>
+                    <th>Acciones</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($alimentos as $alimento)
+                    <tr>
+                        <td>{{ $alimento->alimento_descripcion }}</td>
+                        <td>{{ $alimento->alimento_cantidad }} Kg</td>
+                        <td>$ {{ $alimento->alimento_costo }}</td>
+                        <td>
+                            <a class="btn btn-info btn-block" href="{{ route('alimento.show', $alimento) }}">Detalle</a> 
+                            <a class="btn btn-info btn-block" href="{{ route('alimento.edit', $alimento) }}">Editar</a> 
+                            <a class="btn btn-info btn-block" href="{{ route('alimento.ShowAdd', $alimento) }}">Agregar inventario</a> 
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 @endsection

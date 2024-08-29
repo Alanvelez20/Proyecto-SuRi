@@ -69,7 +69,7 @@
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <h2 class="text-warning font-weight-medium m-0">Controlador de ganado</h2>
                         <h1 class="display-1 text-white m-0">SURI</h1>
-                        <h2 class="text-white m-0">Sistema U R Integral</h2>
+                        <h2 class="text-white m-0">Sistema de Uso de Raciones Integrales</h2>
                         <h3 class="text-white m-0">* DESDE 2024 *</h2>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <h2 class="text-warning font-weight-medium m-0">Controlador de ganado</h2>
                         <h1 class="display-1 text-white m-0">SURI</h1>
-                        <h2 class="text-white m-0">Sistema U R Integral</h2>
+                        <h2 class="text-white m-0">Sistema de Uso de Raciones Integrales</h2>
                         <h2 class="text-white m-0">* DESDE 2024 *</h2>
                     </div>
                 </div>
@@ -165,24 +165,39 @@
     <!-- Footer Start -->
     <div class="container-fluid footer text-white mt-5 pt-5 px-0 position-relative overlay-top">
         <div class="row mx-0 pt-5 px-sm-3 px-lg-5 mt-4">
-            <div class="col-lg-6 col-md-6 mb-5">
+            <div class="col-lg-4 col-md-4 mb-5">
                 <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Acerca de nosotros</h4>
                 <p><i class="fa fa-map-marker-alt mr-2"></i>Guadalajara, Jalisco, MX.</p>
                 <p><i class="fa fa-phone-alt mr-2"></i>+52 3312550970</p>
-                <p class="m-0"><i class="fa fa-envelope mr-2"></i>Correo@gmail.com</p>
+                <p class="m-0"><i class="fa fa-envelope mr-2"></i>surimx2024@gmail.com</p>
             </div>
-            <div class="col-lg-6 col-md-6 mb-5">
+            <div class="col-lg-4 col-md-4 mb-5">
                 <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Síguenos</h4>
                 <p>Siguenos en nuestras redes sociales</p>
                 <div class="d-flex justify-content-start">
-                    <a class="btn btn-lg btn-outline-light btn-lg-square mr-2" href="#"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-lg btn-outline-light btn-lg-square mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-lg btn-outline-light btn-lg-square" href="#"><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-lg btn-outline-light btn-lg-square mr-2" target="blank"  href="https://www.facebook.com/profile.php?id=61565158437923&mibextid=ZbWKwL"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-lg btn-outline-light btn-lg-square" target="blank" href="https://www.instagram.com/suri.mx"><i class="fab fa-instagram"></i></a>
                 </div>
+            </div>
+            <div class="col-lg-4 col-md-4 mb-5">
+                <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Contáctanos</h4>
+                <form action="{{ route('contact.send') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="name" placeholder="Nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="email" placeholder="Correo" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="message" rows="3" placeholder="Mensaje" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
             </div>
         <div class="container-fluid text-center text-white border-top mt-4 py-4 px-sm-3 px-md-5" style="border-color: rgba(256, 256, 256, .1) !important;">
             <p class="mb-2 text-white">Copyright &copy; <a class="font-weight-bold" href="/">SuRi</a>. All Rights Reserved.</a></p>
-            <p class="m-0 text-white">Designed by <a class="font-weight-bold" href="https://github.com/Alanvelez20">Alan Velez</a></p>
+            <p class="m-0 text-white">Designed by <a class="font-weight-bold" target="blank" href="https://github.com/Alanvelez20">Alan Velez</a></p>
         </div>
     </div>
     <!-- Footer End -->

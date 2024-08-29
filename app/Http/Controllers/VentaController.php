@@ -18,7 +18,13 @@ class VentaController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        // ->only()
+        $this->middleware(function ($request, $next) {
+            if (!auth()->user()->subscription_active) {
+                return redirect('/suscripcion')->with('error', '¡Debes contar con una suscripción!.');
+            }
+
+            return $next($request);
+        })->except('index');;
     }
 
     public function index(Request $request)
@@ -138,14 +144,17 @@ class VentaController extends Controller
         // Obtener el usuario autenticado
         $user = Auth::user();
 
-        // Buscar el animal del usuario autenticado
-        $animal = Animal::where('arete', $request->animal_arete)
-                        ->where('user_id', $user->id)
-                        ->firstOrFail();
+    // Buscar el animal del usuario autenticado
+    $animal = Animal::where('arete', $request->animal_arete)
+                    ->where('user_id', $user->id)
+                    ->get()
+                    ->first(); 
 
+    // Verificar si se encontró el animal
+    if ($animal) {
         // Buscar el lote del animal
         $lote = Lote::findOrFail($animal->animal_id_lote);
-        
+
         // Crear un registro de venta
         Venta::create([
             'arete' => $animal->arete,
@@ -154,22 +163,26 @@ class VentaController extends Controller
             'animal_peso_inicial' => $animal->animal_peso_inicial,
             'animal_peso_final' => $request->animal_peso_final,
             'animal_valor_compra' => $animal->animal_valor_compra,
-
             'animal_valor_venta' => ($request->animal_peso_final * $request->costo_kilo),
             'fecha_ingreso' => $animal->fecha_ingreso,
             'consumo_total' => $animal->consumo_total,
             'costo_total' => $animal->costo_total,
             'fecha_venta' => $request->fecha_venta,
-            'user_id'=>$user->id,
+            'user_id' => $user->id,
         ]);
 
         // Eliminar el animal de la base de datos
-        $animal->delete();
+        Animal::where('arete', $request->animal_arete)
+              ->where('user_id', $user->id)
+              ->delete();
 
         // Disminuir la cantidad de animales en el lote
         $lote->decrement('lote_cantidad');
 
-        return redirect()->route('venta.index')->with('success', 'Venta registrada exitosamente.');
+            return redirect()->route('venta.create')->with('success', 'Venta registrada exitosamente.');
+        } else {
+            return redirect()->route('venta.create')->with('error', 'Animal no encontrado o no autorizado para eliminar.');
+        }
     }
 
     /**

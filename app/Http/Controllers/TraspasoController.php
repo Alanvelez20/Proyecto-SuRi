@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Animal;
 use App\Models\Lote;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 
 class TraspasoController extends Controller
 {
@@ -16,7 +16,13 @@ class TraspasoController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        // ->only()
+        $this->middleware(function ($request, $next) {
+            if (!auth()->user()->subscription_active) {
+                return redirect('/suscripcion')->with('error', '¡Debes contar con una suscripción!.');
+            }
+
+            return $next($request);
+        })->except('index');;
     }
     public function index()
     {
@@ -50,26 +56,29 @@ class TraspasoController extends Controller
             return redirect()->back()->withErrors(['lote_destino' => 'El lote de destino debe ser diferente al lote de origen.']);
         }
 
-        $animal = Animal::where('arete', $request->animal_arete)->firstOrFail();
-        $loteOrigen = Lote::findOrFail($request->lote_origen);
-        $loteDestino = Lote::findOrFail($request->lote_destino);
+        // Buscar y actualizar el animal directamente en la base de datos
+        $affectedRows = DB::table('animals')
+        ->where('arete', $request->animal_arete)
+        ->where('animal_id_lote', $request->lote_origen)
+        ->where('user_id', Auth::id())
+        ->update(['animal_id_lote' => $request->lote_destino]);
 
-        // Verificar que el animal esté en el lote de origen
-        if ($animal->animal_id_lote != $loteOrigen->id) {
-            return redirect()->back()->withErrors(['animal_arete' => 'El animal no pertenece al lote de origen seleccionado.']);
+        if ($affectedRows === 0) {
+            return redirect()->back()->withErrors(['animal_arete' => 'El animal no se encontró en el lote de origen seleccionado para el usuario actual.']);
         }
 
-        // Actualizar el ID del lote del animal
-        $animal->animal_id_lote = $request->lote_destino;
-        $animal->save();
+        // Actualizar las cantidades en los lotes
+        DB::table('lotes')
+            ->where('id', $request->lote_origen)
+            ->decrement('lote_cantidad');
 
-        // Disminuir la cantidad de animales en el lote de origen
-        $loteOrigen->decrement('lote_cantidad');
+        DB::table('lotes')
+            ->where('id', $request->lote_destino)
+            ->increment('lote_cantidad');
 
-        // Aumentar la cantidad de animales en el lote de destino
-        $loteDestino->increment('lote_cantidad');
+        
 
-        return redirect()->route('animal.index')->with('success', 'Animal traspasado exitosamente.');
+        return redirect()->route('traspaso.create')->with('success', 'Animal traspasado exitosamente.');
     }
 
     /**

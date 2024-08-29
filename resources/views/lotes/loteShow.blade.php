@@ -34,8 +34,8 @@
                 <div class="col-md-6 mb-3">
                     <div class="card border-warning">
                         <div class="card-body">
-                            <h5 class="card-title">Consumo Total del Lote (kg)</h5>
-                            <p class="card-text">{{ $lote->consumo_total_alimento }} kg</p>
+                            <h5 class="card-title">Consumo Total del Lote (Kg)</h5>
+                            <p class="card-text">{{ $lote->consumo_total_alimento }} Kg</p>
                         </div>
                     </div>
                 </div>

@@ -13,7 +13,7 @@
             <input type="text" class="form-control" name="lote_nombre" value="{{ old('lote_nombre') ?? $lote->lote_nombre }}">
             <br>
 
-            <label for="lote_id_corral">Corral: </label>
+            <label for="lote_id_corral">Cambiar corral: </label>
             <select name="lote_id_corral" class="form-control">
                 @foreach($corrales as $corral)
                     <option style="color: black;" value="{{ $corral->id }}" @if($corral->id == $lote->lote_id_corral) selected @endif>

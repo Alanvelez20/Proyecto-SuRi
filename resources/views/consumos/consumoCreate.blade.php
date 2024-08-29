@@ -9,7 +9,7 @@
             @csrf
 
             <div class="form-group">
-                <label for="lote_id_consumo">Lote</label>
+                <label for="lote_id_consumo">Lote: </label>
                 <select name="lote_id_consumo" id="lote_id_consumo" class="form-control">
                     @foreach($lotes as $lote)
                         <option style="color: black;" value="{{ $lote->id }}">{{ $lote->lote_nombre }}</option>
@@ -29,7 +29,7 @@
             <br>
 
             <div>
-                <label for="alimento_cantidad_total">Cantidad del alimento</label>
+                <label for="alimento_cantidad_total">Cantidad del alimento (Kg): </label>
                 <input type="number" class="form-control" name="alimento_cantidad_total" value="{{ old('alimento_cantidad_total') }}">
                 @error('alimento_cantidad_total')
                     <div class="alert alert-danger">{{ $message }}</div>
@@ -38,7 +38,7 @@
             </div>
 
             <div>
-                <label for="fecha_consumo">Fecha del consumo</label>
+                <label for="fecha_consumo">Fecha del consumo: </label>
                 <input type="date" class="form-control" name="fecha_consumo" value="{{ old('fecha_consumo') }}">
                 @error('fecha_consumo')
                     <div class="alert alert-danger">{{ $message }}</div>

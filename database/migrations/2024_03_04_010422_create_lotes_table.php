@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('lote_cantidad');
             $table->float('consumo_total_alimento');
             $table->float('costo_total_alimento');
-            $table->foreignId('lote_id_corral')->constrained();
+            $table->foreignId('lote_id_corral');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

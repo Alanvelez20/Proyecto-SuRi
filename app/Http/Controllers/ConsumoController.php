@@ -9,6 +9,8 @@ use App\Models\Lote;
 use App\Models\Consumo;
 use App\Models\animal;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ConsumoController extends Controller
@@ -16,7 +18,13 @@ class ConsumoController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        // ->only()
+        $this->middleware(function ($request, $next) {
+            if (!auth()->user()->subscription_active) {
+                return redirect('/suscripcion')->with('error', '¡Debes contar con una suscripción!.');
+            }
+
+            return $next($request);
+        })->except('index');;
     }
     /**
      * Display a listing of the resource.
@@ -47,6 +55,11 @@ class ConsumoController extends Controller
             $query->where('lote_id_consumo', $request->lote_id_consumo);
         }
 
+        // Filtro por alimento
+        if ($request->has('alimento_id') && $request->alimento_id != '') {
+            $query->where('alimento_id_consumo', $request->alimento_id);
+        }
+
         // Aplicar filtro por mes
         if ($request->has('mes_consumo') && $request->mes_consumo != '') {
             $mes = $request->mes_consumo;
@@ -74,8 +87,9 @@ class ConsumoController extends Controller
         $totalCostoAlimento = $consumos->sum('valor_dieta');
 
         $lotes = Lote::where('user_id', $user->id)->get();
+        $alimentos = Alimento::where('user_id', $user->id)->get();
 
-        return view('consumos.consumoIndex', compact('consumos', 'lotes', 'totalAlimentoCantidad', 'totalCostoAlimento','meses'));
+        return view('consumos.consumoIndex', compact('consumos', 'lotes', 'alimentos', 'totalAlimentoCantidad', 'totalCostoAlimento','meses'));
     }
 
 
@@ -143,10 +157,8 @@ class ConsumoController extends Controller
                 return redirect()->back()->withErrors(['lote_id_consumo' => 'Este lote esta vacío.']);
             }
 
-            // Actualizar el consumo total del lote
             $lote->costo_total_alimento += $request->valor_dieta;
             $lote->save();
-            //valor_dieta
         }else{
             return redirect()->back()->withErrors(['alimento_cantidad_total' => 'No hay suficiente cantidad de alimento en el inventario.']);
         }
@@ -163,17 +175,17 @@ class ConsumoController extends Controller
         $lote->consumo_total_alimento += $request->alimento_cantidad_total;
         $lote->save();
 
-        $animales = Animal::where('animal_id_lote', $lote->id)->get();
-
-        foreach ($animales as $animal) {
-            $animal->consumo_total += $consumoPorAnimal;
-            $animal->costo_total += $costoPorAnimal;
-            $animal->save();
-        }
+        DB::table('animals')
+            ->where('animal_id_lote', $lote->id)
+            ->where('user_id', Auth::id())
+            ->update([
+                'consumo_total' => DB::raw('consumo_total + ' . $consumoPorAnimal),
+                'costo_total' => DB::raw('costo_total + ' . $costoPorAnimal),
+            ]);
 
         Consumo::create($request->all());
-        // Redireccionar
-        return redirect()->route('consumo.index');
+        
+        return redirect()->route('consumo.create')->with('success', 'Consumo generado correctamente.');
     }
 
     /**
@@ -191,7 +203,7 @@ class ConsumoController extends Controller
      */
     public function edit(Consumo $consumo)
     {
-        //No se puede editar un consumo
+        return view('consumos.consumoEdit', compact('consumo'));
     }
 
     /**
@@ -199,7 +211,18 @@ class ConsumoController extends Controller
      */
     public function update(Request $request, Consumo $consumo)
     {
-        //No se puede editar un consumo
+        $request->validate([
+            'fecha_consumo'=>'required',
+        ], [
+            'fecha_consumo.required' => 'El campo FECHA es obligatorio.',
+        ]);
+
+        // Actualizar solo la fecha del consumo
+        $consumo->update([
+            'fecha_consumo' => $request->fecha_consumo,
+        ]);
+
+        return redirect()->route('consumo.show', $consumo)->with('success', 'Fecha del consumo actualizada correctamente.');
     }
 
     /**

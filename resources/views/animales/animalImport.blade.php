@@ -48,7 +48,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 style="color: black" class="modal-title" id="exampleModalLabel">Imagen de Ejemplo</h3>
+          <h3  class="modal-title" id="exampleModalLabel">Imagen de Ejemplo</h3>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -68,10 +68,10 @@
         <thead>
             <tr>
                 <th>Arete</th>
-                <th>Especie</th>
-                <th>Género</th>
+                <th>Raza</th>
+                <th>Sexo</th>
                 <th>Peso</th>
-                <th>Valor de compra</th>
+                <th>Precio de compra</th>
                 <th>Fecha de ingreso</th>
                 <th>Corral</th>
                 <th>Lote</th>

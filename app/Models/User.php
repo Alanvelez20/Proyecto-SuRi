@@ -27,6 +27,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'rol',
+        'subscription_active',
+        'plan',
+        'last_sub_date',
     ];
 
     /**
@@ -58,6 +62,11 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function isSubscribed()
+    {
+        return $this->subscription_active;
+    }
 
     public function animal()
     {

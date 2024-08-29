@@ -16,11 +16,11 @@
         </div>
         <div class="form-group">
             <label for="animal_peso_final">Peso final sugerido</label>
-            <input type="number" name="animal_peso_final" id="animal_peso_final" class="form-control" value="{{ old('animal_peso_final') }}" required>
+            <input type="number" name="animal_peso_final" id="animal_peso_final" class="form-control" value="{{ old('animal_peso_final') }}" step="0.1" required>
         </div>
         <div class="form-group">
-            <label for="costo_kilo">Precio por KG</label>
-            <input type="number" name="costo_kilo" id="costo_kilo" class="form-control" required>
+            <label for="costo_kilo">Precio por Kg</label>
+            <input type="number" name="costo_kilo" id="costo_kilo" class="form-control" step="0.1" required>
         </div>
         <div class="form-group">
             <label for="fecha_venta">Fecha de venta</label>
@@ -32,11 +32,11 @@
     <h2>Resumen del Animal</h2>
     <table class="table table-bordered" id="animal-summary" style="display:none;">
     <tr><th>Arete</th><td id="summary-arete"></td></tr>
-    <tr><th>Especie</th><td id="summary-especie"></td></tr>
-    <tr><th>Género</th><td id="summary-genero"></td></tr>
+    <tr><th>Raza</th><td id="summary-especie"></td></tr>
+    <tr><th>Sexo</th><td id="summary-genero"></td></tr>
     <tr><th>Peso Inicial</th><td id="summary-peso-inicial"></td></tr>
     <tr><th>Peso Final</th><td id="summary-peso-final"></td></tr>
-    <tr><th>Valor de Compra</th><td id="summary-valor-compra"></td></tr>
+    <tr><th>Precio de Compra</th><td id="summary-valor-compra"></td></tr>
     <tr><th>Fecha de Ingreso</th><td id="summary-fecha-ingreso"></td></tr>
     <tr><th>Consumo Total</th><td id="summary-consumo-total"></td></tr>
     <tr><th>Costo Total</th><td id="summary-costo-total"></td></tr>
@@ -62,15 +62,16 @@ document.getElementById('animal_arete').addEventListener('change', function() {
             document.getElementById('animal_peso_final').value = '';
         }
     });
+    var userId = {{ Auth::id() }};
+    document.getElementById('animal_arete').addEventListener('change', function () {
+    var animalArete = this.value;
 
-document.getElementById('animal_arete').addEventListener('change', function () {
-        var animalArete = this.value;
-    
-        if (animalArete) {
-            fetch(`/api/animal/${animalArete}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Animal data:', data); // Log para depuración
+    if (animalArete) {
+        fetch(`/api/animal/${animalArete}?user_id=${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.user_id === userId) {
+                    // Actualizar los campos con la información del animal
                     document.getElementById('summary-arete').innerText = data.arete;
                     document.getElementById('summary-especie').innerText = data.animal_especie;
                     document.getElementById('summary-genero').innerText = data.animal_genero;
@@ -82,10 +83,21 @@ document.getElementById('animal_arete').addEventListener('change', function () {
                     document.getElementById('summary-costo-total').innerText = data.costo_total;
                     document.getElementById('summary-id-lote').innerText = data.animal_id_lote;
                     document.getElementById('animal-summary').style.display = 'table';
-                });
-        } else {
-            document.getElementById('animal-summary').style.display = 'none';
-        }
-    });
+                    
+                    // Actualizar el peso final sugerido
+                    document.getElementById('animal_peso_final').value = data.animal_peso_final;
+                } else {
+                    alert("Este animal no pertenece al usuario autenticado.");
+                    document.getElementById('animal-summary').style.display = 'none';
+                    document.getElementById('animal_peso_final').value = '';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    } else {
+        document.getElementById('animal-summary').style.display = 'none';
+        document.getElementById('animal_peso_final').value = '';
+    }
+});
+
 </script>
 @endsection

@@ -14,7 +14,13 @@ class LoteController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        // ->only()
+        $this->middleware(function ($request, $next) {
+            if (!auth()->user()->subscription_active) {
+                return redirect('/suscripcion')->with('error', '¡Debes contar con una suscripción!.');
+            }
+
+            return $next($request);
+        })->except('index');;
     }
     /**
      * Display a listing of the resource.
@@ -26,7 +32,11 @@ class LoteController extends Controller
         // Consulta base para los lotes del usuario autenticado
         $query = Lote::where('user_id', $user->id)->with('corral');
     
-        
+        if ($request->has('corral_filter') && !empty($request->corral_filter)) {
+            $query->whereHas('corral', function($q) use ($request) {
+                $q->where('id', $request->corral_filter);
+            });
+        }
     
         // Verificar si se solicita una ordenación específica
         if ($request->has('sort_by') && $request->has('sort_direction')) {
@@ -41,21 +51,10 @@ class LoteController extends Controller
         $totalConsumoAlimento = $lotes->sum('consumo_total_alimento');
         $totalCostoAlimento = $lotes->sum('costo_total_alimento');
     
-    
-        return view('lotes.loteIndex', compact('lotes', 'totalLotes', 'totalConsumoAlimento', 'totalCostoAlimento'));
+        $corrales = Corral::where('user_id', $user->id)->get();
 
-    }
+        return view('lotes.loteIndex', compact('lotes', 'totalLotes', 'totalConsumoAlimento', 'totalCostoAlimento', 'corrales'));
 
-    public function search(Request $request){
-        $search2 = $request->search2;
-        $user = Auth::user();
-
-        $lotes = Lote::where('user_id', $user->id)
-            ->where(function($query) use ($search2) {
-                $query->where('lote_nombre', 'like', "%$search2%");
-            })
-        ->get();
-        return view('lotes/loteIndex',compact('lotes','search2'));
     }
 
     public function export(){
@@ -98,7 +97,7 @@ class LoteController extends Controller
         Lote::create($request->all());
 
         // Redireccionar
-        return redirect()->route('lote.index');
+        return back()->with('success', 'Corral creado correctamente.');
     }
 
     /**

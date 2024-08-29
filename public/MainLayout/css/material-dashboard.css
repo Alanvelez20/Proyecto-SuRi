@@ -5766,6 +5766,7 @@ button.close {
   overflow-y: auto;
 }
 
+
 .modal-dialog {
   position: relative;
   width: auto;
@@ -5794,7 +5795,7 @@ button.close {
   flex-direction: column;
   width: 100%;
   pointer-events: auto;
-  background-color: #ffffff;
+  background-color: #fff;
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.3rem;
@@ -5836,6 +5837,7 @@ button.close {
 }
 
 .modal-title {
+  color: blueviolet;
   margin-bottom: 0;
   line-height: 1.5;
 }
@@ -11913,15 +11915,15 @@ form {
 }
 
 .has-white .form-control::-moz-placeholder {
-  color: #fff;
+  color: #AAAAAA;
 }
 
 .has-white .form-control:-ms-input-placeholder {
-  color: #fff;
+  color: #AAAAAA;
 }
 
 .has-white .form-control::-webkit-input-placeholder {
-  color: #fff;
+  color: #AAAAAA;
 }
 
 .bmd-help {
@@ -11942,6 +11944,62 @@ form {
 .bmd-help+.bmd-help {
   position: relative;
   margin-bottom: 0;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #4CAF50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 
 .radio label,
@@ -12715,7 +12773,7 @@ fieldset[disabled][disabled] .has-white .form-control,
 }
 
 .has-white .is-focused .bmd-label-placeholder {
-  color: #fff;
+  color: #AAAAAA;
 }
 
 .has-white .is-focused .form-control {
@@ -15085,7 +15143,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .footer ul li .btn {
-  margin: 0;
+  margin: 2;
 }
 
 .footer ul.links-horizontal:first-child a {
@@ -15177,7 +15235,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .header ul li .btn {
-  margin: 0;
+  margin: 1;
 }
 
 .header ul.links-horizontal:first-child a {
@@ -20587,15 +20645,15 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .dark-edition .navbar[class*="bg-"] .form-control::-moz-placeholder {
-  color: #fff;
+  color: #AAAAAA;
 }
 
 .dark-edition .navbar[class*="bg-"] .form-control:-ms-input-placeholder {
-  color: #fff;
+  color: #AAAAAA;
 }
 
 .dark-edition .navbar[class*="bg-"] .form-control::-webkit-input-placeholder {
-  color: #fff;
+  color: #AAAAAA;
 }
 
 .dark-edition .navbar .notification {
@@ -21557,7 +21615,7 @@ fieldset[disabled][disabled] .dark-edition .has-white .form-control,
 }
 
 .dark-edition .has-white .is-focused .bmd-label-placeholder {
-  color: #fff;
+  color: #AAAAAA;
 }
 
 .dark-edition .has-white .is-focused .form-control {

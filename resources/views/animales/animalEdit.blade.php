@@ -9,28 +9,42 @@
     <form action="{{ route('animal.update', $animal) }}" method="POST">
         @csrf
         @method('PATCH')
-        <label for="animal_especie">Especie</label>
+        <label for="animal_especie">Raza</label>
         <input type="text" class="form-control" name="animal_especie" value="{{ old('animal_especie') ?? $animal->animal_especie }}" required>
         <br>
 
-        <label for="animal_genero">Género</label><br>
+        <label for="animal_genero">Sexo</label><br>
         <select name="animal_genero" class="form-control" required>
             <option style="color: black;" value="Macho" @selected((old('animal_genero') ?? $animal->animal_genero) == 'Macho')>Macho</option>
             <option style="color: black;" value="Hembra" @selected((old('animal_genero') ?? $animal->animal_genero) == 'Hembra')>Hembra</option>
         </select>
         <br>
 
-        <h3>Peso Actual (kg)</h3>
+        <label for="animal_peso_inicial">Peso inicial (Kg)</label>
+        <input type="number" class="form-control" name="animal_peso_inicial" value="{{ old('animal_peso_inicial') ?? $animal->animal_peso_inicial }}" step="0.1" required>
+        <br>
+
+        <label for="animal_valor_compra">Precio de compra ($)</label>
+        <input type="number" class="form-control" name="animal_valor_compra" value="{{ old('animal_valor_compra') ?? $animal->animal_valor_compra }}" step="0.1" required>
+        <br>
+
+        <label for="fecha_ingreso">Fecha de ingreso</label>
+        <input type="date" class="form-control" name="fecha_ingreso" value="{{ old('fecha_ingreso') ?? $animal->fecha_ingreso }}" required>
+        <br>
+
+        <h3>Actualizar peso Actual (Kg)</h3>
         <div class="mb-3">
             <label for="animal_peso_final" class="form-label">Actualiza el peso del animal</label>
             <div class="input-group">
-                <input type="number" class="form-control form-control-lg border-primary font-weight-bold" id="animal_peso_final" name="animal_peso_final" value="{{ old('animal_peso_final') ?? $animal->animal_peso_final }}" required>
+                <input type="number" class="form-control form-control-lg border-primary font-weight-bold" id="animal_peso_final" name="animal_peso_final" value="{{ old('animal_peso_final') ?? $animal->animal_peso_final }}" step="0.1" required>
                 <span class="input-group-text bg-primary text-white">kg</span>
             </div>
         </div>
         <br>
 
-        <input type="submit" class="btn btn-primary" value="Guardar">
+        
+
+        <button type="submit"  class="btn btn-primary">Guardar</button>
     </form>
     </div>
     <style>

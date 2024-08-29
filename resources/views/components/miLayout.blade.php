@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>SuRi</title>
+  <title>SURI</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
@@ -12,6 +12,14 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <link rel="stylesheet" href="path/to/fontawesome/css/all.min.css">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JS (antes de cerrar el body) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
   <link rel="icon" type="image/png" href="{{ asset('mainlayout/img/logo.png') }}">
 
@@ -24,111 +32,147 @@
 
     <header class="header">
       <div class="container-fluid">
-        <nav class="float-right">
-          <ul>
-            <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('menu.corral') }}">Corrales</a>
-            </li>
-            <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('menu.lote') }}">Lotes</a>
-            </li>
-            <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('menu.animal') }}">Animales</a>
-            </li>
-            <li class="nav-item">
-              <a  class="btn btn-primary" href="{{ route('menu.alimento') }}">Alimentos</a>
-            </li>
-            <li class="nav-item">
-              <a  class="btn btn-primary" href="{{ route('menu.consumo') }}">Consumos</a>
-            </li>
-            <li class="nav-item">
-              <a  class="btn btn-primary" href="{{ route('menu.venta') }}">Ventas</a>
-            </li>
-            <li class="nav-item">
-              <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
-                @csrf
-                <button type="submit" class="btn btn-dark btn-block">Log Out</button>
-              </form>
-            </li>
-          </ul>
-        </nav>
+        @if(auth()->user()->rol == 'admin')
+          <nav class="float-right">
+            <ul>
+              <li class="nav-item">
+                <a class="btn btn-primary" href="{{ route('menu.users') }}">Usuarios</a>
+              </li>
+              <li class="nav-item">
+                <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
+                  @csrf
+                  <button type="submit" class="btn btn-dark btn-block">Log Out</button>
+                </form>
+              </li>
+            </ul>
+          </nav>
+        @else
+          <nav class="float-right">
+            <ul>
+              <li class="nav-item">
+                <a class="btn btn-primary" href="{{asset('principal')}}"> Menú Principal </a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-primary" href="{{ route('menu.corral') }}">Corrales</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-primary" href="{{ route('menu.lote') }}">Lotes</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-primary" href="{{ route('menu.animal') }}">Animales</a>
+              </li>
+              <li class="nav-item">
+                <a  class="btn btn-primary" href="{{ route('menu.alimento') }}">Alimentos</a>
+              </li>
+              <li class="nav-item">
+                <a  class="btn btn-primary" href="{{ route('menu.consumo') }}">Consumos</a>
+              </li>
+              <li class="nav-item">
+                <a  class="btn btn-primary" href="{{ route('menu.venta') }}">Ventas</a>
+              </li>
+              <li class="nav-item">
+                <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
+                  @csrf
+                  <button type="submit" class="btn btn-dark btn-block">Log Out</button>
+                </form>
+              </li>
+            </ul>
+          </nav>
+        @endif
       </div>
     </header>
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="{{asset('MainLayout/img/sidebar-2.jpg')}}">
-        <div class="logo">
-          <a href="{{asset('principal')}}" class="simple-text logo-normal">
-            Administrador 
-          </a>
-        </div>
-      <div class="sidebar-wrapper">
+      <div class="logo">
+        <a href="{{ route('user.profile') }}" class="simple-text logo-normal">
+          <img src="{{ asset('mainlayout/img/logo.png') }}" alt="Logo" width="30px" height="30px"><br>usuario <br>
+          {{ Auth::user()->name }} 
+        </a>
+      </div>
+      @if(auth()->user()->rol == 'admin')
         <ul class="nav">
           <li class="nav-item active">
-            <a class="nav-link" href="#" id="expandLink">
-              <i class="material-icons">home</i>
-              <p>Corrales</p>
-            </a>
-            <ul class="expanded-options" id="expandedOptions">
-              <li><a href="{{ route('corral.create') }}">Crear registro</a></li>
-              <li><a href="{{ route('corral.index') }}">Mostrar datos</a></li>
-            </ul>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{{ route('menu.lote') }}" id="expandLink">
+            <a class="nav-link" href="{{ route('menu.users') }}" >
               <i class="material-icons">layers</i>
-              <p>Lotes</p>
+              <p>Usuarios</p>
             </a>
             <ul class="expanded-options" id="expandedOptions">
-              <li><a href="{{ route('lote.create') }}">Crear registro</a></li>
-              <li><a href="{{ route('lote.index') }}">Mostrar datos</a></li>
-            </ul>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{{ route('menu.animal') }}" id="expandLink">
-              <i class="material-icons">pets</i>
-              <p>Animales</p>
-            </a>
-            <ul class="expanded-options" id="expandedOptions">
-              <li><a href="{{ route('animal.create') }}">Crear registro</a></li>
-              <li><a href="{{ route('animales.import.form') }}">Importar datos</a></li>
-              <li><a href="{{ route('animal.index') }}">Mostrar datos</a></li>
-              <li><a href="{{ route('traspaso.create') }}">Realizar traspaso</a></li>
-            </ul>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{{ route('menu.alimento') }}" id="expandLink">
-              <i class="material-icons">grass</i>
-              <p>Alimento</p>
-            </a>
-            <ul class="expanded-options" id="expandedOptions">
-              <li><a href="{{ route('alimento.create') }}">Crear registro</a></li>
-              <li><a href="{{ route('alimentos.import.form') }}">Importar datos</a></li>
-              <li><a href="{{ route('alimento.index') }}">Mostrar datos</a></li>
-              <li><a href="{{ route('alimento.ShowAgregar') }}">Agregar a inventario</a></li>
-            </ul>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{{ route('menu.consumo') }}" id="expandLink">
-              <i class="material-icons">restaurant</i>
-              <p>Consumo de alimentos</p>
-            </a>
-            <ul class="expanded-options" id="expandedOptions">
-              <li><a href="{{ route('consumo.create')}}">Capturar consumo</a></li>
-              <li><a href="{{route('consumo.index')}}">Mostrar datos</a></li>
-            </ul>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{{ route('menu.venta') }}" id="expandLink">
-              <i class="material-icons">shopping_cart</i>
-              <p>Venta de animal</p>
-            </a>
-            <ul class="expanded-options" id="expandedOptions">
-              <li><a href="{{ route('venta.create')}}">Capturar venta</a></li>
-              <li><a href="{{route('venta.index')}}">Mostrar datos</a></li>
+              <li><a href="{{ route('user.create') }}">Crear usuario</a></li>
+              <li><a href="{{ route('user.index') }}">Mostrar usuarios</a></li>
             </ul>
           </li>
         </ul>
-      </div>
+      @else
+        <div class="sidebar-wrapper">
+          <ul class="nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ route('menu.corral') }}">
+                <i class="material-icons">home</i>
+                <p>Corrales</p>
+              </a>
+              <ul class="expanded-options" id="expandedOptions">
+                <li><a href="{{ route('corral.create') }}">Crear registro</a></li>
+                <li><a href="{{ route('corral.index') }}">Mostrar datos</a></li>
+              </ul>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ route('menu.lote') }}" id="expandLink">
+                <i class="material-icons">layers</i>
+                <p>Lotes</p>
+              </a>
+              <ul class="expanded-options" id="expandedOptions">
+                <li><a href="{{ route('lote.create') }}">Crear registro</a></li>
+                <li><a href="{{ route('lote.index') }}">Mostrar datos</a></li>
+              </ul>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ route('menu.animal') }}" id="expandLink">
+                <i class="material-icons">pets</i>
+                <p>Animales</p>
+              </a>
+              <ul class="expanded-options" id="expandedOptions">
+                <li><a href="{{ route('animal.create') }}">Crear registro</a></li>
+                <li><a href="{{ route('animales.import.form') }}">Importar datos</a></li>
+                <li><a href="{{ route('animal.index') }}">Mostrar datos</a></li>
+                <li><a href="{{ route('traspaso.create') }}">Realizar traspaso</a></li>
+              </ul>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ route('menu.alimento') }}" id="expandLink">
+                <i class="material-icons">grass</i>
+                <p>Alimento</p>
+              </a>
+              <ul class="expanded-options" id="expandedOptions">
+                <li><a href="{{ route('alimento.create') }}">Crear registro</a></li>
+                <li><a href="{{ route('alimentos.import.form') }}">Importar datos</a></li>
+                <li><a href="{{ route('alimento.index') }}">Mostrar datos</a></li>
+                <li><a href="{{ route('alimento.ShowAgregar') }}">Agregar a inventario</a></li>
+              </ul>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ route('menu.consumo') }}" id="expandLink">
+                <i class="material-icons">restaurant</i>
+                <p>Consumo de alimentos</p>
+              </a>
+              <ul class="expanded-options" id="expandedOptions">
+                <li><a href="{{ route('consumo.create')}}">Capturar consumo</a></li>
+                <li><a href="{{route('consumo.index')}}">Mostrar datos</a></li>
+              </ul>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ route('menu.venta') }}" id="expandLink">
+                <i class="material-icons">shopping_cart</i>
+                <p>Venta de animal</p>
+              </a>
+              <ul class="expanded-options" id="expandedOptions">
+                <li><a href="{{ route('venta.create')}}">Capturar venta</a></li>
+                <li><a href="{{route('venta.index')}}">Mostrar datos</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      @endif
     </div>
+
     <div class="main-panel">     
       <div class="content">
         <div class="container-fluid">
@@ -137,40 +181,75 @@
 
           <!--/cointainer-fluid-->
         </div>
-      </div>
+    </div>
     <footer class="footer">
       <div class="container-fluid">
-        <nav class="float-right">
-          <ul>
-            <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('menu.corral') }}">Corrales</a>
-            </li>
-            <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('menu.lote') }}">Lotes</a>
-            </li>
-            <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('menu.animal') }}">Animales</a>
-            </li>
-            <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('menu.alimento') }}">Alimentos</a>
-            </li>
-            <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('menu.consumo') }}">Consumos</a>
-            </li>
-            <li class="nav-item">
-              <a class="btn btn-primary" href="{{ route('menu.venta') }}">Ventas</a>
-            </li>
-            <li class="nav-item">
-              <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
-                @csrf
-                <button type="submit" class="btn btn-dark btn-block">Log Out</button>
-              </form>
-            </li>
-          </ul>
-        </nav>
+        @if(auth()->user()->rol == 'admin')
+          <nav class="float-right">
+            <ul>
+              <li class="nav-item">
+                <a class="btn btn-primary" href="{{ route('menu.users') }}">Usuarios</a>
+              </li>
+              <li class="nav-item">
+                <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
+                  @csrf
+                  <button type="submit" class="btn btn-dark btn-block">Log Out</button>
+                </form>
+              </li>
+            </ul>
+          </nav>
+        @else
+          <nav class="float-right">
+            <ul>
+              <li class="nav-item">
+                <a class="btn btn-primary" href="{{asset('principal')}}"> Menú Principal </a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-primary" href="{{ route('menu.corral') }}">Corrales</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-primary" href="{{ route('menu.lote') }}">Lotes</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-primary" href="{{ route('menu.animal') }}">Animales</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-primary" href="{{ route('menu.alimento') }}">Alimentos</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-primary" href="{{ route('menu.consumo') }}">Consumos</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-primary" href="{{ route('menu.venta') }}">Ventas</a>
+              </li>
+              <li class="nav-item">
+                <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
+                  @csrf
+                  <button type="submit" class="btn btn-dark btn-block">Log Out</button>
+                </form>
+              </li>
+            </ul>
+          </nav>
+        @endif
       </div>
     </footer>
+    <!-- Botón Flotante -->
     
+
+  <style>
+      .btn-float {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          z-index: 1000;
+          background-color: #007bff;
+          border-color: #007bff;
+          color: white;
+          border-radius: 50%;
+          padding: 15px;
+          font-size: 15px;
+      }
+  </style>
     </div>
   </div>
   <!--   Core JS Files   -->
@@ -179,6 +258,7 @@
   <script src="{{asset('js/core/popper.min.js')}}"></script>
   <script src="{{asset('js/core/bootstrap-material-design.min.js')}}"></script>
   <script src="{{asset('js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
+
   
   <script src="https://unpkg.com/default-passive-events"></script>
   
@@ -216,6 +296,10 @@
               window.event.cancelBubble = true;
             }
           }
+        });
+        // Cuando se abre el modal, le damos foco al input
+        $('#corralModal').on('shown.bs.modal', function () {
+            $('#corralNombre').trigger('focus');
         });
 
         $("#expandLink").click(function(e) {

@@ -5,13 +5,17 @@
 
 <h2>Gráficas</h2>
 <div class="row mb-4">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <canvas id="genderChart"></canvas>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-5">
         <canvas id="loteChart"></canvas>
     </div>
+    <div class="col-md-5">
+        <canvas id="pesoChart"></canvas>
+    </div>
 </div>
+<h2>Resúmenes de información</h2>
 <div class="row mb-4">
     <div class="col-md-4">
         <div class="card">
@@ -24,16 +28,42 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Total Cantidad de Alimento</h5>
-                <p class="card-text">{{ $totalConsumoAlimento }} kg</p>
+                <h5 class="card-title">Cantidad total de alimento</h5>
+                <p class="card-text">{{ $totalConsumoAlimento }} Kg</p>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Total Costo del Alimento</h5>
-                <p class="card-text">${{ $totalCostoAlimento }}</p>
+                <h5 class="card-title">Costo total del alimento</h5>
+                <p class="card-text">$ {{ $totalCostoAlimento }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Peso inicial promedio</h5>
+                <p class="card-text">{{number_format($pesoInicialPromedio,2) }} Kg</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Peso final promedio</h5>
+                <p class="card-text">{{number_format($pesoFinalPromedio,2)  }} Kg</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Promedio de Kg producidos</h5>
+                <p class="card-text">{{ number_format($gananciaPesoPromedio,2) }} Kg</p>
             </div>
         </div>
     </div>
@@ -84,113 +114,114 @@
         </form>
     </div>
 </div>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                N° Arete
-                <a href="{{ route('animal.index', array_merge(request()->query(), ['sort_by' => 'arete', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'arete' ? 'desc' : 'asc'])) }}">
-                    @if (request('sort_by') == 'arete' && request('sort_direction') == 'asc')
-                        &#9650;
-                    @elseif (request('sort_by') == 'arete' && request('sort_direction') == 'desc')
-                        &#9660;
-                    @else
-                        &#9650;&#9660;
-                    @endif
-                </a>
-            </th>
-            <th>
-                <form method="GET" action="{{ route('animal.index') }}" style="display:inline;">
-                    <input type="hidden" name="genero_filter" value="{{ request('genero_filter') }}">
-                    <input type="hidden" name="lote_filter" value="{{ request('lote_filter') }}">
-                    <input type="hidden" name="anio_ingreso" value="{{ request('anio_ingreso') }}">
-                    <input type="hidden" name="mes_ingreso" value="{{ request('mes_ingreso') }}">
-                    <select name="especie_filter" onchange="this.form.submit()" class="form-control" style="display: inline; width: auto;">
-                        <option style="color: black" value="">Especie ᐁ</option>
-                        @foreach ($especies as $especie)
-                            <option style="color: black" value="{{ $especie }}" {{ request('especie_filter') == $especie ? 'selected' : '' }}>
-                                {{ $especie }}
-                            </option>
-                        @endforeach
-                    </select>
-                </form>
-            </th>
-            <th>
-                <form method="GET" action="{{ route('animal.index') }}" style="display:inline;">
-                    <input type="hidden" name="especie_filter" value="{{ request('especie_filter') }}">
-                    <input type="hidden" name="lote_filter" value="{{ request('lote_filter') }}">
-                    <input type="hidden" name="anio_ingreso" value="{{ request('anio_ingreso') }}">
-                    <input type="hidden" name="mes_ingreso" value="{{ request('mes_ingreso') }}">
-                    <select name="genero_filter" onchange="this.form.submit()" class="form-control" style="display: inline; width: auto;">
-                        <option style="color: black" value="">Género ᐁ</option>
-                        @foreach ($generos as $genero)
-                            <option style="color: black" value="{{ $genero }}" {{ request('genero_filter') == $genero ? 'selected' : '' }}>
-                                {{ $genero }}
-                            </option>
-                        @endforeach
-                    </select>
-                </form>
-            </th>
-            <th>Peso inicial</th>
-            <th>Peso actual/final</th>
-            <th>Valor de compra <br>(por kg)</th>
-            <th>Total de compra</th>
-            <th>Consumo total</th>
-            <th>Costo total</th>
-            <th>
-                Fecha de ingreso
-                <a href="{{ route('animal.index', array_merge(request()->query(), ['sort_by' => 'fecha_ingreso', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'fecha_ingreso' ? 'desc' : 'asc'])) }}">
-                    @if (request('sort_by') == 'fecha_ingreso' && request('sort_direction') == 'asc')
-                        &#9650;
-                    @elseif (request('sort_by') == 'fecha_ingreso' && request('sort_direction') == 'desc')
-                        &#9660;
-                    @else
-                        &#9650;&#9660;
-                    @endif
-                </a>
-            </th>
-            <th>
-                <form method="GET" action="{{ route('animal.index') }}" style="display:inline;">
-                    <input type="hidden" name="especie_filter" value="{{ request('especie_filter') }}">
-                    <input type="hidden" name="genero_filter" value="{{ request('genero_filter') }}">
-                    <input type="hidden" name="anio_ingreso" value="{{ request('anio_ingreso') }}">
-                    <input type="hidden" name="mes_ingreso" value="{{ request('mes_ingreso') }}">
-                    <select name="lote_filter" onchange="this.form.submit()" class="form-control" style="display: inline; width: auto;">
-                        <option style="color: black" value="">Número de lote ᐁ</option>
-                        @foreach ($lotes as $lote)
-                            <option style="color: black" value="{{ $lote->id }}" {{ request('lote_filter') == $lote->id ? 'selected' : '' }}>
-                                {{ $lote->lote_nombre }}
-                            </option>
-                        @endforeach
-                    </select>
-                </form>
-            </th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($animales as $animal)
+<div class="table-responsive">
+    <table class="table">
+        <thead>
             <tr>
-                <td>{{ $animal->arete }}</td>
-                <td>{{ $animal->animal_especie }}</td>
-                <td>{{ $animal->animal_genero }}</td>
-                <td>{{ $animal->animal_peso_inicial }} kg</td>
-                <td>{{ $animal->animal_peso_final }} kg</td>
-                <td>${{ $animal->animal_valor_compra }}</td>
-                <td>${{ $animal->animal_valor_compra * $animal->animal_peso_inicial }}</td>
-                <td>{{ $animal->consumo_total }}kg</td>
-                <td>${{ $animal->costo_total }}</td>
-                <td>{{ $animal->fecha_ingreso }}</td>
-                <td>{{ $animal->lote->lote_nombre }}</td>
-                <td>
-                    <a class="btn btn-info btn-block" href="{{ route('animal.show', $animal) }}">Detalle</a> 
-                    <a class="btn btn-info btn-block" href="{{ route('animal.edit', $animal) }}">Editar o <br> Actualizar</a> 
-                </td>
+                <th>
+                    N° Arete
+                    <a href="{{ route('animal.index', array_merge(request()->query(), ['sort_by' => 'arete', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'arete' ? 'desc' : 'asc'])) }}">
+                        @if (request('sort_by') == 'arete' && request('sort_direction') == 'asc')
+                            &#9650;
+                        @elseif (request('sort_by') == 'arete' && request('sort_direction') == 'desc')
+                            &#9660;
+                        @else
+                            &#9650;&#9660;
+                        @endif
+                    </a>
+                </th>
+                <th>
+                    <form method="GET" action="{{ route('animal.index') }}" style="display:inline;">
+                        <input type="hidden" name="genero_filter" value="{{ request('genero_filter') }}">
+                        <input type="hidden" name="lote_filter" value="{{ request('lote_filter') }}">
+                        <input type="hidden" name="anio_ingreso" value="{{ request('anio_ingreso') }}">
+                        <input type="hidden" name="mes_ingreso" value="{{ request('mes_ingreso') }}">
+                        <select name="especie_filter" onchange="this.form.submit()" class="form-control" style="display: inline; width: auto;">
+                            <option style="color: black" value="">Raza ᐁ</option>
+                            @foreach ($especies as $especie)
+                                <option style="color: black" value="{{ $especie }}" {{ request('especie_filter') == $especie ? 'selected' : '' }}>
+                                    {{ $especie }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
+                </th>
+                <th>
+                    <form method="GET" action="{{ route('animal.index') }}" style="display:inline;">
+                        <input type="hidden" name="especie_filter" value="{{ request('especie_filter') }}">
+                        <input type="hidden" name="lote_filter" value="{{ request('lote_filter') }}">
+                        <input type="hidden" name="anio_ingreso" value="{{ request('anio_ingreso') }}">
+                        <input type="hidden" name="mes_ingreso" value="{{ request('mes_ingreso') }}">
+                        <select name="genero_filter" onchange="this.form.submit()" class="form-control" style="display: inline; width: auto;">
+                            <option style="color: black" value="">Sexo ᐁ</option>
+                            @foreach ($generos as $genero)
+                                <option style="color: black" value="{{ $genero }}" {{ request('genero_filter') == $genero ? 'selected' : '' }}>
+                                    {{ $genero }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
+                </th>
+                <th>Peso inicial</th>
+                <th>Peso actual/final</th>
+                <th>Precio de compra <br>(por kg)</th>
+                <th>Total de compra</th>
+                <th>Consumo total</th>
+                <th>Costo total</th>
+                <th>
+                    Fecha de ingreso
+                    <a href="{{ route('animal.index', array_merge(request()->query(), ['sort_by' => 'fecha_ingreso', 'sort_direction' => request('sort_direction') == 'asc' && request('sort_by') == 'fecha_ingreso' ? 'desc' : 'asc'])) }}">
+                        @if (request('sort_by') == 'fecha_ingreso' && request('sort_direction') == 'asc')
+                            &#9650;
+                        @elseif (request('sort_by') == 'fecha_ingreso' && request('sort_direction') == 'desc')
+                            &#9660;
+                        @else
+                            &#9650;&#9660;
+                        @endif
+                    </a>
+                </th>
+                <th>
+                    <form method="GET" action="{{ route('animal.index') }}" style="display:inline;">
+                        <input type="hidden" name="especie_filter" value="{{ request('especie_filter') }}">
+                        <input type="hidden" name="genero_filter" value="{{ request('genero_filter') }}">
+                        <input type="hidden" name="anio_ingreso" value="{{ request('anio_ingreso') }}">
+                        <input type="hidden" name="mes_ingreso" value="{{ request('mes_ingreso') }}">
+                        <select name="lote_filter" onchange="this.form.submit()" class="form-control" style="display: inline; width: auto;">
+                            <option style="color: black" value="">Lote ᐁ</option>
+                            @foreach ($lotes as $lote)
+                                <option style="color: black" value="{{ $lote->id }}" {{ request('lote_filter') == $lote->id ? 'selected' : '' }}>
+                                    {{ $lote->lote_nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
+                </th>
+                <th>Acciones</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach ($animales as $animal)
+                <tr>
+                    <td>{{ $animal->arete }}</td>
+                    <td>{{ $animal->animal_especie }}</td>
+                    <td>{{ $animal->animal_genero }}</td>
+                    <td>{{ $animal->animal_peso_inicial }} Kg</td>
+                    <td>{{ $animal->animal_peso_final }} Kg</td>
+                    <td>$ {{ $animal->animal_valor_compra }}</td>
+                    <td>$ {{ $animal->animal_valor_compra * $animal->animal_peso_inicial }}</td>
+                    <td>{{ $animal->consumo_total }} Kg</td>
+                    <td>$ {{ $animal->costo_total }}</td>
+                    <td>{{ $animal->fecha_ingreso }}</td>
+                    <td>{{ $animal->lote->lote_nombre }}</td>
+                    <td>
+                        <a class="btn btn-info btn-block" href="{{ route('animal.show', $animal) }}">Detalle</a> 
+                        <a class="btn btn-info btn-block" href="{{ route('animal.edit', $animal) }}">Editar o <br> Actualizar</a> 
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -246,5 +277,37 @@
             }]
         }
     });
+
+    // Gráfica de peso
+    var ctxPeso = document.getElementById('pesoChart').getContext('2d');
+    var pesoChart = new Chart(ctxPeso, {
+        type: 'bar',
+        data: {
+            labels: ['Peso Inicial Promedio', 'Peso Final Promedio', 'Ganancia en Peso Promedio'],
+            datasets: [{
+                label: 'Peso (kg)',
+                data: [{{ $pesoInicialPromedio }}, {{ $pesoFinalPromedio }}, {{ $gananciaPesoPromedio }}],
+                backgroundColor: [
+                    'rgba(30, 195, 218, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(30, 195, 218, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
 </script>
 @endsection

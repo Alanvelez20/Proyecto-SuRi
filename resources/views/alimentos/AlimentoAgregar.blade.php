@@ -1,7 +1,7 @@
 @extends('components.miLayout')
 
 @section('content')
-    <h1>Añadir cantidad a un alimento existente</h1><br>
+    <h1>Agregar alimento</h1><br>
 
     @include('parciales.form-error')
 
@@ -17,12 +17,12 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="alimento_cantidad">Cantidad a añadir:</label>
-            <input type="number" name="alimento_cantidad" class="form-control" id="alimento_cantidad" required>
+            <label for="alimento_cantidad">Cantidad (Kg):</label>
+            <input type="number" name="alimento_cantidad" class="form-control" id="alimento_cantidad" step="0.1" required>
         </div>
         <div class="form-group">
-            <label for="alimento_precio">Costo por KG:</label>
-            <input type="number" name="alimento_precio" class="form-control" id="alimento_precio" required>
+            <label for="alimento_precio">Costo por Kg:</label>
+            <input type="number" name="alimento_precio" class="form-control" id="alimento_precio" step="0.1" required>
         </div>
         <button type="submit" class="btn btn-primary">Añadir cantidad</button>
     </form>
