@@ -48,7 +48,7 @@
             @if ($alimento->archivo_nombre != "null" && $alimento->archivo_nombre != "0")
                 <h4 class="mb-3">
                     <a href="{{ route('alimento.descarga', $alimento) }}" class="btn btn-info">
-                        <img src="{{ asset('mainlayout/img/descargar.png') }}" alt="Descargar" style="width: 20px; height: 20px;">
+                        <img src="{{ asset('MainLayout\template\img\descargar.png') }}" alt="Descargar" style="width: 20px; height: 20px;">
                         Descargar {{ $alimento->archivo_nombre }}
                     </a>
                 </h4>

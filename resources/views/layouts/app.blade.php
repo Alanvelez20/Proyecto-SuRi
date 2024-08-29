@@ -11,7 +11,7 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="icon" type="image/png" href="{{ asset('mainlayout/img/logo.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('MainLayout\template\img\logo.png') }}">
 
 
         <!-- Scripts -->

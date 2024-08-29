@@ -17,16 +17,16 @@ class DatabaseSeeder extends Seeder
         User::factory()
             ->create([
                 'name' => 'Admin',
-                'email' => 'admin@test.com',
-                'password' => Hash::make('admin'),
+                'email' => 'surimx2024@gmail.com',
+                'password' => Hash::make('Masterpw123'),
                 'rol' => 'admin',
             ]);
             
         User::factory()
             ->create([
                 'name' => 'Test',
-                'email' => 'test@test.com',
-                'password' => Hash::make('test'),
+                'email' => 'alanvelez20@gmail.com',
+                'password' => Hash::make('Alanvelez20'),
                 'rol' => 'usuario',
             ]);
     }

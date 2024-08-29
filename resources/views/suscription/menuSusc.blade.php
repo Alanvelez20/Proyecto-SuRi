@@ -14,7 +14,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="{{asset('MainLayout/css/material-dashboard.css')}}">
-    <title>SuRi</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('MainLayout/template/img/logo.ico') }}">
+    <title>SURI</title>
     <style>
         h1 {
             color: darkorchid;
@@ -169,7 +170,7 @@
             </button>
             </div>
             <div class="modal-body text-center">
-            <img src="{{ asset('mainlayout/img/pago.png') }}" alt="Datos de la cuenta" class="img-fluid">
+            <img src="{{ asset('MainLayout\template\img\pago.png') }}" alt="Datos de la cuenta" class="img-fluid">
             </div>
         </div>
         </div>

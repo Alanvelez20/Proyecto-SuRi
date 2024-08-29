@@ -5,7 +5,10 @@
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
-            {{ __('¿Olvidaste tu contraseña? No hay problema. Ingresa tu correo electrónico y nosotros te haremos llegar un correo con un link para que puedas restablecer tu contraseña y elegir una nueva.') }}
+            {{ __('¿Olvidaste tu contraseña? No hay problema. ') }}<br>
+            {{ __('Ingresa tu correo electrónico y nosotros te haremos ')}}<br>
+            {{ __('llegar un correo con un link para que puedas') }}<br>
+            {{ __('restablecer tu contraseña.') }}
         </div>
 
         @if (session('status'))
@@ -19,15 +22,13 @@
         <form method="POST" action="{{ route('password.email') }}">
             @csrf
 
-            <div class="block">
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <div class="form-group">
+                <label for="email">{{ __('Email') }}</label>
+                <input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <x-button class="btn btn-warning ms-4">
-                    {{ __('Enviar correo') }}
-                </x-button>
+            <div class="form-group">
+                <button type="submit">{{ __('Enviar correo') }}</button>
             </div>
         </form>
     </x-authentication-card>

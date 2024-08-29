@@ -21,7 +21,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
-  <link rel="icon" type="image/png" href="{{ asset('mainlayout/img/logo.png') }}">
+<link rel="icon" type="image/x-icon" href="{{ asset('MainLayout/template/img/logo.ico') }}">
 
   <!-- Material Kit CSS -->
   <link rel="stylesheet" href="{{asset('MainLayout/css/material-dashboard.css')}}">
@@ -81,10 +81,10 @@
         @endif
       </div>
     </header>
-    <div class="sidebar" data-color="purple" data-background-color="black" data-image="{{asset('MainLayout/img/sidebar-2.jpg')}}">
+    <div class="sidebar" data-color="purple" data-background-color="black">
       <div class="logo">
         <a href="{{ route('user.profile') }}" class="simple-text logo-normal">
-          <img src="{{ asset('mainlayout/img/logo.png') }}" alt="Logo" width="30px" height="30px"><br>usuario <br>
+          <img src="{{ asset('MainLayout\template\img\logo.png') }}" alt="Logo" width="30px" height="30px"><br>usuario <br>
           {{ Auth::user()->name }} 
         </a>
       </div>

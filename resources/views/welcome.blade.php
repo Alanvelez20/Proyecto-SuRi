@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>SuRi</title>
+        <title>SURI</title>
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
@@ -19,7 +19,7 @@
     <!-- Libraries Stylesheet -->
     <link href="{{asset('lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
     <link href="{{asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')}}" rel="stylesheet" />
-    <link rel="icon" type="image/png" href="{{ asset('mainlayout/img/logo.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('MainLayout/template/img/logo.ico') }}">
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{asset('MainLayout/template/css/style.css')}}" rel="stylesheet">
@@ -30,7 +30,7 @@
     <div class="container-fluid p-0 nav-bar">
         <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
             <a href="/" class="navbar-brand px-lg-4 m-0">
-                <img src="{{ asset('mainlayout/img/logo.png') }}" alt="Logo" style="width: 5vmax; height: 5 vmax;">
+                <img src="{{ asset('MainLayout\template\img\logo.png') }}" alt="Logo" style="width: 5vmax; height: 5 vmax;">
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
@@ -65,8 +65,8 @@
         <div id="blog-carousel" class="carousel slide overlay-bottom" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="w-100" src="{{ asset('MainLayout\template\img\carousel-1.jpg') }}" alt="Image">
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                    <img class="w-100" src="{{ asset('MainLayout/template/img/carousel-1.jpg') }}" alt="Image" style="object-fit: cover; height: 50vh;">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center" style="background: rgba(0, 0, 0, 0.5); padding: 20px;">
                         <h2 class="text-warning font-weight-medium m-0">Controlador de ganado</h2>
                         <h1 class="display-1 text-white m-0">SURI</h1>
                         <h2 class="text-white m-0">Sistema de Uso de Raciones Integrales</h2>
@@ -74,8 +74,8 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img class="w-100" src="{{ asset('MainLayout\template\img\carousel-2.jpg') }}" alt="Image">
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                    <img class="w-100" src="{{ asset('MainLayout\template\img\carousel-2.jpg') }}" alt="Image" style="object-fit: cover; height: 50vh;">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center" style="background: rgba(0, 0, 0, 0.5); padding: 20px;">
                         <h2 class="text-warning font-weight-medium m-0">Controlador de ganado</h2>
                         <h1 class="display-1 text-white m-0">SURI</h1>
                         <h2 class="text-white m-0">Sistema de Uso de Raciones Integrales</h2>

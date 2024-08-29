@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\animal;
+use App\Models\Animal;
 use App\Models\Lote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

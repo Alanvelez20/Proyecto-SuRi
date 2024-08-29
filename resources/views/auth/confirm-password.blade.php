@@ -13,15 +13,13 @@
         <form method="POST" action="{{ route('password.confirm') }}">
             @csrf
 
-            <div>
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" autofocus />
+            <div class="form-group">
+                <label for="password">{{ __('Password') }}</label>
+                <input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" autofocus />
             </div>
 
-            <div class="flex justify-end mt-4">
-                <x-button class="btn btn-warning ms-4">
-                    {{ __('Confirmar') }}
-                </x-button>
+            <div class="form-group mt-4">
+                <button type="submit">{{ __('Confirmar') }}</button>
             </div>
         </form>
     </x-authentication-card>

@@ -15,33 +15,31 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <div class="form-group">
+                <label for="email">{{ __('Email') }}</label><br>
+                <input id="email" type="email" name="email" :value="old('email')" required autofocus autocomplete="username">
             </div>
 
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Contraseña') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+            <div class="form-group">
+                <label for="password">{{ __('Contraseña') }}</label><br>
+                <input id="password" type="password" name="password" required autocomplete="current-password">
             </div>
 
-            <div class="block mt-4">
-                <label for="remember_me" class="flex items-center">
-                    <x-checkbox id="remember_me" name="remember" />
-                    <span class="ms-2 text-sm text-gray-600">{{ __('Recuérdame') }}</span>
-                </label>
+            <div class="form-group checkbox-label">
+                <input id="remember_me" type="checkbox" name="remember">
+                <span>{{ __('Recuérdame') }}</span>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="form-actions">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('¿Olvidaste tu contraseña?') }}
+                    <a href="{{ route('password.request') }}">
+                        {{ __('¿Olvidaste tu contraseña? ') }}
                     </a>
                 @endif
-
-                <x-button class="btn btn-warning ms-4">
+        
+                <button type="submit" class="btn btn-primary">
                     {{ __('Iniciar sesión') }}
-                </x-button>
+                </button>
             </div>
         </form>
     </x-authentication-card>
