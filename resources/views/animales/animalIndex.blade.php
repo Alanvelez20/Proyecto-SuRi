@@ -215,7 +215,7 @@
                     <td>{{ $animal->lote->lote_nombre }}</td>
                     <td>
                         <a class="btn btn-info btn-block" href="{{ route('animal.show', $animal) }}">Detalle</a> 
-                        <a class="btn btn-info btn-block" href="{{ route('animal.edit', $animal) }}">Editar o <br> Actualizar</a> 
+                        <a class="btn btn-info btn-block" href="{{ route('animal.edit', $animal) }}">Editar</a> 
                     </td>
                 </tr>
             @endforeach

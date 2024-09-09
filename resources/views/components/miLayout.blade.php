@@ -27,60 +27,27 @@
   <link rel="stylesheet" href="{{asset('MainLayout/css/material-dashboard.css')}}">
 </head>
 
-<body class="dark-edition">
+<body class="dark-edition"> 
   <div class="wrapper ">
 
     <header class="header">
       <div class="container-fluid">
-        @if(auth()->user()->rol == 'admin')
-          <nav class="float-right">
-            <ul>
-              <li class="nav-item">
-                <a class="btn btn-primary" href="{{ route('menu.users') }}">Usuarios</a>
-              </li>
-              <li class="nav-item">
-                <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
-                  @csrf
-                  <button type="submit" class="btn btn-dark btn-block">Log Out</button>
-                </form>
-              </li>
-            </ul>
-          </nav>
-        @else
-          <nav class="float-right">
-            <ul>
-              <li class="nav-item">
-                <a class="btn btn-primary" href="{{asset('principal')}}"> Menú Principal </a>
-              </li>
-              <li class="nav-item">
-                <a class="btn btn-primary" href="{{ route('menu.corral') }}">Corrales</a>
-              </li>
-              <li class="nav-item">
-                <a class="btn btn-primary" href="{{ route('menu.lote') }}">Lotes</a>
-              </li>
-              <li class="nav-item">
-                <a class="btn btn-primary" href="{{ route('menu.animal') }}">Animales</a>
-              </li>
-              <li class="nav-item">
-                <a  class="btn btn-primary" href="{{ route('menu.alimento') }}">Alimentos</a>
-              </li>
-              <li class="nav-item">
-                <a  class="btn btn-primary" href="{{ route('menu.consumo') }}">Consumos</a>
-              </li>
-              <li class="nav-item">
-                <a  class="btn btn-primary" href="{{ route('menu.venta') }}">Ventas</a>
-              </li>
-              <li class="nav-item">
-                <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
-                  @csrf
-                  <button type="submit" class="btn btn-dark btn-block">Log Out</button>
-                </form>
-              </li>
-            </ul>
-          </nav>
-        @endif
+        <nav class="float-right">
+          <ul>
+            <li>
+              <a class="btn btn-primary" href="{{asset('principal')}}"> Menú Principal </a>
+            </li>
+            <li>
+              <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
+                @csrf
+                <button type="submit" class="btn btn-primary btn-block">Log Out</button>
+              </form>
+            </li>
+          </ul>
+        </nav>
       </div>
     </header>
+    
     <div class="sidebar" data-color="purple" data-background-color="black">
       <div class="logo">
         <a href="{{ route('user.profile') }}" class="simple-text logo-normal">
@@ -95,7 +62,7 @@
               <i class="material-icons">layers</i>
               <p>Usuarios</p>
             </a>
-            <ul class="expanded-options" id="expandedOptions">
+            <ul class="expanded-options">
               <li><a href="{{ route('user.create') }}">Crear usuario</a></li>
               <li><a href="{{ route('user.index') }}">Mostrar usuarios</a></li>
             </ul>
@@ -109,27 +76,27 @@
                 <i class="material-icons">home</i>
                 <p>Corrales</p>
               </a>
-              <ul class="expanded-options" id="expandedOptions">
+              <ul class="expanded-options">
                 <li><a href="{{ route('corral.create') }}">Crear registro</a></li>
                 <li><a href="{{ route('corral.index') }}">Mostrar datos</a></li>
               </ul>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="{{ route('menu.lote') }}" id="expandLink">
+              <a class="nav-link" href="{{ route('menu.lote') }}" >
                 <i class="material-icons">layers</i>
                 <p>Lotes</p>
               </a>
-              <ul class="expanded-options" id="expandedOptions">
+              <ul class="expanded-options">
                 <li><a href="{{ route('lote.create') }}">Crear registro</a></li>
                 <li><a href="{{ route('lote.index') }}">Mostrar datos</a></li>
               </ul>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="{{ route('menu.animal') }}" id="expandLink">
+              <a class="nav-link" href="{{ route('menu.animal') }}">
                 <i class="material-icons">pets</i>
                 <p>Animales</p>
               </a>
-              <ul class="expanded-options" id="expandedOptions">
+              <ul class="expanded-options">
                 <li><a href="{{ route('animal.create') }}">Crear registro</a></li>
                 <li><a href="{{ route('animales.import.form') }}">Importar datos</a></li>
                 <li><a href="{{ route('animal.index') }}">Mostrar datos</a></li>
@@ -137,11 +104,11 @@
               </ul>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="{{ route('menu.alimento') }}" id="expandLink">
+              <a class="nav-link" href="{{ route('menu.alimento') }}">
                 <i class="material-icons">grass</i>
                 <p>Alimento</p>
               </a>
-              <ul class="expanded-options" id="expandedOptions">
+              <ul class="expanded-options">
                 <li><a href="{{ route('alimento.create') }}">Crear registro</a></li>
                 <li><a href="{{ route('alimentos.import.form') }}">Importar datos</a></li>
                 <li><a href="{{ route('alimento.index') }}">Mostrar datos</a></li>
@@ -149,21 +116,21 @@
               </ul>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="{{ route('menu.consumo') }}" id="expandLink">
+              <a class="nav-link" href="{{ route('menu.consumo') }}">
                 <i class="material-icons">restaurant</i>
                 <p>Consumo de alimentos</p>
               </a>
-              <ul class="expanded-options" id="expandedOptions">
+              <ul class="expanded-options">
                 <li><a href="{{ route('consumo.create')}}">Capturar consumo</a></li>
                 <li><a href="{{route('consumo.index')}}">Mostrar datos</a></li>
               </ul>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="{{ route('menu.venta') }}" id="expandLink">
+              <a class="nav-link" href="{{ route('menu.venta') }}" >
                 <i class="material-icons">shopping_cart</i>
                 <p>Venta de animal</p>
               </a>
-              <ul class="expanded-options" id="expandedOptions">
+              <ul class="expanded-options">
                 <li><a href="{{ route('venta.create')}}">Capturar venta</a></li>
                 <li><a href="{{route('venta.index')}}">Mostrar datos</a></li>
               </ul>
@@ -172,6 +139,7 @@
         </div>
       @endif
     </div>
+    <button id="toggleSidebar" class="toggle-btn">☰</button>
 
     <div class="main-panel">     
       <div class="content">
@@ -181,78 +149,28 @@
 
           <!--/cointainer-fluid-->
         </div>
+      </div>
     </div>
     <footer class="footer">
       <div class="container-fluid">
-        @if(auth()->user()->rol == 'admin')
-          <nav class="float-right">
-            <ul>
-              <li class="nav-item">
-                <a class="btn btn-primary" href="{{ route('menu.users') }}">Usuarios</a>
-              </li>
-              <li class="nav-item">
-                <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
-                  @csrf
-                  <button type="submit" class="btn btn-dark btn-block">Log Out</button>
-                </form>
-              </li>
-            </ul>
-          </nav>
-        @else
-          <nav class="float-right">
-            <ul>
-              <li class="nav-item">
-                <a class="btn btn-primary" href="{{asset('principal')}}"> Menú Principal </a>
-              </li>
-              <li class="nav-item">
-                <a class="btn btn-primary" href="{{ route('menu.corral') }}">Corrales</a>
-              </li>
-              <li class="nav-item">
-                <a class="btn btn-primary" href="{{ route('menu.lote') }}">Lotes</a>
-              </li>
-              <li class="nav-item">
-                <a class="btn btn-primary" href="{{ route('menu.animal') }}">Animales</a>
-              </li>
-              <li class="nav-item">
-                <a class="btn btn-primary" href="{{ route('menu.alimento') }}">Alimentos</a>
-              </li>
-              <li class="nav-item">
-                <a class="btn btn-primary" href="{{ route('menu.consumo') }}">Consumos</a>
-              </li>
-              <li class="nav-item">
-                <a class="btn btn-primary" href="{{ route('menu.venta') }}">Ventas</a>
-              </li>
-              <li class="nav-item">
-                <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
-                  @csrf
-                  <button type="submit" class="btn btn-dark btn-block">Log Out</button>
-                </form>
-              </li>
-            </ul>
-          </nav>
-        @endif
+        <nav class="float-right">
+          <ul>
+            <li>
+              <a class="btn btn-primary" href="{{asset('principal')}}"> Menú Principal </a>
+            </li>
+            <li>
+            <li>
+              <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
+                @csrf
+                <button type="submit" class="btn btn-primary btn-block">Log Out</button>
+              </form>
+            </li>
+          </ul>
+        </nav>
       </div>
     </footer>
-    <!-- Botón Flotante -->
-    
-
-  <style>
-      .btn-float {
-          position: fixed;
-          bottom: 20px;
-          right: 20px;
-          z-index: 1000;
-          background-color: #007bff;
-          border-color: #007bff;
-          color: white;
-          border-radius: 50%;
-          padding: 15px;
-          font-size: 15px;
-      }
-  </style>
-    </div>
   </div>
-  <!--   Core JS Files   -->
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="{{asset('js/core/jquery.min.js')}}"></script>
   <script src="{{asset('js/core/popper.min.js')}}"></script>
@@ -261,34 +179,46 @@
 
   
   <script src="https://unpkg.com/default-passive-events"></script>
-  
-  <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!--  Google Maps Plugin    -->
   <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-  <!-- Chartist JS -->
   <script src="{{asset('js/plugins/chartist.min.js')}}"></script>
-  <!--  Notifications Plugin    -->
   <script src="{{asset('js/plugins/bootstrap-notify.js')}}"></script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{asset('js/material-dashboard.js?v=2.1.0')}}"></script>
-  <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script src="{{asset('demo/demo.js')}}"></script>
   <script>
     $(document).ready(function() {
       $().ready(function() {
         $sidebar = $('.sidebar');
+        /*let touchStartX = 0;
+        let touchEndX = 0;
+        const swipeThreshold = 50;
 
-        $sidebar_img_container = $sidebar.find('.sidebar-background');
+         // Detectar el inicio del toque
+        $(document).on('touchstart', function(e) {
+          touchStartX = e.changedTouches[0].screenX;
+        });
 
-        $full_page = $('.full-page');
+        // Detectar el final del toque y decidir si fue un "swipe"
+        $(document).on('touchend', function(e) {
+          touchEndX = e.changedTouches[0].screenX;
+          handleSwipe();
+        });
 
-        $sidebar_responsive = $('body > .navbar-collapse');
-
-        window_width = $(window).width();
+        // Función para manejar el gesto de deslizamiento
+        function handleSwipe() {
+          if (touchStartX - touchEndX > swipeThreshold) {
+            // Swipe hacia la izquierda - Ocultar Sidebar
+            $sidebar.addClass('hidden');
+            $mainPanel.addClass('full-width');
+          }
+          if (touchEndX - touchStartX > swipeThreshold) {
+            // Swipe hacia la derecha - Mostrar Sidebar
+            $sidebar.removeClass('hidden');
+            $mainPanel.removeClass('full-width');
+          }
+        }*/
 
         $('.fixed-plugin a').click(function(event) {
-          // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
           if ($(this).hasClass('switch-trigger')) {
             if (event.stopPropagation) {
               event.stopPropagation();
@@ -297,116 +227,23 @@
             }
           }
         });
-        // Cuando se abre el modal, le damos foco al input
-        $('#corralModal').on('shown.bs.modal', function () {
-            $('#corralNombre').trigger('focus');
+        
+
+        $(".nav-link").click(function(e) {
+            e.preventDefault();
+            $(this).next(".expanded-options").toggleClass("expanded");
         });
 
-        $("#expandLink").click(function(e) {
-        e.preventDefault();
-        $("#expandedOptions").toggleClass("expanded");
-        });
+        $(document).ready(function() {
+          // Sidebar está oculta al cargar
+          $(".sidebar").removeClass("active");
+          $(".main-panel").removeClass("active");
 
-        $('.fixed-plugin .active-color span').click(function() {
-          $full_page_background = $('.full-page-background');
-
-          $(this).siblings().removeClass('active');
-          $(this).addClass('active');
-
-          var new_color = $(this).data('color');
-
-          if ($sidebar.length != 0) {
-            $sidebar.attr('data-color', new_color);
-          }
-
-          if ($full_page.length != 0) {
-            $full_page.attr('filter-color', new_color);
-          }
-
-          if ($sidebar_responsive.length != 0) {
-            $sidebar_responsive.attr('data-color', new_color);
-          }
-        });
-
-        $('.fixed-plugin .background-color .badge').click(function() {
-          $(this).siblings().removeClass('active');
-          $(this).addClass('active');
-
-          var new_color = $(this).data('background-color');
-
-          if ($sidebar.length != 0) {
-            $sidebar.attr('data-background-color', new_color);
-          }
-        });
-
-        $('.fixed-plugin .img-holder').click(function() {
-          $full_page_background = $('.full-page-background');
-
-          $(this).parent('li').siblings().removeClass('active');
-          $(this).parent('li').addClass('active');
-
-
-          var new_image = $(this).find("img").attr('src');
-
-          if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
-            $sidebar_img_container.fadeOut('fast', function() {
-              $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
-              $sidebar_img_container.fadeIn('fast');
-            });
-          }
-
-          if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
-            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
-
-            $full_page_background.fadeOut('fast', function() {
-              $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
-              $full_page_background.fadeIn('fast');
-            });
-          }
-
-          if ($('.switch-sidebar-image input:checked').length == 0) {
-            var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr('src');
-            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
-
-            $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
-            $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
-          }
-
-          if ($sidebar_responsive.length != 0) {
-            $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
-          }
-        });
-
-        $('.switch-sidebar-image input').change(function() {
-          $full_page_background = $('.full-page-background');
-
-          $input = $(this);
-
-          if ($input.is(':checked')) {
-            if ($sidebar_img_container.length != 0) {
-              $sidebar_img_container.fadeIn('fast');
-              $sidebar.attr('data-image', '#');
-            }
-
-            if ($full_page_background.length != 0) {
-              $full_page_background.fadeIn('fast');
-              $full_page.attr('data-image', '#');
-            }
-
-            background_image = true;
-          } else {
-            if ($sidebar_img_container.length != 0) {
-              $sidebar.removeAttr('data-image');
-              $sidebar_img_container.fadeOut('fast');
-            }
-
-            if ($full_page_background.length != 0) {
-              $full_page.removeAttr('data-image', '#');
-              $full_page_background.fadeOut('fast');
-            }
-
-            background_image = false;
-          }
+          // Evento para mostrar/ocultar la sidebar
+          $("#toggleSidebar").click(function() {
+            $(".sidebar").toggleClass("active"); // Alterna la visibilidad de la sidebar
+            $(".main-panel").toggleClass("active"); // Mueve el contenido principal cuando la sidebar está visible
+          });
         });
 
         $('.switch-sidebar-mini input').change(function() {

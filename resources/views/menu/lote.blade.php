@@ -12,7 +12,7 @@
         <div class="col-md-6 mb-4">
             <div class="card border-primary shadow-sm">
                 <div class="card-body text-center">
-                    <i class="material-icons" style="font-size: 36px; color:darkorchid">add</i>
+                    <i class="material-icons" style="font-size: 36px; color:#F2AA1F">add</i>
                     <h3 class="card-title text-primary">Crear Registro</h3>
                     <p class="card-text">Registra un nuevo lote.</p>
                     <a class="btn btn-primary" href="{{ route('lote.create') }}">Crear Registro</a>
@@ -22,7 +22,7 @@
         <div class="col-md-6 mb-4">
             <div class="card border-primary shadow-sm">
                 <div class="card-body text-center">
-                    <i class="material-icons" style="font-size: 36px; color:darkorchid">visibility</i>
+                    <i class="material-icons" style="font-size: 36px; color:#F2AA1F">visibility</i>
                     <h3 class="card-title text-primary">Mostrar Datos</h3>
                     <p class="card-text">Visualiza todos los lotes registrados.</p>
                     <a class="btn btn-primary" href="{{ route('lote.index') }}">Mostrar Datos</a>

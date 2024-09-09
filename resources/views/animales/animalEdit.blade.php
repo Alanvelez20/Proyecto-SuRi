@@ -32,12 +32,12 @@
         <input type="date" class="form-control" name="fecha_ingreso" value="{{ old('fecha_ingreso') ?? $animal->fecha_ingreso }}" required>
         <br>
 
-        <h3>Actualizar peso Actual (Kg)</h3>
+        <h2>Actualizar peso Actual (Kg)</h2>
         <div class="mb-3">
             <label for="animal_peso_final" class="form-label">Actualiza el peso del animal</label>
             <div class="input-group">
                 <input type="number" class="form-control form-control-lg border-primary font-weight-bold" id="animal_peso_final" name="animal_peso_final" value="{{ old('animal_peso_final') ?? $animal->animal_peso_final }}" step="0.1" required>
-                <span class="input-group-text bg-primary text-white">kg</span>
+                <span class="input-group-text bg-primary text-white">Kg</span>
             </div>
         </div>
         <br>

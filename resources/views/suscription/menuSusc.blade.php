@@ -18,15 +18,15 @@
     <title>SURI</title>
     <style>
         h1 {
-            color: darkorchid;
+            color: #114358;
         }
 
         h2 {
-            color: darkorchid;
+            color: #114358;
         }
 
         h3 {
-            color: darkorchid;
+            color: #114358;
         }
 
         p {
@@ -54,12 +54,12 @@
 
     .custom-file-styled .custom-file-label i {
         margin-right: 8px;
-        color: darkorchid;
+        color: #114358;
     }
 
     .custom-file-styled:hover {
         background-color: #e9ecef;
-        border-color: darkorchid;
+        border-color: #114358;
     }
     </style>
 </head>
@@ -73,7 +73,7 @@
             <div class="col-md-8">
                 <div class="card border-primary shadow-sm mb-4">
                     <div class="card-body text-center">
-                        <h2 class="card-title text-primary">Beneficios</h2>
+                        <h2 class="card-title text-susc">Beneficios</h2>
                         <p class="card-text">
                             • Crea corrales para controlar la ubicación de tus animales. <br>
                             • Crea lotes y visualiza el consumo de alimentos de los animales en el lote.<br>
@@ -96,8 +96,8 @@
                 <div class="col-md-6 mb-4">
                     <div class="card border-primary shadow-sm">
                         <div class="card-body text-center">
-                            <i class="material-icons md-48" style="font-size: 36px; color:darkorchid">calendar_today</i>
-                            <h2 class="card-title text-primary">Mensual</h2>
+                            <i class="material-icons md-48" style="font-size: 36px; color:#114358">calendar_today</i>
+                            <h2 class="card-title text-susc">Mensual</h2>
                             <h2>$200.00 mxn</h2>
                             <input type="radio" name="plan" value="mensual" id="mensual" required>
                             <label for="mensual">Seleccionar este plan</label>
@@ -107,8 +107,8 @@
                 <div class="col-md-6 mb-4">
                     <div class="card border-primary shadow-sm">
                         <div class="card-body text-center">
-                            <i class="material-icons md-48" style="font-size: 36px; color:darkorchid">event</i>
-                            <h2 class="card-title text-primary">Anual</h2>
+                            <i class="material-icons md-48" style="font-size: 36px; color:#114358">event</i>
+                            <h2 class="card-title text-susc">Anual</h2>
                             <h2>$1200.00 mxn</h2>
                             <input type="radio" name="plan" value="anual" id="anual" required>
                             <label for="anual">Seleccionar este plan</label>
@@ -129,8 +129,8 @@
             <div class="col-md-12 mb-4">
                 <div class="card border-primary shadow-sm">
                     <div class="card-body text-center">
-                        <i class="material-icons md-48" style="font-size: 36px; color:darkorchid">compare_arrows</i>
-                        <h2 class="card-title text-primary">Transferencia</h2>
+                        <i class="material-icons md-48" style="font-size: 36px; color:#114358">compare_arrows</i>
+                        <h2 class="card-title text-susc">Transferencia</h2>
                         <p class="card-text">Puedes realizar una transferencia bancaria, depósitos bancarios, así como realizar depósitos en tiendas de autoservicio. Oprime el botón para ver los datos de la cuenta a transferir.</p>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imageModal">
                             Mostrar datos
@@ -145,8 +145,8 @@
             <div class="col-md-12 mb-4">
                 <div class="card border-primary shadow-sm">
                     <div class="card-body text-center">
-                        <i class="material-icons md-48" style="font-size: 36px; color:darkorchid">attach_money</i>
-                        <h2 class="card-title text-primary">Comprobación de pago</h2>
+                        <i class="material-icons md-48" style="font-size: 36px; color:#114358">attach_money</i>
+                        <h2 class="card-title text-susc">Comprobación de pago</h2>
                         <p class="card-text">Si ya realizaste tu pago por un método de pago como puede ser efectivo, 
                             transferencia o depósito de alguna manera, debes enviar la comprobación de tu pago en el 
                             siguiente formulario para activar tu cuenta.</p>

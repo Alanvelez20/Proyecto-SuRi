@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <h1 class="text-center">ADMINISTRA TU PRODUCCIÓN</h1>
+    <h1 class="text-center text-color">ADMINISTRA TU PRODUCCIÓN</h1>
     <div class="row">
         <div class="col-md-6 mb-4">
             <div class="card border-primary shadow-sm">

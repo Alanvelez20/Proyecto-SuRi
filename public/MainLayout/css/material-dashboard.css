@@ -101,7 +101,9 @@ address {
   font-style: normal;
   line-height: inherit;
 }
-
+.text-susc{
+color: 114358;
+}
 ol,
 ul,
 dl {
@@ -753,6 +755,21 @@ progress {
   vertical-align: baseline;
 }
 
+/* Para WebKit (Chrome, Safari, Edge basado en Chromium) */
+input[type=number] {
+  color: #114358; /* Aplica color negro al texto y las flechitas */
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  filter: invert(1); /* Cambia las flechitas a color negro */
+}
+
+/* Para Firefox (oculta las flechitas si no quieres personalizarlas) */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 [type="number"]::-webkit-inner-spin-button,
 [type="number"]::-webkit-outer-spin-button {
   height: auto;
@@ -842,6 +859,7 @@ h6,
 .lead {
   font-size: 1.25rem;
   font-weight: 300;
+  color: #000;
 }
 
 .display-1 {
@@ -2349,6 +2367,15 @@ pre code {
   box-shadow: none;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
+.expanded-options {
+  display: none;
+}
+
+.expanded-options.expanded {
+  display: block;
+}
+
 
 .form-control::-ms-expand {
   background-color: transparent;
@@ -5837,7 +5864,7 @@ button.close {
 }
 
 .modal-title {
-  color: blueviolet;
+  color: #114358;
   margin-bottom: 0;
   line-height: 1.5;
 }
@@ -9265,6 +9292,9 @@ button.bg-dark:focus {
 .text-center {
   text-align: center !important;
 }
+.text-color {
+  color: #114358;
+}
 
 @media (min-width: 576px) {
   .text-sm-left {
@@ -9355,7 +9385,7 @@ button.bg-dark:focus {
 }
 
 .text-primary {
-  color: #2196f3 !important;
+  color: #F1ECE7 !important;
 }
 
 a.text-primary:hover,
@@ -9477,23 +9507,23 @@ a.text-dark:focus {
 
 .btn.btn-primary {
   color: #fff;
-  background-color: #9c27b0;
-  border-color: #9c27b0;
-  box-shadow: 0 2px 2px 0 rgba(156, 39, 176, 0.14), 0 3px 1px -2px rgba(156, 39, 176, 0.2), 0 1px 5px 0 rgba(156, 39, 176, 0.12);
+  background-color: #114358;
+  border-color: #0f3c4f;
+  box-shadow: 0 2px 2px 0 rgba(17, 67, 88 , 0.14), 0 3px 1px -2px rgba(17, 67, 88 , 0.2), 0 1px 5px 0 rgba(17, 67, 88 , 0.12);
 }
 
 .btn.btn-primary:hover {
   color: #fff;
-  background-color: #9124a3;
-  border-color: #701c7e;
+  background-color: #587b8a;
+  border-color: #114358;
 }
 
 .btn.btn-primary:focus,
 .btn.btn-primary.focus,
 .btn.btn-primary:hover {
   color: #fff;
-  background-color: #9124a3;
-  border-color: #701c7e;
+  background-color: #587b8a;
+  border-color: #114358;
 }
 
 .btn.btn-primary:active,
@@ -9501,9 +9531,9 @@ a.text-dark:focus {
 .open>.btn.btn-primary.dropdown-toggle,
 .show>.btn.btn-primary.dropdown-toggle {
   color: #fff;
-  background-color: #9124a3;
-  border-color: #701c7e;
-  box-shadow: 0 2px 2px 0 rgba(156, 39, 176, 0.14), 0 3px 1px -2px rgba(156, 39, 176, 0.2), 0 1px 5px 0 rgba(156, 39, 176, 0.12);
+  background-color: #587b8a;
+  border-color: #114358;
+  box-shadow: 0 2px 2px 0 rgba(17, 67, 88 , 0.14), 0 3px 1px -2px rgba(17, 67, 88 , 0.2), 0 1px 5px 0 rgba(17, 67, 88 , 0.12);
 }
 
 .btn.btn-primary:active:hover,
@@ -9549,7 +9579,7 @@ a.text-dark:focus {
 .btn.btn-primary:focus,
 .btn.btn-primary:active,
 .btn.btn-primary:hover {
-  box-shadow: 0 14px 26px -12px rgba(156, 39, 176, 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(156, 39, 176, 0.2);
+  box-shadow: 0 14px 26px -12px rgba(17, 67, 88 , 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(17, 67, 88 , 0.2);
 }
 
 .btn.btn-primary.btn-link {
@@ -14434,6 +14464,7 @@ h6,
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-weight: 300;
   line-height: 1.5em;
+  color: #114358;
 }
 
 h1,
@@ -14452,6 +14483,7 @@ h3,
   font-size: 1.5625rem;
   line-height: 1.4em;
   margin: 20px 0 10px;
+  color: #fff;
 }
 
 h4,
@@ -14512,7 +14544,7 @@ h2.title {
 }
 
 .text-primary {
-  color: #9c27b0 !important;
+  color: #F1ECE7 !important;
 }
 
 .text-danger {
@@ -15312,12 +15344,16 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .sidebar {
   position: fixed;
   top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 2;
+  left: -260px; /* Oculta fuera de la pantalla inicialmente */
   width: 260px;
-  background: #fff;
+  height: 100%;
+  background-color: #9A9A9A;
+  z-index: 1032;
+  transition: all 0.3s ease-in-out; /* Transición suave */
   box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+}
+.sidebar.active {
+  left: 0; /* Muestra la sidebar cuando se activa */
 }
 
 .sidebar .caret {
@@ -15330,6 +15366,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   border-top: 4px solid\9;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
+  
 }
 
 .sidebar[data-background-color="black"] {
@@ -15692,11 +15729,18 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   background: rgba(200, 200, 200, 0.2);
 }
 
+
 .main-panel {
-  position: relative;
-  float: right;
-  width: calc(100% - 260px);
-  transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
+  transition: margin-left 0.3s ease-in-out;
+  margin-left: 0;
+}
+.main-panel.active {
+  margin-left: 260px;
+}
+.main-panel.full-width {
+  margin-left: 0;
+  width: 100%; /* El main panel ocupa todo el ancho cuando el sidebar está oculto */
+  transition: width 0.3s ease;
 }
 
 .main-panel>.content {
@@ -17087,7 +17131,7 @@ a .material-icons {
 label {
   font-size: 14px;
   line-height: 1.42857;
-  color: #AAAAAA;
+  color: #114358;
   font-weight: 400;
 }
 
@@ -18990,13 +19034,19 @@ Copyright (c) 2015 Daniel Eden
   }
 
   .sidebar {
-    display: none;
-    box-shadow: none;
+    transform: translate3d(-260px, 0, 0); /* Oculta la sidebar inicialmente */
+    transition: transform 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
   }
-
-  .sidebar .sidebar-wrapper {
-    padding-bottom: 150px;
+  .sidebar.active {
+    transform: translate3d(0, 0, 0); /* Muestra la sidebar */
   }
+  .main-panel.active {
+    margin-left: 0; 
+  }
+  .main-panel.full-width {
+    margin-left: 0; /* El contenido ocupa todo el ancho */
+  }
+ 
 
   .sidebar .navbar-form+.nav-mobile-menu {
     margin-top: 0;
@@ -19121,8 +19171,8 @@ Copyright (c) 2015 Daniel Eden
     top: 0;
     height: 100vh;
     width: 260px;
-    right: 0;
-    left: auto;
+    right: auto;  /* Esto corrige la alineación desde la izquierda */
+    left: 0;      /* Fija la barra lateral en el lado izquierdo */
     z-index: 1032;
     visibility: visible;
     background-color: #9A9A9A;
@@ -19131,11 +19181,11 @@ Copyright (c) 2015 Daniel Eden
     text-align: left;
     padding-right: 0px;
     padding-left: 0;
-    -webkit-transform: translate3d(260px, 0, 0);
-    -moz-transform: translate3d(260px, 0, 0);
-    -o-transform: translate3d(260px, 0, 0);
-    -ms-transform: translate3d(260px, 0, 0);
-    transform: translate3d(260px, 0, 0);
+    -webkit-transform: translate3d(-260px, 0, 0); /* Oculta la sidebar inicialmente a la izquierda */
+    -moz-transform: translate3d(-260px, 0, 0);
+    -o-transform: translate3d(-260px, 0, 0);
+    -ms-transform: translate3d(-260px, 0, 0);
+    transform: translate3d(-260px, 0, 0);  /* Cambia de 260px a -260px para alinearla a la izquierda */
     -webkit-transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
     -moz-transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
     -o-transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
@@ -19161,6 +19211,7 @@ Copyright (c) 2015 Daniel Eden
     display: block;
     content: "";
     z-index: 1;
+    background-color: #114358;
   }
 
   .sidebar .logo,
@@ -19621,7 +19672,6 @@ Copyright (c) 2015 Daniel Eden
   }
 
   
-
   .navbar-fixed-top {
     -webkit-backface-visibility: hidden;
   }
@@ -19724,8 +19774,10 @@ Copyright (c) 2015 Daniel Eden
   }
 }
 
+
+
 .dark-edition {
-  background-color: #1a2035;
+  background-color: #F1ECE7;
 }
 
 .dark-edition .btn,
@@ -19855,15 +19907,15 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .dark-edition .btn.btn-primary {
-  color: #fff;
-  background-color: #913f9e;
-  border-color: #913f9e;
+  color: #000;
+  background-color: #F2AA1F;
+  border-color: #F2AA1F;
   box-shadow: 0 2px 2px 0 rgba(145, 63, 158, 0.14), 0 3px 1px -2px rgba(145, 63, 158, 0.2), 0 1px 5px 0 rgba(145, 63, 158, 0.12);
 }
 
 .dark-edition .btn.btn-primary:hover {
   color: #fff;
-  background-color: #9b43a9;
+  background-color: #F2AA1F;
   border-color: #692e72;
 }
 
@@ -19871,7 +19923,7 @@ Copyright (c) 2015 Daniel Eden
 .dark-edition .btn.btn-primary.focus,
 .dark-edition .btn.btn-primary:hover {
   color: #fff;
-  background-color: #9b43a9;
+  background-color: #F2AA1F;
   border-color: #692e72;
 }
 
@@ -19898,7 +19950,7 @@ Copyright (c) 2015 Daniel Eden
 .show>.dark-edition .btn.btn-primary.dropdown-toggle:focus,
 .show>.dark-edition .btn.btn-primary.dropdown-toggle.focus {
   color: #fff;
-  background-color: #9b43a9;
+  background-color: #F2AA1F;
   border-color: #3d1b43;
 }
 
@@ -19915,13 +19967,13 @@ Copyright (c) 2015 Daniel Eden
 .dark-edition .btn.btn-primary.disabled.focus,
 .dark-edition .btn.btn-primary:disabled:focus,
 .dark-edition .btn.btn-primary:disabled.focus {
-  background-color: #913f9e;
+  background-color: #F2AA1F;
   border-color: #913f9e;
 }
 
 .dark-edition .btn.btn-primary.disabled:hover,
 .dark-edition .btn.btn-primary:disabled:hover {
-  background-color: #913f9e;
+  background-color: #F2AA1F;
   border-color: #913f9e;
 }
 
@@ -19941,7 +19993,7 @@ Copyright (c) 2015 Daniel Eden
 .dark-edition .btn.btn-primary.btn-link:focus,
 .dark-edition .btn.btn-primary.btn-link:active {
   background-color: transparent;
-  color: #913f9e;
+  color: #F2AA1F;
 }
 
 .dark-edition .btn.btn-warning {
@@ -20574,30 +20626,35 @@ Copyright (c) 2015 Daniel Eden
   color: #55acee;
 }
 
+
+
+.dark-edition .sidebar.hidden {
+  transform: translateX(-260px); /* Mueve la sidebar fuera de la pantalla */
+  transition: transform 0.3s ease;
+}
+
+.toggle-btn {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 2000;
+  background-color: #114358;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.toggle-btn:hover {
+  background-color: #406879;
+}
+
 .dark-edition .sidebar[data-color="purple"] li.active>a {
-  background: linear-gradient(60deg, #7b1fa2, #913f9e);
+  background: linear-gradient(60deg, #916612, #F2AA1F);
   box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
 }
 
-.dark-edition .sidebar[data-color="azure"] li.active>a {
-  background: linear-gradient(60deg, #029eb1, #25b1c3);
-  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
-}
-
-.dark-edition .sidebar[data-color="green"] li.active>a {
-  background: linear-gradient(60deg, #288c6c, #4ea752);
-  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(76, 175, 80, 0.4);
-}
-
-.dark-edition .sidebar[data-color="orange"] li.active>a {
-  background: linear-gradient(60deg, #f5700c, #ff9800);
-  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
-}
-
-.dark-edition .sidebar[data-color="danger"] li.active>a {
-  background: linear-gradient(60deg, #d22824, #da3a36);
-  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(244, 67, 54, 0.4);
-}
 
 .dark-edition .sidebar a {
   -webkit-transition: all 150ms ease-in, color, 0ms;
@@ -20609,17 +20666,16 @@ Copyright (c) 2015 Daniel Eden
 
 .dark-edition .sidebar .sidebar-background:after,
 .dark-edition .sidebar {
-  background: #1f283e;
-  opacity: .94;
+  background: #114358;
 }
 
 .dark-edition .sidebar[data-background-color="black"] .nav li:not(.active) a,
 .dark-edition .sidebar[data-background-color="black"] .nav li:not(.active) .dropdown-menu a {
-  color: #a9afbbd1;
+  color: #F1ECE7;
 }
 
 .dark-edition .sidebar[data-background-color="black"] .nav li:not(.active) i {
-  color: #a9afbbd1;
+  color: #F1ECE7;
 }
 
 .dark-edition .sidebar[data-background-color="black"] .nav li:not(.active):not(.active):hover>a,
@@ -20631,7 +20687,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .dark-edition .sidebar .logo .simple-text {
-  color: #a9afbbd1;
+  color: #F1ECE7;
   font-weight: 300;
 }
 
@@ -20645,15 +20701,15 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .dark-edition .navbar[class*="bg-"] .form-control::-moz-placeholder {
-  color: #AAAAAA;
+  color: #114358;
 }
 
 .dark-edition .navbar[class*="bg-"] .form-control:-ms-input-placeholder {
-  color: #AAAAAA;
+  color: #114358;
 }
 
 .dark-edition .navbar[class*="bg-"] .form-control::-webkit-input-placeholder {
-  color: #AAAAAA;
+  color: #114358;
 }
 
 .dark-edition .navbar .notification {
@@ -20710,7 +20766,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .dark-edition .card {
-  background: #202940;
+  background: #114358;
 }
 
 .dark-edition .card .card-header.card-header-text .card-title,
@@ -20723,7 +20779,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .dark-edition .card .card-body {
-  color: #8b92a9;
+  color: #114358;
 }
 
 .dark-edition .card .card-body .card-category+.card-title {
@@ -20849,8 +20905,8 @@ Copyright (c) 2015 Daniel Eden
 .dark-edition .table>thead>tr>td,
 .dark-edition .table>tbody>tr>td,
 .dark-edition .table>tfoot>tr>td {
-  color: #8b92a9;
-  border-color: rgba(180, 180, 180, 0.1);
+  color: #000;
+  border-color: rgba(17, 67, 88, 0.3);
 }
 
 .dark-edition .table-hover tbody tr:hover {
@@ -20926,19 +20982,19 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .dark-edition .form-control {
-  color: #fff;
+  color: #000;
 }
 
 .dark-edition .form-control::-moz-placeholder {
-  color: #a9afbbd1;
+  color: #114358;
 }
 
 .dark-edition .form-control:-ms-input-placeholder {
-  color: #a9afbbd1;
+  color: #114358;
 }
 
 .dark-edition .form-control::-webkit-input-placeholder {
-  color: #a9afbbd1;
+  color: #114358;
 }
 
 .dark-edition .bmd-form-group:not(.has-success):not(.has-danger) [class^='bmd-label'].bmd-label-floating,
@@ -20947,7 +21003,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .dark-edition .form-group label {
-  color: #a9afbbd1;
+  color: #114358;
 }
 
 .dark-edition [class^='bmd-label'],
@@ -20957,15 +21013,15 @@ Copyright (c) 2015 Daniel Eden
 
 .dark-edition .form-control,
 .is-focused .dark-edition .form-control {
-  background-image: linear-gradient(to top, #9c27b0 2px, rgba(156, 39, 176, 0) 2px), linear-gradient(to top, rgba(180, 180, 180, 0.1) 1px, rgba(180, 180, 180, 0) 1px);
+  background-image: linear-gradient(to top, #114358 2px, rgba(17, 67, 88, 0) 2px), linear-gradient(to top, #a8a8a8 1px, rgba(210, 210, 210, 0) 1px, rgba(180, 180, 180, 0) 1px);
 }
 
 .dark-edition .form-control:invalid {
-  background-image: linear-gradient(to top, #f44336 2px, rgba(244, 67, 54, 0) 2px), linear-gradient(to top, rgba(180, 180, 180, 0.1) 1px, rgba(180, 180, 180, 0) 1px);
+  background-image: linear-gradient(to top, #114358 2px, rgba(17, 67, 88, 0) 2px), linear-gradient(to top, #a8a8a8 1px, rgba(180, 180, 180, 0.1) 1px, rgba(180, 180, 180, 0) 1px);
 }
 
 .dark-edition .form-control:read-only {
-  background-image: linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px), linear-gradient(to top, rgba(180, 180, 180, 0.1) 1px, rgba(180, 180, 180, 0) 1px);
+  background-image: linear-gradient(to top, #114358 1px, rgba(17, 67, 88, 0) 1px), linear-gradient(to top, #a8a8a8 1px, rgba(180, 180, 180, 0.1) 1px, rgba(180, 180, 180, 0) 1px);
 }
 
 fieldset[disabled][disabled] .dark-edition .form-control,
@@ -22119,7 +22175,11 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
 }
 
 .dark-edition .text-primary {
-  color: #a84ab7 !important;
+  color: #F1ECE7 !important;
+}
+
+.dark-edition .h1{
+  color: black;
 }
 
 .dark-edition .text-muted,
@@ -22161,7 +22221,7 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
 }
 
 .dark-edition a {
-  color: #fff;
+  color: #114358;
 }
 
 .dark-edition.offline-doc .brand .description {

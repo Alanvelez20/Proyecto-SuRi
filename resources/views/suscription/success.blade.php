@@ -10,7 +10,7 @@
     <title>SURI</title>
     <style>
         h1 {
-            color: darkorchid;
+            color: #114358;
         }
         p{
             color: black;

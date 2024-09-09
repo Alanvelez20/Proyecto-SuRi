@@ -265,15 +265,9 @@ class AlimentoController extends Controller
     {
         $request->validate([
             'alimento_descripcion'=>'required|max:255',
-            'alimento_cantidad'=>'required|integer',
-            'alimento_costo'=>'required|numeric',
         ], [
             'alimento_descripcion.required' => 'El campo DESCRIPCION es obligatorio.',
             'alimento_descripcion.max' => 'El campo DESCRIPCION no puede tener más de 255 caracteres.',
-            'alimento_cantidad.required' => 'El campo CANTIDAD es obligatorio.',
-            'alimento_cantidad.integer' => 'El campo CANTIDAD debe ser un número ENTERO válido.',
-            'alimento_costo.required' => 'El campo COSTO es obligatorio.',
-            'alimento_costo.numeric' => 'El campo COSTO debe ser un número válido.',
 
         ]);
 

@@ -13,7 +13,7 @@
         <div class="col-md-6 mb-4">
             <div class="card border-primary shadow-sm">
                 <div class="card-body text-center">
-                    <i class="material-icons" style="font-size: 36px; color:darkorchid">add_shopping_cart</i>
+                    <i class="material-icons" style="font-size: 36px; color:#F2AA1F">add_shopping_cart</i>
                     <h3 class="card-title text-primary">Capturar Venta</h3>
                     <p class="card-text">Registra una nueva venta.</p>
                     <a class="btn btn-primary" href="{{ route('venta.create')}}">Capturar Venta</a>
@@ -23,7 +23,7 @@
         <div class="col-md-6 mb-4">
             <div class="card border-primary shadow-sm">
                 <div class="card-body text-center">
-                    <i class="material-icons" style="font-size: 36px; color:darkorchid">visibility</i>
+                    <i class="material-icons" style="font-size: 36px; color:#F2AA1F">visibility</i>
                     <h3 class="card-title text-primary">Mostrar Datos</h3>
                     <p class="card-text">Visualiza todas las ventas registradas.</p>
                     <a class="btn btn-primary" href="{{ route('venta.index')}}">Mostrar Datos</a>
